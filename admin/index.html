@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Woodfire Admin · Store Operations & Floor Hub</title>
+  <link rel="stylesheet" href="../shared/theme.css">
+  <link rel="stylesheet" href="./admin.css">
+</head>
+<body class="admin-layout">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px; padding: 0 4px;">
+      <div style="font-size: 1.6rem;">🔥</div>
+      <div>
+        <div style="font-family: var(--font-display); font-weight: bold; color: var(--gold-light); font-size: 1.1rem;">
+          Woodfire Hub
+        </div>
+        <div class="text-xs text-muted">Manager Operations</div>
+      </div>
+    </div>
+
+    <button class="admin-nav-btn active" data-target="pane-dashboard">📊 Dashboard</button>
+    <button class="admin-nav-btn" data-target="pane-inventory">📦 86 / Stock Toggles</button>
+    <button class="admin-nav-btn" data-target="pane-tables">🪑 Table QR Codes</button>
+    <button class="admin-nav-btn" data-target="pane-orders">🧾 Shift Orders</button>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="admin-main">
+
+    <!-- Dashboard Pane -->
+    <div class="admin-section-pane" id="pane-dashboard">
+      <h1 style="color: var(--gold-light); margin-bottom: 6px;">Live Shift Overview</h1>
+      <p class="text-muted" style="margin-bottom: 20px;">Real-time sales revenue, kitchen load, and table turn performance.</p>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Gross Shift Revenue</div>
+          <div class="kpi-value" id="kpi-rev">RM 0.00</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Total Shift Orders</div>
+          <div class="kpi-value" id="kpi-total-orders">0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Active Kitchen Tickets</div>
+          <div class="kpi-value" id="kpi-active" style="color: var(--color-warning);">0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Average Ticket SLA</div>
+          <div class="kpi-value" id="kpi-avg-prep">14m</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inventory / 86 Stock Pane -->
+    <div class="admin-section-pane" id="pane-inventory" style="display: none;">
+      <h1 style="color: var(--gold-light); margin-bottom: 6px;">86 / Out-of-Stock Live Controls</h1>
+      <p class="text-muted" style="margin-bottom: 20px;">Toggle items out-of-stock instantly across POS and Customer phone menus.</p>
+
+      <div class="stock-grid" id="admin-stock-grid">
+        <!-- Stock items rendered dynamically -->
+      </div>
+    </div>
+
+    <!-- Tables & QR Generator Pane -->
+    <div class="admin-section-pane" id="pane-tables" style="display: none;">
+      <h1 style="color: var(--gold-light); margin-bottom: 6px;">Table Layout & QR Exporter</h1>
+      <p class="text-muted" style="margin-bottom: 20px;">Download or test table-bound QR codes with tokenized session binding.</p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px;" id="admin-qr-grid">
+        <!-- Tables QR -->
+      </div>
+    </div>
+
+    <!-- Orders Audit Pane -->
+    <div class="admin-section-pane" id="pane-orders" style="display: none;">
+      <h1 style="color: var(--gold-light); margin-bottom: 6px;">Shift Orders Audit Log</h1>
+      <p class="text-muted" style="margin-bottom: 20px;">Complete trace of customer orders, tender types, and timestamps.</p>
+
+      <div class="card-glass" style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border-card); color: var(--gold-light);">
+              <th style="padding: 12px;">Order ID</th>
+              <th style="padding: 12px;">Table</th>
+              <th style="padding: 12px;">Items</th>
+              <th style="padding: 12px;">Total</th>
+              <th style="padding: 12px;">Status</th>
+              <th style="padding: 12px;">Time</th>
+            </tr>
+          </thead>
+          <tbody id="admin-orders-tbody">
+            <!-- Rendered dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <script type="module" src="./admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ARH-MAKAN Master Data Contract",
+  "description": "Unified schema for menu, orders, table sessions, and live service calls across all surfaces.",
+  "type": "object",
+  "definitions": {
+    "MenuItem": {
+      "type": "object",
+      "required": ["id", "name", "category", "price", "station"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "price": { "type": "number", "minimum": 0 },
+        "description": { "type": "string" },
+        "image": { "type": "string" },
+        "badge": { "type": "string" },
+        "station": { "type": "string", "enum": ["grill", "fry", "bar", "expo"] },
+        "dietary": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["halal", "vegetarian", "vegan", "keto", "gluten-free", "nut-free"] }
+        },
+        "is_sold_out": { "type": "boolean", "default": false },
+        "modifiers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "name", "type", "options"],
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" },
+              "type": { "type": "string", "enum": ["single", "multiple"] },
+              "required": { "type": "boolean", "default": false },
+              "options": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["name", "price"],
+                  "properties": {
+                    "name": { "type": "string" },
+                    "price": { "type": "number", "minimum": 0 }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "OrderItem": {
+      "type": "object",
+      "required": ["item_id", "name", "qty", "unit_price", "total_price", "station"],
+      "properties": {
+        "item_id": { "type": "string" },
+        "name": { "type": "string" },
+        "qty": { "type": "integer", "minimum": 1 },
+        "unit_price": { "type": "number" },
+        "total_price": { "type": "number" },
+        "station": { "type": "string" },
+        "selected_modifiers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "group_name": { "type": "string" },
+              "option_name": { "type": "string" },
+              "price": { "type": "number" }
+            }
+          }
+        },
+        "notes": { "type": "string" },
+        "is_bumped": { "type": "boolean", "default": false }
+      }
+    },
+    "Order": {
+      "type": "object",
+      "required": ["order_id", "table_id", "status", "items", "created_at", "total_amount"],
+      "properties": {
+        "order_id": { "type": "string" },
+        "table_id": { "type": "string" },
+        "type": { "type": "string", "enum": ["dine_in", "takeaway", "delivery"] },
+        "status": { "type": "string", "enum": ["pending", "preparing", "ready", "served", "paid", "cancelled"] },
+        "items": { "type": "array", "items": { "$ref": "#/definitions/OrderItem" } },
+        "subtotal": { "type": "number" },
+        "tax": { "type": "number" },
+        "total_amount": { "type": "number" },
+        "payment_method": { "type": "string", "enum": ["cash", "duitnow_qr", "card", "split", "unpaid"] },
+        "created_at": { "type": "string", "format": "date-time" },
+        "paid_at": { "type": ["string", "null"] }
+      }
+    },
+    "ServiceRequest": {
+      "type": "object",
+      "required": ["id", "table_id", "type", "status", "created_at"],
+      "properties": {
+        "id": { "type": "string" },
+        "table_id": { "type": "string" },
+        "type": { "type": "string", "enum": ["waiter", "water", "cutlery", "bill", "custom"] },
+        "note": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "acknowledged", "resolved"] },
+        "created_at": { "type": "string" }
+      }
+    }
+  }
+}

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Woodfire Kulim · Digital Dine-In Menu</title>
+  <link rel="stylesheet" href="../shared/theme.css">
+  <link rel="stylesheet" href="./customer.css">
+</head>
+<body>
+
+  <div class="customer-container">
+    <!-- Header -->
+    <header class="cust-header">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <div style="font-size: 1.4rem;">🔥</div>
+        <div style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--gold-light);">
+          Woodfire
+        </div>
+      </div>
+      <div class="table-badge" id="table-indicator">TABLE T05 · DINE-IN</div>
+    </header>
+
+    <!-- Active Order Tracker Banner -->
+    <div id="order-tracker-banner" style="display: none; background: var(--bg-surface-raised); border-bottom: 1px solid var(--border-card); padding: 14px 20px;">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <span style="font-weight: 700; color: var(--gold-light);">Live Kitchen Tracker <span id="tracker-order-id"></span></span>
+        <button class="btn btn-sm btn-secondary" onclick="window.openSplitBillModal()">Split Bill 🧮</button>
+      </div>
+
+      <div class="tracker-steps">
+        <div class="tracker-step" id="step-placed">
+          <div class="step-dot">1</div>
+          <span>Placed</span>
+        </div>
+        <div class="tracker-step" id="step-cooking">
+          <div class="step-dot">2</div>
+          <span>Cooking</span>
+        </div>
+        <div class="tracker-step" id="step-ready">
+          <div class="step-dot">3</div>
+          <span>Ready</span>
+        </div>
+        <div class="tracker-step" id="step-served">
+          <div class="step-dot">4</div>
+          <span>Served</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <section class="cust-hero">
+      <h1 class="cust-hero-title">Woodfire Kulim</h1>
+      <p class="cust-hero-sub">Oak-Smoked Meats, Hand-Pressed Angus Burgers & Shakes</p>
+    </section>
+
+    <!-- Dietary Filter Scroll -->
+    <div class="filter-scroll" id="dietary-filter-scroll">
+      <!-- Filter pills rendered dynamically -->
+    </div>
+
+    <!-- Menu Sections Container -->
+    <main id="customer-menu-sections">
+      <!-- Categories & cards rendered dynamically -->
+    </main>
+
+    <!-- Floating Table Action Bar -->
+    <div class="floating-bar">
+      <button class="btn-service" onclick="window.openServiceModal()">
+        🛎️ <span>Service</span>
+      </button>
+      <button class="btn-cart-float" onclick="window.openCartDrawer()">
+        <span id="float-cart-count">0 Items</span>
+        <span>View Table Order</span>
+        <span class="mono" id="float-cart-total">RM 0.00</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Item Customization Modal -->
+  <div class="modal-overlay" id="item-modal">
+    <div class="modal-dialog">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+        <h2 id="item-modal-title" style="color: var(--gold-light); font-size: 1.25rem;"></h2>
+        <span class="mono text-gold" id="item-modal-base-price" style="font-size: 1.1rem; font-weight: 700;"></span>
+      </div>
+
+      <div id="item-modal-modifiers">
+        <!-- Modifiers groups -->
+      </div>
+
+      <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px;">
+        <button class="btn btn-secondary" onclick="window.closeItemModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="window.confirmAddToCart()">Add to Order</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1-Tap Service Request Modal -->
+  <div class="modal-overlay" id="service-modal">
+    <div class="modal-dialog">
+      <h2 style="color: var(--gold-light); margin-bottom: 6px;">Request Table Service</h2>
+      <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 18px;">
+        Tap any button to alert our floor staff immediately.
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px;">
+        <button class="btn btn-secondary" style="padding: 16px; flex-direction: column; gap: 6px;" onclick="window.sendServiceRequest('waiter', 'Call Waiter')">
+          <span style="font-size: 1.6rem;">🛎️</span>
+          <span>Call Waiter</span>
+        </button>
+        <button class="btn btn-secondary" style="padding: 16px; flex-direction: column; gap: 6px;" onclick="window.sendServiceRequest('water', 'Ice Water')">
+          <span style="font-size: 1.6rem;">💧</span>
+          <span>Request Water</span>
+        </button>
+        <button class="btn btn-secondary" style="padding: 16px; flex-direction: column; gap: 6px;" onclick="window.sendServiceRequest('cutlery', 'Extra Cutlery')">
+          <span style="font-size: 1.6rem;">🍴</span>
+          <span>Extra Cutlery</span>
+        </button>
+        <button class="btn btn-secondary" style="padding: 16px; flex-direction: column; gap: 6px;" onclick="window.sendServiceRequest('bill', 'Request Bill')">
+          <span style="font-size: 1.6rem;">🧾</span>
+          <span>Request Bill</span>
+        </button>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end;">
+        <button class="btn btn-secondary" onclick="window.closeServiceModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Split Bill Calculator Modal -->
+  <div class="modal-overlay" id="split-bill-modal">
+    <div class="modal-dialog">
+      <h2 style="color: var(--gold-light); margin-bottom: 6px;">Split Table Bill</h2>
+      <div style="background: var(--bg-surface-raised); padding: 16px; border-radius: var(--radius-md); text-align: center; margin: 14px 0;">
+        <div style="font-size: 0.85rem; color: var(--text-muted);">Total Bill (incl. 6% SST)</div>
+        <div class="mono text-gold" id="split-total-amount" style="font-size: 2rem; font-weight: 700;">RM 0.00</div>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <label style="font-size: 0.85rem; color: var(--text-secondary);">Split among how many people?</label>
+        <input type="number" id="split-people-count" class="form-input" min="1" max="20" value="2" style="margin-top: 6px; font-size: 1.2rem; font-weight: bold; text-align: center;">
+      </div>
+
+      <div style="background: var(--gold-subtle); border: 1px solid var(--border-card); border-radius: var(--radius-sm); padding: 12px; text-align: center; margin-bottom: 20px;">
+        <div class="mono text-gold" id="split-share-display" style="font-size: 1.25rem; font-weight: 700;">RM 0.00 per person</div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end;">
+        <button class="btn btn-secondary" onclick="window.closeSplitBillModal()">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Slide-Up Drawer -->
+  <div class="cart-drawer" id="cart-drawer">
+    <div class="drawer-content">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+        <h2 style="color: var(--gold-light);">Table Order</h2>
+        <button class="btn btn-sm btn-secondary" onclick="window.closeCartDrawer()">✕ Close</button>
+      </div>
+
+      <div id="drawer-cart-items" style="flex: 1; overflow-y: auto; max-height: 45vh;">
+        <!-- Cart line items -->
+      </div>
+
+      <div style="margin: 14px 0;">
+        <textarea id="drawer-order-note" class="form-input" placeholder="Add special instructions for the kitchen..." rows="2"></textarea>
+      </div>
+
+      <div style="background: var(--bg-surface-raised); padding: 14px; border-radius: var(--radius-sm); margin-bottom: 16px;">
+        <div style="display: flex; justify-content: space-between; font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 4px;">
+          <span>Subtotal:</span>
+          <span class="mono" id="drawer-subtotal">RM 0.00</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.2rem; color: var(--gold-light);">
+          <span>Total Payable:</span>
+          <span class="mono" id="drawer-total">RM 0.00</span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 1.05rem;" onclick="window.submitOrderToKitchen()">
+        🔥 Send Order to Kitchen
+      </button>
+    </div>
+  </div>
+
+  <script type="module" src="./customer.js"></script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Woodfire KDS · Kitchen Operations</title>
+  <link rel="stylesheet" href="../shared/theme.css">
+  <link rel="stylesheet" href="./kds.css">
+</head>
+<body class="kds-layout">
+
+  <!-- Audio Unlock Banner -->
+  <div id="audio-unlock-banner" style="background: var(--gold-primary); color: #080604; text-align: center; padding: 10px; font-weight: bold; cursor: pointer;">
+    🔔 Tap here to enable Kitchen Audio Chimes for incoming orders
+  </div>
+
+  <!-- Header -->
+  <header class="kds-header">
+    <div class="kds-brand">
+      <div class="kds-logo">🔥</div>
+      <div>
+        <h1 class="kds-title">Woodfire KDS</h1>
+        <div class="kds-subtitle">Live Kitchen Operations System</div>
+      </div>
+    </div>
+
+    <!-- Station Selector -->
+    <nav class="kds-stations">
+      <button class="station-btn active" data-station="all">All Stations</button>
+      <button class="station-btn" data-station="grill">🥩 Grill / Meats</button>
+      <button class="station-btn" data-station="fry">🍟 Fry & Sides</button>
+      <button class="station-btn" data-station="bar">🥤 Bar & Drinks</button>
+    </nav>
+
+    <!-- Controls -->
+    <div class="kds-controls">
+      <div class="badge badge-gold" id="active-count">0 Active Tickets</div>
+      <button class="btn btn-sm btn-secondary" id="audio-toggle-btn">🔔 Audio Ready</button>
+    </div>
+  </header>
+
+  <!-- Live Service Request Alerts -->
+  <div id="service-alert-container" class="service-alert-bar" style="display: none;"></div>
+
+  <!-- Main Tickets Display Grid -->
+  <main class="kds-grid" id="kds-tickets-grid">
+    <!-- Rendered dynamically by kds.js -->
+  </main>
+
+  <script type="module" src="./kds.js"></script>
+</body>
+</html>

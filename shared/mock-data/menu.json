@@ -1,0 +1,183 @@
+{
+  "restaurant": {
+    "name": "Woodfire Kulim",
+    "tagline": "Premium Smoked Meats & Gourmet Burgers",
+    "currency": "RM",
+    "locale": "en-MY",
+    "phone": "60169799778",
+    "tax_rate": 0.06
+  },
+  "categories": [
+    { "id": "burgers", "name": "Gourmet Burgers", "icon": "🍔" },
+    { "id": "smoked", "name": "Smoked Meats & Steaks", "icon": "🥩" },
+    { "id": "chicken", "name": "Crispy Chicken", "icon": "🍗" },
+    { "id": "sides", "name": "Artisan Sides", "icon": "🍟" },
+    { "id": "shakes", "name": "Signature Shakes & Drinks", "icon": "🥤" }
+  ],
+  "items": [
+    {
+      "id": "wf-gourmet-burger",
+      "name": "Woodfire Gourmet Burger",
+      "category": "burgers",
+      "price": 24.90,
+      "description": "Signature smashed beef patty, smoked turkey bacon, melted Monterey Jack, caramelized onions, house barbecue glaze.",
+      "badge": "Signature",
+      "station": "grill",
+      "dietary": ["halal"],
+      "is_sold_out": false,
+      "modifiers": [
+        {
+          "id": "bun",
+          "name": "Bun Selection",
+          "type": "single",
+          "required": true,
+          "options": [
+            { "name": "Toasted Brioche", "price": 0 },
+            { "name": "Charcoal Sesame", "price": 1.50 },
+            { "name": "Lettuce Wrap (Low Carb)", "price": 0 }
+          ]
+        },
+        {
+          "id": "patty_temp",
+          "name": "Doneness",
+          "type": "single",
+          "required": true,
+          "options": [
+            { "name": "Medium Juicy", "price": 0 },
+            { "name": "Well Done", "price": 0 }
+          ]
+        },
+        {
+          "id": "addons",
+          "name": "Add-ons",
+          "type": "multiple",
+          "required": false,
+          "options": [
+            { "name": "Extra Beef Patty (+120g)", "price": 9.00 },
+            { "name": "Extra Smoked Cheddar", "price": 3.00 },
+            { "name": "Truffle Mayo Dip", "price": 4.00 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wf-brisket-burger",
+      "name": "Smoked Brisket Burger",
+      "category": "burgers",
+      "price": 29.90,
+      "description": "12-hour oak-smoked shredded beef brisket, aged cheddar cheese, crunchy dill pickles, brioche bun.",
+      "badge": "Popular",
+      "station": "grill",
+      "dietary": ["halal"],
+      "is_sold_out": false,
+      "modifiers": [
+        {
+          "id": "spice",
+          "name": "Spice Level",
+          "type": "single",
+          "required": true,
+          "options": [
+            { "name": "Classic Mild BBQ", "price": 0 },
+            { "name": "Spicy Chipotle", "price": 0 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wf-mushroom-burger",
+      "name": "Wild Mushroom Truffle Burger",
+      "category": "burgers",
+      "price": 26.50,
+      "description": "Grilled Angus patty smothered in sautéed Portobello mushrooms, Swiss cheese, white truffle emulsion.",
+      "badge": "Chef Pick",
+      "station": "grill",
+      "dietary": ["halal"],
+      "is_sold_out": false,
+      "modifiers": []
+    },
+    {
+      "id": "wf-smoked-platter",
+      "name": "Texas Smoked Brisket Platter",
+      "category": "smoked",
+      "price": 48.00,
+      "description": "250g thick-cut USDA smoked brisket, served with house slaw, Texas toast, buttered sweet corn, pickled jalapeños.",
+      "badge": "Signature",
+      "station": "grill",
+      "dietary": ["halal", "keto"],
+      "is_sold_out": false,
+      "modifiers": []
+    },
+    {
+      "id": "wf-fried-chicken",
+      "name": "Crispy Buttermilk Chicken (3 Pcs)",
+      "category": "chicken",
+      "price": 19.90,
+      "description": "24-hour spiced buttermilk marinated chicken dredged in secret seasoning, served piping hot and golden.",
+      "badge": "Popular",
+      "station": "fry",
+      "dietary": ["halal"],
+      "is_sold_out": false,
+      "modifiers": [
+        {
+          "id": "flavor",
+          "name": "Glaze Flavor",
+          "type": "single",
+          "required": true,
+          "options": [
+            { "name": "Honey Butter Garlic", "price": 0 },
+            { "name": "Nashville Hot Ghost Chili", "price": 2.00 },
+            { "name": "Original Crispy (No Glaze)", "price": 0 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wf-curly-fries",
+      "name": "Seasoned Curly Fries",
+      "category": "sides",
+      "price": 9.50,
+      "description": "Spiral-cut seasoned crispy potatoes served with Woodfire cheese sauce.",
+      "badge": "",
+      "station": "fry",
+      "dietary": ["halal", "vegetarian"],
+      "is_sold_out": false,
+      "modifiers": []
+    },
+    {
+      "id": "wf-truffle-fries",
+      "name": "Parmesan Truffle Fries",
+      "category": "sides",
+      "price": 14.00,
+      "description": "Shoestring fries tossed in white truffle oil, fresh rosemary, and grated aged Grana Padano.",
+      "badge": "Chef Pick",
+      "station": "fry",
+      "dietary": ["halal", "vegetarian"],
+      "is_sold_out": false,
+      "modifiers": []
+    },
+    {
+      "id": "wf-shake-salted-caramel",
+      "name": "Artisanal Salted Caramel Shake",
+      "category": "shakes",
+      "price": 16.00,
+      "description": "Creamy Madagascar vanilla bean gelato, homemade salted caramel swirl, whipped cream, pretzel crumble.",
+      "badge": "Signature",
+      "station": "bar",
+      "dietary": ["halal", "vegetarian"],
+      "is_sold_out": false,
+      "modifiers": []
+    },
+    {
+      "id": "wf-iced-lemon-tea",
+      "name": "Hand-Brewed Peach Lemon Tea",
+      "category": "shakes",
+      "price": 7.50,
+      "description": "Slow-brewed Ceylon black tea infused with fresh lemon and white peach nectar.",
+      "badge": "",
+      "station": "bar",
+      "dietary": ["halal", "vegan"],
+      "is_sold_out": false,
+      "modifiers": []
+    }
+  ]
+}

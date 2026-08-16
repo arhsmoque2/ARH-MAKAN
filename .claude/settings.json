@@ -1,0 +1,8 @@
+{
+  "extraKnownMarketplaces": [
+    "https://github.com/arhsmoque2/arh-cloud-agent-toolkit"
+  ],
+  "enabledPlugins": [
+    "arh-cloud-agent-toolkit"
+  ]
+}

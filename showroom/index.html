@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARH-MAKAN · Multi-Surface Showroom</title>
+  <link rel="stylesheet" href="../shared/theme.css">
+  <link rel="stylesheet" href="./showroom.css">
+</head>
+<body class="showroom-layout">
+
+  <!-- Top Switcher Bar -->
+  <header class="showroom-topbar">
+    <div class="showroom-brand">
+      <div style="font-size: 1.6rem;">🔥</div>
+      <div>
+        <div style="font-family: var(--font-display); font-weight: bold; color: var(--gold-light); font-size: 1.15rem;">
+          ARH-MAKAN
+        </div>
+        <div class="text-xs text-muted">Multi-Surface Operating Suite Showroom</div>
+      </div>
+    </div>
+
+    <!-- Surface Switcher Tabs -->
+    <nav class="showroom-surface-selector">
+      <button class="surface-tab-btn active" data-surface="customer">📱 Customer Dine-In</button>
+      <button class="surface-tab-btn" data-surface="kds">👨‍🍳 Kitchen KDS</button>
+      <button class="surface-tab-btn" data-surface="pos">💻 Counter POS</button>
+      <button class="surface-tab-btn" data-surface="admin">📊 Owner Admin</button>
+    </nav>
+
+    <!-- Controls -->
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <span class="text-xs mono text-muted" id="preview-title-label">Customer Dine-In Menu (Mobile)</span>
+      <a id="preview-open-link" href="../customer/index.html?table=T05" target="_blank" class="btn btn-sm btn-primary">
+        Open in Tab ↗
+      </a>
+    </div>
+  </header>
+
+  <!-- Stage Area with Device Frame -->
+  <main class="showroom-stage">
+    <div class="device-frame mobile" id="device-frame">
+      <iframe id="showroom-iframe" class="device-screen" src="../customer/index.html?table=T05"></iframe>
+    </div>
+  </main>
+
+  <script type="module" src="./showroom.js"></script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Woodfire POS · Cashier & Terminal</title>
+  <link rel="stylesheet" href="../shared/theme.css">
+  <link rel="stylesheet" href="./pos.css">
+</head>
+<body class="pos-layout">
+
+  <!-- Left Category Rail -->
+  <aside class="pos-rail" id="pos-category-rail">
+    <!-- Rendered dynamically -->
+  </aside>
+
+  <!-- Center Main Menu Column -->
+  <main class="pos-main-col">
+    <div class="pos-topbar">
+      <div style="font-family: var(--font-display); font-size: 1.2rem; color: var(--gold-light);">
+        Woodfire POS
+      </div>
+      <div class="pos-search">
+        <input type="text" class="form-input" id="pos-search-input" placeholder="🔍 Search menu item or code...">
+      </div>
+      <div class="badge badge-success">● Cashier Ready</div>
+    </div>
+
+    <!-- Product Grid or Tables Map -->
+    <div class="pos-grid" id="pos-menu-grid">
+      <!-- Rendered dynamically -->
+    </div>
+  </main>
+
+  <!-- Right Cart & Tender Column -->
+  <aside class="pos-cart-col">
+    <div class="cart-header">
+      <div style="font-weight: 700;">Current Ticket</div>
+      <select class="cart-table-select" id="cart-table-select">
+        <!-- Tables options -->
+      </select>
+    </div>
+
+    <div class="cart-lines" id="pos-cart-lines">
+      <!-- Cart items -->
+    </div>
+
+    <div class="cart-summary">
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span class="mono" id="cart-subtotal">RM 0.00</span>
+      </div>
+      <div class="summary-row">
+        <span>SST (6%)</span>
+        <span class="mono" id="cart-tax">RM 0.00</span>
+      </div>
+      <div class="summary-row summary-total">
+        <span>Total</span>
+        <span class="mono text-gold" id="cart-total">RM 0.00</span>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-top: 10px;">
+        <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="window.clearCart()">Clear</button>
+        <button class="btn btn-primary" style="flex: 2;" onclick="window.openPaymentModal()">⚡ Charge / Pay</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Modifier Configuration Modal -->
+  <div class="modal-overlay" id="modifier-modal">
+    <div class="modal-dialog">
+      <h3 id="mod-modal-title" style="color: var(--gold-light); margin-bottom: 16px;">Customize Item</h3>
+      <div id="mod-modal-body">
+        <!-- Modifiers checklist -->
+      </div>
+      <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+        <button class="btn btn-secondary" onclick="window.closeModifierModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="window.confirmModifiers()">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Multi-Tender Payment Modal -->
+  <div class="modal-overlay" id="payment-modal">
+    <div class="modal-dialog">
+      <h2 style="color: var(--gold-light); margin-bottom: 4px;">Settle Payment</h2>
+      <div id="pay-modal-table" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;"></div>
+
+      <div style="background: var(--bg-surface-raised); padding: 16px; border-radius: var(--radius-md); text-align: center; margin-bottom: 20px;">
+        <div style="font-size: 0.85rem; color: var(--text-secondary);">Total Payable</div>
+        <div class="mono text-gold" id="pay-modal-total" style="font-size: 2.2rem; font-weight: 700; margin-top: 4px;">RM 0.00</div>
+      </div>
+
+      <!-- Payment Method Selection -->
+      <div style="margin-bottom: 16px;">
+        <div style="font-weight: 600; margin-bottom: 8px;">Tender Selection:</div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+          <button class="btn btn-secondary" onclick="window.completePayment('cash')">💵 Cash</button>
+          <button class="btn btn-secondary" onclick="window.completePayment('duitnow_qr')">📱 DuitNow QR</button>
+          <button class="btn btn-secondary" onclick="window.completePayment('card')">💳 Credit Card</button>
+        </div>
+      </div>
+
+      <!-- Cash Pad / Change Calculator -->
+      <div style="background: var(--bg-surface-raised); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 16px;">
+        <label style="font-size: 0.85rem; color: var(--text-secondary);">Cash Amount Tendered (RM):</label>
+        <input type="number" class="form-input" id="cash-tender-input" style="margin-top: 4px; font-size: 1.2rem; font-weight: bold;">
+        <div style="display: flex; justify-content: space-between; margin-top: 8px; font-weight: 600;">
+          <span>Change Due:</span>
+          <span class="mono" id="cash-change-display" style="font-size: 1.1rem;">RM 0.00</span>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px; justify-content: flex-end;">
+        <button class="btn btn-secondary" onclick="window.closePaymentModal()">Close</button>
+        <button class="btn btn-primary" onclick="window.completePayment('cash')">✅ Complete & Print Receipt</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Thermal Receipt Container (Visible only during window.print()) -->
+  <div id="thermal-receipt-print"></div>
+
+  <script type="module" src="./pos.js"></script>
+</body>
+</html>
