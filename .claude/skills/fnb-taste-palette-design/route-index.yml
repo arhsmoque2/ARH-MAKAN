@@ -1,0 +1,91 @@
+routes:
+  make_it_classy:
+    triggers:
+      - make it classy
+      - premium vibe
+      - more elegant
+      - less cheap
+      - refined look
+    load:
+      - registries/fnb-vibe-registry.json
+      - registries/fnb-palette-registry.json
+      - recipes/resolve-owner-vibe-to-design.recipe.md
+      - checklists/fnb-taste-review-checklist.md
+    default_resolution:
+      customerVibe: premium_editorial
+      premiumLevel: premium
+      mediaIntensity: gentle
+      videoBehavior: lightbox_only
+      contrastComfort: standard
+      menuDensity: airy
+    forbid:
+      - gold_on_black_by_default
+      - tiny_faint_text
+      - grid_autoplay_video
+      - animated_prices
+
+  fix_contrast:
+    triggers:
+      - contrast too strong
+      - text glaring
+      - background too dark
+      - soften contrast
+      - low contrast
+    load:
+      - registries/fnb-palette-registry.json
+      - checklists/fnb-taste-review-checklist.md
+    required:
+      - body_text_contrast
+      - muted_text_readability
+      - cta_text_contrast
+      - focus_ring_visibility
+      - text_safe_image_zone
+
+  fix_lightbox:
+    triggers:
+      - lightbox not classy
+      - dark lightbox
+      - modal blends into background
+      - image popup flat
+    load:
+      - contracts/item-lightbox.contract.md
+      - checklists/fnb-taste-review-checklist.md
+    required:
+      - backdrop_shell_separation
+      - shell_media_separation
+      - visible_close_control
+      - stable_add_to_cart_action
+
+  add_video:
+    triggers:
+      - add video
+      - short food video
+      - shorts
+      - motion food
+      - video lightbox
+    load:
+      - contracts/item-lightbox.contract.md
+      - recipes/resolve-owner-vibe-to-design.recipe.md
+    default_resolution:
+      videoBehavior: lightbox_only
+      mediaIntensity: gentle
+    forbid:
+      - autoplay_video_in_every_card
+      - audio_autoplay
+      - video_without_poster
+
+  owner_design_controls:
+    triggers:
+      - owner design controls
+      - admin vibe selector
+      - store owner palette options
+      - design studio
+    load:
+      - schemas/fnb.design.config.schema.json
+      - recipes/resolve-owner-vibe-to-design.recipe.md
+      - checklists/fnb-taste-review-checklist.md
+    required:
+      - owner_controls_are_business_facing
+      - unsafe_primitives_locked
+      - preview_states_defined
+      - publish_validation_required

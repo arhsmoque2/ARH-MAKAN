@@ -1,0 +1,107 @@
+{
+  "version": 1,
+  "contrast_policy": {
+    "body_text_min": "4.5:1",
+    "large_text_min": "3:1",
+    "ui_component_min": "3:1",
+    "cta_text_min": "4.5:1",
+    "soft_contrast_note": "Soft contrast may reduce decorative harshness but must not reduce meaningful text below the accessibility floor."
+  },
+  "palettes": [
+    {
+      "id": "classic_cafe",
+      "label": "Classic Café",
+      "tokens": {
+        "canvas": "#F7F0E6",
+        "surface": "#FFF9F0",
+        "surface_raised": "#FFFFFF",
+        "modal_surface": "#FFF9F0",
+        "text_strong": "#2A1B14",
+        "text_muted": "#6F5B4B",
+        "accent": "#8B5E34",
+        "cta": "#4B2E1F",
+        "cta_text": "#FFF7ED",
+        "price": "#2A1B14",
+        "border_soft": "#E6D8C8",
+        "overlay": "rgba(31, 22, 17, 0.56)",
+        "focus_ring": "#8B5E34"
+      }
+    },
+    {
+      "id": "premium_editorial",
+      "label": "Premium Editorial",
+      "tokens": {
+        "canvas": "#F4EFE7",
+        "surface": "#FBF7EF",
+        "surface_raised": "#FFFFFF",
+        "modal_surface": "#F7F0E6",
+        "text_strong": "#171411",
+        "text_muted": "#5E5348",
+        "accent": "#A0783C",
+        "cta": "#1F1B16",
+        "cta_text": "#FFF7EA",
+        "price": "#171411",
+        "border_soft": "#DDD1C1",
+        "overlay": "rgba(18, 15, 12, 0.62)",
+        "focus_ring": "#A0783C"
+      }
+    },
+    {
+      "id": "street_favourite",
+      "label": "Street Favourite",
+      "tokens": {
+        "canvas": "#FFF7E8",
+        "surface": "#FFFFFF",
+        "surface_raised": "#FFFDF8",
+        "modal_surface": "#FFF7E8",
+        "text_strong": "#231815",
+        "text_muted": "#5C4B42",
+        "accent": "#C2410C",
+        "cta": "#9A3412",
+        "cta_text": "#FFFFFF",
+        "price": "#231815",
+        "border_soft": "#EAD7BC",
+        "overlay": "rgba(35, 24, 21, 0.54)",
+        "focus_ring": "#C2410C"
+      }
+    },
+    {
+      "id": "home_kitchen_warmth",
+      "label": "Home Kitchen Warmth",
+      "tokens": {
+        "canvas": "#FFF6EA",
+        "surface": "#FFFDF7",
+        "surface_raised": "#FFFFFF",
+        "modal_surface": "#FFF8EC",
+        "text_strong": "#33231A",
+        "text_muted": "#6B5A4C",
+        "accent": "#A14C2E",
+        "cta": "#5A3524",
+        "cta_text": "#FFF8EC",
+        "price": "#33231A",
+        "border_soft": "#ECD8C2",
+        "overlay": "rgba(48, 34, 25, 0.48)",
+        "focus_ring": "#A14C2E"
+      }
+    },
+    {
+      "id": "night_cafe",
+      "label": "Night Café",
+      "tokens": {
+        "canvas": "#15110E",
+        "surface": "#211A16",
+        "surface_raised": "#2A211B",
+        "modal_surface": "#2A211B",
+        "text_strong": "#F7EEE2",
+        "text_muted": "#C5B6A5",
+        "accent": "#D6A35F",
+        "cta": "#E6B56C",
+        "cta_text": "#1B130C",
+        "price": "#F7EEE2",
+        "border_soft": "#3A2E26",
+        "overlay": "rgba(6, 5, 4, 0.68)",
+        "focus_ring": "#D6A35F"
+      }
+    }
+  ]
+}

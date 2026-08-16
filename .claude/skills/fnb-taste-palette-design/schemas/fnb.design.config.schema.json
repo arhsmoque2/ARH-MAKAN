@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "F&B Design Config",
+  "type": "object",
+  "required": ["version", "storeDesign", "safety"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "storeDesign": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "customerVibe",
+        "premiumLevel",
+        "contrastComfort",
+        "menuDensity",
+        "mediaIntensity",
+        "videoBehavior",
+        "heroStyle",
+        "photoStyle",
+        "fontMood",
+        "checkoutEmphasis"
+      ],
+      "properties": {
+        "customerVibe": {
+          "enum": [
+            "classic_cafe",
+            "premium_editorial",
+            "street_favourite",
+            "home_kitchen_warmth",
+            "modern_minimal",
+            "night_cafe",
+            "family_friendly",
+            "artisan_craft"
+          ]
+        },
+        "premiumLevel": {
+          "enum": ["simple", "balanced", "premium", "luxury"]
+        },
+        "contrastComfort": {
+          "enum": ["soft", "standard", "strong"]
+        },
+        "menuDensity": {
+          "enum": ["compact", "balanced", "airy"]
+        },
+        "mediaIntensity": {
+          "enum": ["still", "gentle", "expressive"]
+        },
+        "videoBehavior": {
+          "enum": ["off", "lightbox_only", "hero_feature", "best_seller_strip"]
+        },
+        "heroStyle": {
+          "enum": [
+            "compact_status",
+            "editorial_photo",
+            "featured_item",
+            "promo_banner",
+            "trust_intro"
+          ]
+        },
+        "photoStyle": {
+          "enum": ["natural", "warm", "clean", "dramatic"]
+        },
+        "fontMood": {
+          "enum": [
+            "classic_serif",
+            "modern_sans",
+            "friendly_rounded",
+            "bold_street",
+            "artisan_editorial"
+          ]
+        },
+        "checkoutEmphasis": {
+          "enum": ["browsing_first", "balanced", "conversion_first"]
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "wcagTarget",
+        "reducedMotion",
+        "gridAutoplayVideo",
+        "textOverImageRequiresSafeZone",
+        "focusRingVisible"
+      ],
+      "properties": {
+        "wcagTarget": {
+          "enum": ["AA", "AAA"]
+        },
+        "reducedMotion": {
+          "const": true
+        },
+        "gridAutoplayVideo": {
+          "const": false
+        },
+        "textOverImageRequiresSafeZone": {
+          "const": true
+        },
+        "focusRingVisible": {
+          "const": true
+        }
+      }
+    }
+  }
+}

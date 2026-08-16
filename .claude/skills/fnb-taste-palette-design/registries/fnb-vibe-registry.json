@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "vibes": [
+    {
+      "id": "classic_cafe",
+      "label": "Classic Café",
+      "customer_meaning": "Warm, familiar, calm, reliable",
+      "best_for": ["coffee", "comfort food", "neighbourhood ordering", "home cafe"],
+      "default_palette": "classic_cafe",
+      "default_typography": "classic_serif_warm_sans",
+      "default_layout": "balanced_menu_with_editorial_hero",
+      "default_density": "balanced",
+      "default_motion": "gentle",
+      "avoid": ["too much dark brown", "fake vintage clutter", "gold overuse"]
+    },
+    {
+      "id": "premium_editorial",
+      "label": "Premium Editorial",
+      "customer_meaning": "Curated, classy, boutique, restrained",
+      "best_for": ["specialty coffee", "desserts", "premium sets", "artisan drinks"],
+      "default_palette": "premium_editorial",
+      "default_typography": "editorial_serif_neutral_sans",
+      "default_layout": "spacious_editorial_menu",
+      "default_density": "airy",
+      "default_motion": "gentle",
+      "avoid": ["gold-on-black casino effect", "tiny luxury text", "too many badges"]
+    },
+    {
+      "id": "street_favourite",
+      "label": "Street Favourite",
+      "customer_meaning": "Energetic, popular, fast, local favourite",
+      "best_for": ["burgers", "rojak", "western food", "viral snacks", "food trucks"],
+      "default_palette": "street_favourite",
+      "default_typography": "bold_sans_clean_sans",
+      "default_layout": "compact_featured_item_menu",
+      "default_density": "compact",
+      "default_motion": "expressive",
+      "avoid": ["flashing discounts", "animated prices", "red-yellow overload"]
+    },
+    {
+      "id": "home_kitchen_warmth",
+      "label": "Home Kitchen Warmth",
+      "customer_meaning": "Personal, homemade, sincere, trustworthy",
+      "best_for": ["home business", "small batch", "family recipes", "WhatsApp-first sellers"],
+      "default_palette": "home_kitchen_warmth",
+      "default_typography": "friendly_headline_readable_sans",
+      "default_layout": "trust_intro_menu",
+      "default_density": "balanced",
+      "default_motion": "gentle",
+      "avoid": ["handwritten menu facts", "too pale beige", "scrapbook clutter"]
+    },
+    {
+      "id": "modern_minimal",
+      "label": "Modern Minimal",
+      "customer_meaning": "Clean, direct, efficient",
+      "best_for": ["office lunch", "meal prep", "large practical menu", "repeat ordering"],
+      "default_palette": "modern_minimal",
+      "default_typography": "modern_sans",
+      "default_layout": "compact_status_menu",
+      "default_density": "compact",
+      "default_motion": "still",
+      "avoid": ["admin dashboard feeling", "too much gray", "no appetite signal"]
+    },
+    {
+      "id": "night_cafe",
+      "label": "Night Café",
+      "customer_meaning": "Moody, intimate, evening, drinks and dessert focused",
+      "best_for": ["night menu", "coffee bar", "dessert cafe", "supper"],
+      "default_palette": "night_cafe",
+      "default_typography": "cinematic_serif_clean_sans",
+      "default_layout": "cinematic_hero_menu",
+      "default_density": "balanced",
+      "default_motion": "gentle",
+      "avoid": ["pure black page", "white text everywhere", "flat dark lightbox"]
+    },
+    {
+      "id": "family_friendly",
+      "label": "Family Friendly",
+      "customer_meaning": "Clear, cheerful, easy for everyone",
+      "best_for": ["family cafe", "casual meals", "kids-friendly menu", "mixed local customers"],
+      "default_palette": "family_friendly",
+      "default_typography": "friendly_rounded_readable_sans",
+      "default_layout": "clear_featured_item_menu",
+      "default_density": "balanced",
+      "default_motion": "gentle",
+      "avoid": ["childish colors", "low-contrast pastel overload", "tiny menu text"]
+    },
+    {
+      "id": "artisan_craft",
+      "label": "Artisan Craft",
+      "customer_meaning": "Handmade, small batch, grounded, natural",
+      "best_for": ["sourdough", "specialty coffee", "handmade pasta", "craft drinks", "premium local food"],
+      "default_palette": "artisan_craft",
+      "default_typography": "organic_serif_humanist_sans",
+      "default_layout": "story_led_menu",
+      "default_density": "airy",
+      "default_motion": "gentle",
+      "avoid": ["muddy brown overload", "texture behind body text", "rustic icon clutter"]
+    }
+  ]
+}
