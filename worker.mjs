@@ -7,9 +7,9 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // Root path redirects to the interactive showroom
+    // Root path serves the central hub
     if (url.pathname === '/' || url.pathname === '') {
-      return Response.redirect(`${url.origin}/showroom/index.html`, 302);
+      return env.ASSETS.fetch(new Request(`${url.origin}/index.html`, request));
     }
 
     const response = await env.ASSETS.fetch(request);

@@ -49,6 +49,7 @@ checkFile('shared/mock-data/menu.json', 'Menu Catalog Data', (content) => {
 
 // 2. Check Core HTML Surfaces
 const surfaces = [
+  'index.html',
   'customer/index.html',
   'kds/index.html',
   'pos/index.html',

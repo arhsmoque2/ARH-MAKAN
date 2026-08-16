@@ -10,6 +10,7 @@ const root = path.resolve(__dirname, '..');
 console.log('♿ Running Accessibility (A11y) & HTML Semantic Validator...\n');
 
 const htmlSurfaces = [
+  'index.html',
   'customer/index.html',
   'kds/index.html',
   'pos/index.html',

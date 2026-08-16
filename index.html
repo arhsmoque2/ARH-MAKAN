@@ -2,11 +2,214 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=./showroom/index.html">
-  <title>Redirecting to ARH-MAKAN Showroom...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARH-MAKAN · Master Suite Hub</title>
+  <link rel="stylesheet" href="./shared/theme.css">
+  <style>
+    .hub-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hub-hero {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .hub-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      background: var(--gold-subtle);
+      border: 1px solid rgba(212, 160, 23, 0.3);
+      color: var(--gold-light);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .hub-title {
+      font-size: 2.6rem;
+      color: var(--gold-light);
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+
+    .hub-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 580px;
+      margin: 0 auto;
+    }
+
+    .surfaces-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+      margin-bottom: 36px;
+    }
+
+    .surface-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .surface-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+      opacity: 0;
+      transition: opacity var(--transition-fast);
+    }
+
+    .surface-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--gold-primary);
+      box-shadow: var(--shadow-md);
+      background: var(--bg-surface-raised);
+    }
+
+    .surface-card:hover::before {
+      opacity: 1;
+    }
+
+    .card-icon {
+      font-size: 2.2rem;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      color: var(--gold-light);
+      margin-bottom: 6px;
+    }
+
+    .card-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      margin-bottom: 18px;
+      flex: 1;
+    }
+
+    .card-cta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--gold-primary);
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 12px;
+    }
+
+    .hub-footer {
+      margin-top: auto;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 20px;
+    }
+  </style>
 </head>
-<body style="background: #080604; color: #D4A017; font-family: sans-serif; text-align: center; padding-top: 20vh;">
-  <h2>Redirecting to ARH-MAKAN Showroom...</h2>
-  <p><a href="./showroom/index.html" style="color: #F3CA65;">Click here if not redirected automatically</a></p>
+<body>
+
+  <div class="hub-container">
+    <!-- Header / Hero -->
+    <header class="hub-hero">
+      <div class="hub-badge">🔥 ARH-MAKAN OPERATING SUITE</div>
+      <h1 class="hub-title">Restaurant Central Hub</h1>
+      <p class="hub-subtitle">Single bookmarkable portal for all Woodfire Kulim operational surfaces with real-time floor synchronization.</p>
+    </header>
+
+    <!-- Surfaces Launcher Grid -->
+    <main class="surfaces-grid">
+      <!-- 1. Customer Dine-In -->
+      <a href="./customer/index.html?table=T05" class="surface-card">
+        <div class="card-icon">📱</div>
+        <h2 class="card-title">Customer Dine-In</h2>
+        <p class="card-desc">Digital QR menu with Table T05 auto-binding, dietary filters, item modifiers, 1-tap waiter/water calls, and split bill calculator.</p>
+        <div class="card-cta">
+          <span>Launch Menu</span>
+          <span>→</span>
+        </div>
+      </a>
+
+      <!-- 2. Kitchen KDS -->
+      <a href="./kds/index.html" class="surface-card">
+        <div class="card-icon">👨‍🍳</div>
+        <h2 class="card-title">Kitchen KDS</h2>
+        <p class="card-desc">Live Kitchen Display with Web Audio order chimes, ticket SLA aging alerts (Green, Amber, Red), station filtering, and item bumping.</p>
+        <div class="card-cta">
+          <span>Launch Kitchen</span>
+          <span>→</span>
+        </div>
+      </a>
+
+      <!-- 3. Counter POS -->
+      <a href="./pos/index.html" class="surface-card">
+        <div class="card-icon">💻</div>
+        <h2 class="card-title">Cashier POS</h2>
+        <p class="card-desc">High-speed touch register with category rail, table status floor matrix, multi-tender payment (Cash change & DuitNow), and thermal receipt print.</p>
+        <div class="card-cta">
+          <span>Launch Register</span>
+          <span>→</span>
+        </div>
+      </a>
+
+      <!-- 4. Owner Admin Console -->
+      <a href="./admin/index.html" class="surface-card">
+        <div class="card-icon">📊</div>
+        <h2 class="card-title">Owner Operations</h2>
+        <p class="card-desc">Manager dashboard with live revenue KPIs, 86/out-of-stock live toggles, shift order audit logs, and 1-click batch Table QR exporter.</p>
+        <div class="card-cta">
+          <span>Launch Admin</span>
+          <span>→</span>
+        </div>
+      </a>
+
+      <!-- 5. Multi-Surface Showroom -->
+      <a href="./showroom/index.html" class="surface-card" style="grid-column: 1 / -1;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div class="card-icon" style="margin-bottom: 0;">🖥️</div>
+          <div style="flex: 1;">
+            <h2 class="card-title" style="margin-bottom: 4px;">Interactive Multi-Surface Showroom</h2>
+            <p class="card-desc" style="margin-bottom: 0;">Experience Customer, KDS, POS, and Admin surfaces side-by-side with live cross-surface event sync in simulated device frames.</p>
+          </div>
+          <div class="btn btn-primary" style="white-space: nowrap;">Open Showroom ↗</div>
+        </div>
+      </a>
+    </main>
+
+    <!-- Footer -->
+    <footer class="hub-footer">
+      <div>ARH-MAKAN Suite · Woodfire Kulim Edition · Zero-Build Edge Architecture</div>
+      <div class="mono" style="margin-top: 4px; font-size: 0.75rem;">State Sync: BroadcastChannel + LocalStorage + Realtime Hub</div>
+    </footer>
+  </div>
+
 </body>
 </html>
