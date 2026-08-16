@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const root = path.resolve(__dirname, '..');
 
-console.log('🩺 Running ARH CI Doctor for ARH-MAKAN...\n');
+console.log('🩺 Running ARH CI Doctor & Full Devtool Suite for ARH-MAKAN...\n');
 
 function run(cmd, desc) {
   process.stdout.write(`⚙️ ${desc}... `);
@@ -21,6 +21,9 @@ function run(cmd, desc) {
   }
 }
 
-run('node scripts/check.mjs', 'Static Integrity & Schema Validation');
+run('node scripts/check.mjs', '1. Static Integrity & Schema Validation');
+run('node scripts/lint.mjs', '2. ESM JavaScript Syntax & Linter Gate');
+run('node scripts/verify-a11y-html.mjs', '3. HTML5 & A11y Accessibility Verification');
+run('node scripts/profile-assets.mjs', '4. Performance Budget & Asset Profiler');
 
-console.log('\n🩺 CI Doctor completed successfully.');
+console.log('\n🩺 CI Doctor completed all 4 validation gates successfully!');

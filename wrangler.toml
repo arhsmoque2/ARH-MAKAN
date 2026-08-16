@@ -1,0 +1,7 @@
+name = "arh-makan-suite"
+main = "worker.mjs"
+compatibility_date = "2026-07-24"
+
+[assets]
+directory = "./"
+binding = "ASSETS"
