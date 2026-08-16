@@ -108,7 +108,16 @@
       <div style="background: var(--bg-surface-raised); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 16px;">
         <label style="font-size: 0.85rem; color: var(--text-secondary);">Cash Amount Tendered (RM):</label>
         <input type="number" class="form-input" id="cash-tender-input" style="margin-top: 4px; font-size: 1.2rem; font-weight: bold;">
-        <div style="display: flex; justify-content: space-between; margin-top: 8px; font-weight: 600;">
+        
+        <!-- Quick Denomination Pad -->
+        <div style="display: flex; gap: 6px; margin-top: 8px;">
+          <button type="button" class="btn btn-sm btn-secondary" onclick="window.setExactCash()" style="flex: 1; padding: 4px; font-size: 0.75rem;">Exact</button>
+          <button type="button" class="btn btn-sm btn-secondary" onclick="window.addCashTender(20)" style="flex: 1; padding: 4px; font-size: 0.75rem;">RM 20</button>
+          <button type="button" class="btn btn-sm btn-secondary" onclick="window.addCashTender(50)" style="flex: 1; padding: 4px; font-size: 0.75rem;">RM 50</button>
+          <button type="button" class="btn btn-sm btn-secondary" onclick="window.addCashTender(100)" style="flex: 1; padding: 4px; font-size: 0.75rem;">RM 100</button>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; margin-top: 10px; font-weight: 600;">
           <span>Change Due:</span>
           <span class="mono" id="cash-change-display" style="font-size: 1.1rem;">RM 0.00</span>
         </div>

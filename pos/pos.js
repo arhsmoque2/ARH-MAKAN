@@ -1,5 +1,6 @@
 import { hub } from '../shared/realtime-adapter.js';
 import { sound } from '../shared/audio-engine.js';
+import { escPos } from '../shared/escpos-formatter.js';
 
 let menuData = null;
 let currentCategory = 'burgers';
@@ -324,6 +325,28 @@ function calculateChange(total, tendered) {
   }
 }
 
+window.setExactCash = () => {
+  const subtotal = cart.reduce((sum, it) => sum + it.total_price, 0);
+  const total = subtotal * 1.06;
+  const input = document.getElementById('cash-tender-input');
+  if (input) {
+    input.value = total.toFixed(2);
+    calculateChange(total, total);
+  }
+};
+
+window.addCashTender = (amount) => {
+  const subtotal = cart.reduce((sum, it) => sum + it.total_price, 0);
+  const total = subtotal * 1.06;
+  const input = document.getElementById('cash-tender-input');
+  if (input) {
+    const current = parseFloat(input.value) || 0;
+    const newVal = current + amount;
+    input.value = newVal.toFixed(2);
+    calculateChange(total, newVal);
+  }
+};
+
 window.closePaymentModal = () => {
   const modal = document.getElementById('payment-modal');
   if (modal) modal.classList.remove('active');
@@ -350,56 +373,13 @@ window.completePayment = (method = 'cash') => {
   sound.playNewOrderChime();
   closePaymentModal();
 
-  // Print Receipt
-  generateThermalReceipt(order);
+  // Print Thermal Receipt using escPos builder
+  const receiptHtml = escPos.generateHtmlReceipt(order);
+  escPos.printHtml(receiptHtml);
+
   cart = [];
   updateCartUI();
 };
-
-function generateThermalReceipt(order) {
-  const printContainer = document.getElementById('thermal-receipt-print');
-  if (!printContainer) return;
-
-  const dateStr = new Date().toLocaleString();
-  printContainer.innerHTML = `
-    <div style="text-align: center; margin-bottom: 8px;">
-      <div style="font-weight: bold; font-size: 14px;">WOODFIRE KULIM</div>
-      <div>Gourmet Burgers & Smoked Meats</div>
-      <div>Tel: 016-9799778</div>
-    </div>
-    <div style="border-top: 1px dashed #000; margin: 4px 0;"></div>
-    <div>Order: #${order.order_id}</div>
-    <div>Table: ${order.table_id} · ${order.payment_method.toUpperCase()}</div>
-    <div>Date: ${dateStr}</div>
-    <div style="border-top: 1px dashed #000; margin: 4px 0;"></div>
-    ${order.items.map(it => `
-      <div style="display: flex; justify-content: space-between;">
-        <span>${it.qty}x ${it.name}</span>
-        <span>RM ${it.total_price.toFixed(2)}</span>
-      </div>
-      ${it.selected_modifiers && it.selected_modifiers.length ? `
-        <div style="font-size: 10px; padding-left: 8px;">${it.selected_modifiers.map(m => m.option_name).join(', ')}</div>
-      ` : ''}
-    `).join('')}
-    <div style="border-top: 1px dashed #000; margin: 4px 0;"></div>
-    <div style="display: flex; justify-content: space-between;">
-      <span>Subtotal:</span><span>RM ${order.subtotal.toFixed(2)}</span>
-    </div>
-    <div style="display: flex; justify-content: space-between;">
-      <span>SST (6%):</span><span>RM ${order.tax.toFixed(2)}</span>
-    </div>
-    <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 13px; margin-top: 4px;">
-      <span>TOTAL PAID:</span><span>RM ${order.total_amount.toFixed(2)}</span>
-    </div>
-    <div style="border-top: 1px dashed #000; margin: 6px 0;"></div>
-    <div style="text-align: center; font-size: 10px; margin-top: 6px;">
-      Thank You! Please Come Again.<br>
-      WiFi: WoodfireGuest / Key: woodfire2026
-    </div>
-  `;
-
-  window.print();
-}
 
 // Search
 const searchInput = document.getElementById('pos-search-input');

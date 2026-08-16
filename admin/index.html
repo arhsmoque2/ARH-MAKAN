@@ -25,6 +25,11 @@
       </div>
     </div>
 
+    <div id="sync-status-badge" style="margin-bottom: 16px; padding: 6px 10px; border-radius: 8px; background: rgba(212, 160, 23, 0.08); border: 1px solid rgba(212, 160, 23, 0.2); font-size: 0.72rem; color: var(--gold-light); display: flex; align-items: center; gap: 6px;">
+      <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-success); display: inline-block;"></span>
+      <span id="sync-status-text">Local Realtime Hub</span>
+    </div>
+
     <button class="admin-nav-btn active" data-target="pane-dashboard">📊 Dashboard</button>
     <button class="admin-nav-btn" data-target="pane-inventory">📦 86 / Stock Toggles</button>
     <button class="admin-nav-btn" data-target="pane-tables">🪑 Table QR Codes</button>
@@ -71,10 +76,13 @@
 
     <!-- Tables & QR Generator Pane -->
     <div class="admin-section-pane" id="pane-tables" style="display: none;">
-      <h1 style="color: var(--gold-light); margin-bottom: 6px;">Table Layout & QR Exporter</h1>
-      <p class="text-muted" style="margin-bottom: 20px;">Download or test table-bound QR codes with tokenized session binding.</p>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <h1 style="color: var(--gold-light); margin: 0;">Table Layout & Dynamic QR Exporter</h1>
+        <button class="btn btn-sm btn-primary" onclick="window.printAllTentCards()">🖨️ Print All Tent Cards</button>
+      </div>
+      <p class="text-muted" style="margin-bottom: 20px;">Real ISO/IEC scannable QR codes dynamically bound to each table with instant menu navigation.</p>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px;" id="admin-qr-grid">
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px;" id="admin-qr-grid">
         <!-- Tables QR -->
       </div>
     </div>

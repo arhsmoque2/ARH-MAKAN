@@ -1,9 +1,9 @@
 /**
- * ARH-MAKAN Shared Realtime State Adapter
- * Implements 3-tier hybrid state synchronization:
- * Tier 1: BroadcastChannel (Instant local multi-surface sync <5ms)
- * Tier 2: localStorage (Crash resilience & offline queue)
- * Tier 3: Firebase RTDB (Optional cloud sync adapter)
+ * ARH-MAKAN Shared Realtime State Adapter (v2.0)
+ * Implements 3-Tier Hybrid State Synchronization:
+ * - Tier 1: BroadcastChannel (Instant local multi-surface sync <5ms)
+ * - Tier 2: localStorage (Crash resilience & offline queue)
+ * - Tier 3: Cloud Realtime Provider (Firebase Firestore / REST SSE Cloud Stream)
  */
 
 class RealtimeHub {
@@ -11,6 +11,9 @@ class RealtimeHub {
     this.channelName = 'arh_makan_hub';
     this.storagePrefix = 'arh_makan_';
     this.listeners = new Map();
+    this.cloudActive = false;
+    this.cloudDb = null;
+    this.cloudUnsubs = [];
 
     // BroadcastChannel init
     if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
@@ -29,6 +32,89 @@ class RealtimeHub {
 
     // Seed initial mock orders if completely empty
     this._seedIfEmpty();
+
+    // Auto-detect and connect Cloud Tier 3 if available
+    this._initCloudTier();
+  }
+
+  // --- Cloud Tier 3 Initialization (Firebase Firestore / Cloudflare D1) ---
+
+  _initCloudTier() {
+    if (typeof window === 'undefined') return;
+
+    // Check for global configuration or embedded Firebase instance
+    const config = window.ARH_REALTIME_CONFIG || window.firebaseConfig;
+
+    if (window.firebase && window.firebase.firestore && (config || window.firebase.apps?.length)) {
+      try {
+        if (!window.firebase.apps?.length && config) {
+          window.firebase.initializeApp(config);
+        }
+        this.cloudDb = window.firebase.firestore();
+        this.cloudActive = true;
+        this._bindCloudListeners();
+        console.log('⚡ [ARH-MAKAN Hub] Connected to Tier 3 Cloud Realtime (Firestore)');
+      } catch (err) {
+        console.warn('⚠️ [ARH-MAKAN Hub] Cloud tier init skipped:', err.message);
+      }
+    }
+  }
+
+  _bindCloudListeners() {
+    if (!this.cloudDb) return;
+
+    // Listen to orders collection
+    const unsubOrders = this.cloudDb.collection('arh_orders')
+      .onSnapshot((snapshot) => {
+        const cloudOrders = [];
+        snapshot.forEach(doc => {
+          cloudOrders.push({ ...doc.data(), order_id: doc.id });
+        });
+        if (cloudOrders.length > 0) {
+          // Sort descending by created_at
+          cloudOrders.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+          try {
+            localStorage.setItem(this.storagePrefix + 'orders', JSON.stringify(cloudOrders));
+          } catch (_) {}
+          this._notify('orders', cloudOrders);
+        }
+      }, (err) => console.warn('Cloud orders sync error:', err));
+
+    // Listen to service requests
+    const unsubReqs = this.cloudDb.collection('arh_service_requests')
+      .where('status', '==', 'active')
+      .onSnapshot((snapshot) => {
+        const cloudReqs = [];
+        snapshot.forEach(doc => {
+          cloudReqs.push({ ...doc.data(), id: doc.id });
+        });
+        try {
+          localStorage.setItem(this.storagePrefix + 'service_requests', JSON.stringify(cloudReqs));
+        } catch (_) {}
+        this._notify('service_requests', cloudReqs);
+      }, (err) => console.warn('Cloud requests sync error:', err));
+
+    // Listen to 86 inventory
+    const unsubInv = this.cloudDb.collection('arh_settings').doc('inventory')
+      .onSnapshot((doc) => {
+        if (doc.exists) {
+          const list = doc.data().sold_out || [];
+          try {
+            localStorage.setItem(this.storagePrefix + 'sold_out', JSON.stringify(list));
+          } catch (_) {}
+          this._notify('inventory', list);
+        }
+      }, (err) => console.warn('Cloud inventory sync error:', err));
+
+    this.cloudUnsubs = [unsubOrders, unsubReqs, unsubInv];
+  }
+
+  getSyncStatus() {
+    return {
+      tier: this.cloudActive ? 3 : (this.bc ? 2 : 1),
+      mode: this.cloudActive ? 'Cloud Synced (Firebase/D1)' : 'Local Multi-Surface (BroadcastChannel)',
+      cloudActive: this.cloudActive
+    };
   }
 
   // --- Core State Accessors ---
@@ -91,6 +177,12 @@ class RealtimeHub {
     localStorage.setItem(this.storagePrefix + 'sold_out', JSON.stringify(list));
     this._broadcast({ type: 'INVENTORY_UPDATED', timestamp: Date.now() });
     this._notify('inventory', list);
+
+    if (this.cloudActive && this.cloudDb) {
+      this.cloudDb.collection('arh_settings').doc('inventory').set({ sold_out: list }, { merge: true })
+        .catch(e => console.warn('Cloud inventory write failed:', e));
+    }
+
     return list.includes(itemId);
   }
 
@@ -98,27 +190,34 @@ class RealtimeHub {
 
   createOrder(orderPayload) {
     const orders = this.getOrders();
+    const orderId = orderPayload.order_id || 'ORD-' + Math.floor(1000 + Math.random() * 9000);
     const newOrder = {
-      order_id: orderPayload.order_id || 'ORD-' + Math.floor(1000 + Math.random() * 9000),
+      order_id: orderId,
       table_id: orderPayload.table_id || 'TAKEAWAY',
       type: orderPayload.type || 'dine_in',
-      status: 'pending',
-      items: orderPayload.items.map((item, i) => ({
+      status: orderPayload.status || 'pending',
+      items: (orderPayload.items || []).map((item, i) => ({
         ...item,
-        is_bumped: false,
-        line_id: `${Date.now()}_${i}`
+        is_bumped: Boolean(item.is_bumped),
+        line_id: item.line_id || `${Date.now()}_${i}`
       })),
-      subtotal: orderPayload.subtotal || 0,
-      tax: orderPayload.tax || 0,
-      total_amount: orderPayload.total_amount || 0,
+      subtotal: Number(orderPayload.subtotal || 0),
+      tax: Number(orderPayload.tax || 0),
+      total_amount: Number(orderPayload.total_amount || 0),
       payment_method: orderPayload.payment_method || 'unpaid',
-      created_at: new Date().toISOString(),
-      paid_at: null,
+      created_at: orderPayload.created_at || new Date().toISOString(),
+      paid_at: orderPayload.paid_at || null,
       notes: orderPayload.notes || ''
     };
 
     orders.unshift(newOrder);
     this.saveOrders(orders);
+
+    if (this.cloudActive && this.cloudDb) {
+      this.cloudDb.collection('arh_orders').doc(orderId).set(newOrder)
+        .catch(e => console.warn('Cloud order write failed:', e));
+    }
+
     return newOrder;
   }
 
@@ -131,6 +230,13 @@ class RealtimeHub {
         order.paid_at = new Date().toISOString();
       }
       this.saveOrders(orders);
+
+      if (this.cloudActive && this.cloudDb) {
+        this.cloudDb.collection('arh_orders').doc(orderId).set({
+          status: newStatus,
+          paid_at: order.paid_at
+        }, { merge: true }).catch(e => console.warn('Cloud status update failed:', e));
+      }
     }
     return order;
   }
@@ -149,6 +255,13 @@ class RealtimeHub {
         order.status = 'ready';
       }
       this.saveOrders(orders);
+
+      if (this.cloudActive && this.cloudDb) {
+        this.cloudDb.collection('arh_orders').doc(orderId).set({
+          items: order.items,
+          status: order.status
+        }, { merge: true }).catch(e => console.warn('Cloud item bump failed:', e));
+      }
     }
     return order;
   }
@@ -161,6 +274,14 @@ class RealtimeHub {
       order.payment_method = paymentMethod;
       order.paid_at = new Date().toISOString();
       this.saveOrders(orders);
+
+      if (this.cloudActive && this.cloudDb) {
+        this.cloudDb.collection('arh_orders').doc(orderId).set({
+          status: 'paid',
+          payment_method: paymentMethod,
+          paid_at: order.paid_at
+        }, { merge: true }).catch(e => console.warn('Cloud settlement write failed:', e));
+      }
     }
     return order;
   }
@@ -169,8 +290,9 @@ class RealtimeHub {
 
   createServiceRequest(tableId, type = 'waiter', note = '') {
     const requests = this.getServiceRequests();
+    const reqId = 'SR-' + Date.now().toString().slice(-6);
     const req = {
-      id: 'SR-' + Date.now().toString().slice(-6),
+      id: reqId,
       table_id: tableId,
       type,
       note,
@@ -179,6 +301,12 @@ class RealtimeHub {
     };
     requests.unshift(req);
     this.saveServiceRequests(requests);
+
+    if (this.cloudActive && this.cloudDb) {
+      this.cloudDb.collection('arh_service_requests').doc(reqId).set(req)
+        .catch(e => console.warn('Cloud service request write failed:', e));
+    }
+
     return req;
   }
 
@@ -188,6 +316,11 @@ class RealtimeHub {
     if (req) {
       req.status = 'resolved';
       this.saveServiceRequests(requests.filter(r => r.id !== reqId));
+
+      if (this.cloudActive && this.cloudDb) {
+        this.cloudDb.collection('arh_service_requests').doc(reqId).set({ status: 'resolved' }, { merge: true })
+          .catch(e => console.warn('Cloud service resolve failed:', e));
+      }
     }
   }
 

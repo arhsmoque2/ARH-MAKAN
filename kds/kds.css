@@ -72,6 +72,34 @@
   cursor: pointer;
   transition: all var(--transition-fast);
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.st-count {
+  background: rgba(0, 0, 0, 0.4);
+  color: var(--gold-light);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+
+.station-btn.active .st-count {
+  background: #080604;
+  color: var(--gold-light);
+}
+
+.item-checkbox {
+  font-size: 1.1rem;
+  color: var(--gold-primary);
+  line-height: 1;
+  user-select: none;
+}
+
+.ticket-item.bumped .item-checkbox {
+  color: var(--color-success);
 }
 
 .station-btn:hover {

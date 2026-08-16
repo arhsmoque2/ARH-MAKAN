@@ -72,6 +72,9 @@ for (const surface of surfaces) {
 const jsModules = [
   'shared/realtime-adapter.js',
   'shared/audio-engine.js',
+  'shared/qr-generator.js',
+  'shared/escpos-formatter.js',
+  'shared/showroom-bridge.js',
   'customer/customer.js',
   'kds/kds.js',
   'pos/pos.js',
