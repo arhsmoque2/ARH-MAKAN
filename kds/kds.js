@@ -226,7 +226,9 @@ function renderExpoView(activeOrders, container) {
           };
         }
         aggregated[key].totalQty += (it.qty || 1);
-        aggregated[key].tables.push(`T${o.table_id} (${it.qty}x)`);
+        const tblStr = String(o.table_id || '').toUpperCase();
+        const formattedTbl = tblStr.startsWith('T') ? tblStr : `T${tblStr}`;
+        aggregated[key].tables.push(`${formattedTbl} (${it.qty}x)`);
       }
     });
   });

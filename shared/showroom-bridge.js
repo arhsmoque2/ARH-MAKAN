@@ -1,28 +1,57 @@
 /**
- * ARH-MAKAN ↔ arh-fnb-tier-showroom Integration Bridge
+ * ARH-MAKAN ↔ arh-fnb-tier-showroom Integration Bridge (v2.0)
  * Connects Showroom's Premium Customer Showcase to ARH-MAKAN KDS & POS backend.
- * Provides schema mapping, table-bound order dispatching, and live service calls.
+ * Provides resilient schema mapping, category & keyword station routing,
+ * table-bound order dispatching, and cross-origin cloud sync.
  */
 
 import { hub } from './realtime-adapter.js';
 
+// Comprehensive Category-to-Station Routing Matrix
 export const CategoryStationMap = {
-  steaks: 'grill',
-  smoked: 'grill',
-  bbq: 'grill',
+  // Grill / Meats Station
   burgers: 'grill',
+  burger: 'grill',
+  'signature-burgers': 'grill',
+  'gourmet-burgers': 'grill',
+  smoked: 'grill',
+  'smoked-platters': 'grill',
+  steaks: 'grill',
+  steak: 'grill',
+  bbq: 'grill',
   chicken: 'grill',
   lamb: 'grill',
   pasta: 'grill',
+  mains: 'grill',
+  combos: 'grill',
+  platters: 'grill',
+  hotdog: 'grill',
+
+  // Fry / Sides Station
+  fries: 'fry',
+  fry: 'fry',
   sides: 'fry',
-  fried: 'fry',
+  side: 'fry',
   starters: 'fry',
   appetizers: 'fry',
+  'finger-food': 'fry',
+  snacks: 'fry',
+  upgrades: 'fry',
+  addons: 'fry',
+
+  // Bar / Drinks & Sweets Station
   beverages: 'bar',
+  beverage: 'bar',
   drinks: 'bar',
+  drink: 'bar',
   shakes: 'bar',
+  shake: 'bar',
+  coffee: 'bar',
+  tea: 'bar',
   mocktails: 'bar',
-  desserts: 'bar'
+  desserts: 'bar',
+  dessert: 'bar',
+  'ice-cream': 'bar'
 };
 
 export class ShowroomBridge {
@@ -31,12 +60,35 @@ export class ShowroomBridge {
   }
 
   /**
-   * Infers kitchen station from category or item metadata
+   * Resolves kitchen station from category with smart item-name keyword heuristics
+   * Prevents silent fallthrough bugs for new or custom category labels.
    */
-  resolveStation(category) {
-    if (!category) return 'grill';
-    const key = String(category).toLowerCase();
-    return CategoryStationMap[key] || 'grill';
+  resolveStation(category = '', itemName = '') {
+    const catKey = String(category || '').toLowerCase().trim();
+    if (CategoryStationMap[catKey]) {
+      return CategoryStationMap[catKey];
+    }
+
+    // Smart Keyword Heuristic Fallback
+    const nameLower = String(itemName || '').toLowerCase();
+    
+    // Check Fry keywords
+    if (/(fries|curly|truffle|wedges|nugget|tenders|onion ring|popcorn|wings|corndog|nacho|fry)/i.test(nameLower)) {
+      return 'fry';
+    }
+
+    // Check Bar / Drinks keywords
+    if (/(shake|drink|coke|sprite|tea|coffee|latte|americano|mojito|mocktail|smoothie|water|juice|float|ice cream|sundae|cake|dessert)/i.test(nameLower)) {
+      return 'bar';
+    }
+
+    // Check Grill keywords
+    if (/(burger|patty|brisket|ribs|steak|meat|lamb|beef|chicken|bbq|bacon|grilled|sausage|platter)/i.test(nameLower)) {
+      return 'grill';
+    }
+
+    // Default station fallback
+    return 'grill';
   }
 
   /**
@@ -52,17 +104,21 @@ export class ShowroomBridge {
       const itemTotal = unitPrice * qty;
       subtotal += itemTotal;
 
+      const category = item.categoryId || item.category || '';
+      const itemName = item.name || item.title || 'Menu Item';
+      const station = item.station || this.resolveStation(category, itemName);
+
       return {
         item_id: item.id || `item_${idx}`,
-        name: item.name || item.title || 'Menu Item',
+        name: itemName,
         qty: qty,
         unit_price: unitPrice,
         total_price: itemTotal,
-        station: item.station || this.resolveStation(item.categoryId || item.category),
+        station: station,
         selected_modifiers: (item.selectedOptions || item.modifiers || []).map(opt => ({
-          group_name: opt.groupName || 'Option',
-          option_name: opt.name || opt.optionName || opt,
-          price: Number(opt.price || 0)
+          group_name: opt.groupName || opt.group_name || 'Option',
+          option_name: opt.name || opt.optionName || opt.option_name || opt.label || String(opt),
+          price: Number(opt.price || opt.priceDelta || 0)
         })),
         notes: item.notes || item.specialInstructions || '',
         is_bumped: false,
@@ -85,17 +141,17 @@ export class ShowroomBridge {
       total_amount: total,
       payment_method: showroomOrder.paymentMethod || 'pay_at_counter',
       notes: showroomOrder.notes || '',
-      created_at: new Date().toISOString()
+      created_at: showroomOrder.created_at || new Date().toISOString()
     };
   }
 
   /**
    * Direct Dispatch: Places order from Showroom directly into KDS & POS
    */
-  dispatchOrder(showroomOrder) {
+  async dispatchOrder(showroomOrder) {
     const canonicalOrder = this.normalizeShowroomOrder(showroomOrder);
     const created = this.hub.createOrder(canonicalOrder);
-    console.log('🚀 [Showroom Bridge] Dispatched order to KDS:', created.order_id);
+    console.log('🚀 [Showroom Bridge] Dispatched order to KDS & Cloud:', created.order_id);
     return created;
   }
 
