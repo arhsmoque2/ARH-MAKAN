@@ -34,4 +34,10 @@
 - **Symptom**: Repeated production deploy iterations due to runtime TypeErrors and header mutation bugs in `worker.mjs` that static linters miss.
 - **Root Cause**: Syntax checkers only parse files; they never execute `worker.fetch(req, env)` against real request/response streams.
 - **Permanent Fix**: Implement `scripts/test-worker-runtime.mjs` as Gate 8 in CI Doctor to simulate edge requests, header immutability, and endpoint payloads locally before deploy.
+- **Known remaining gap (unverified as of this writing)**: Gate 8's own HTML+configured-DB test case (`node scripts/test-worker-runtime.mjs`, test 3) still can't exercise the `HTMLRewriter` injection branch, because it runs under plain `node` and `HTMLRewriter` is a Cloudflare Workers-runtime-only global — `typeof HTMLRewriter !== 'undefined'` is `false` in that environment, so the code silently falls through to the default passthrough path and the test's header-only assertions pass regardless of whether injection actually works. Closing this needs either a `wrangler dev`/Miniflare-based test run (has a real `HTMLRewriter`) or, at minimum, a response-body assertion (`(await res.text()).includes('ARH_REALTIME_CONFIG')`) so a false pass isn't possible either way. Don't cite Gate 8 as proof the injection path works without one of those.
+
+## 8. New `.claude/skills/<name>/` folders need an explicit `.gitignore` carve-out
+- **Symptom**: `git add .claude/skills/<new-skill>/SKILL.md` silently reports the path is ignored; the skill never gets committed even though `git status` shows a clean tree.
+- **Root Cause**: `.gitignore` uses an allowlist pattern (`.claude/*` ignored, `.claude/skills/*` re-ignored, then individual skill folders un-ignored one by one) — a new skill folder isn't covered until it's added explicitly.
+- **Permanent Fix**: Adding a new skill always requires a matching `!.claude/skills/<name>/` line in `.gitignore`, in the same commit as the skill itself. `git add -f` works around it once but doesn't fix the next session hitting the same silent drop.
 

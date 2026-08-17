@@ -1,8 +1,13 @@
 {
-  "extraKnownMarketplaces": [
-    "https://github.com/arhsmoque2/arh-cloud-agent-toolkit"
-  ],
-  "enabledPlugins": [
-    "arh-cloud-agent-toolkit"
-  ]
+  "extraKnownMarketplaces": {
+    "arh-cloud-agent-toolkit": {
+      "source": {
+        "source": "github",
+        "repo": "arhsmoque2/arh-cloud-agent-toolkit"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "cloud-agent-toolkit@arh-cloud-agent-toolkit": true
+  }
 }
