@@ -5,10 +5,23 @@ description: Use after a productive ARH-MAKAN session — corrections were made,
 
 # Session Intelligence Harvester — ARH-MAKAN
 
-Tailored copy of the abstract `session-intelligence-harvester` skill, wired
-to this repo's actual files. See the abstract version for the full
-rationale; this file only fixes Step 0/2's routing table to what actually
-exists here, confirmed by reading each file, not assumed.
+Repo-local file map for this repo's actual files. The full methodology —
+classify before filing, prefer an automatically-firing artifact (a CI gate)
+over one that only fires if read, and the "verify the claim before writing
+it down as settled" discipline — now lives in the canonical
+`session-intelligence-harvester` skill in the `arh-cloud-agent-toolkit`
+plugin (`plugins/cloud-agent-toolkit/skills/session-intelligence-harvester/`),
+consumed via this repo's `.claude/settings.json`. Read that skill for the
+full rationale; this file only carries what's genuinely local — which file
+is which, and this repo's own worked examples.
+
+**Note on `.claude/settings.json`**: it previously declared
+`extraKnownMarketplaces`/`enabledPlugins` as arrays of plain strings, which
+doesn't match Claude Code's actual schema (both must be objects — keyed by
+marketplace name and by `plugin@marketplace`, respectively) and would have
+silently failed to register the plugin. Fixed in the same commit that added
+this file's cross-reference — see the toolkit's own `arh-cloud-agent-
+toolkit#1` for the matching fix to its README's stale example.
 
 ## This repo's knowledge architecture (confirmed)
 
