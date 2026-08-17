@@ -4,27 +4,22 @@ This document provides tested, copy-pasteable recipes for agents taking over dev
 
 ---
 
-## 🔐 Recipe 1: Decrypting Cloud Secrets & Credentials from SOPS Vault
+## ⚙️ Recipe 1: Configuring Environment & Running Local Development
 
-All production credentials live in the encrypted SOPS vault (`_ARH-AGENT-OS/ARH-OS-Central/arh-secrets-vault/sops/`).
+ARH-MAKAN is a zero-build ESM web application. To serve and develop locally:
 
-```python
-import subprocess, os, yaml
+```bash
+# 1. Serve with any standard static HTTP server (port 8080 recommended)
+npx serve -p 8080 .
+# or:
+python -m http.server 8080
 
-env = os.environ.copy()
-# SSH Identity configured for arhsmoque2 recipient
-env['SOPS_AGE_KEY_FILE'] = 'C:/Users/Abdul Rahman Hilmi/.ssh/id_ed25519_arhsmoque2'
-env['SOPS_AGE_SSH_PRIVATE_KEY_FILE'] = 'C:/Users/Abdul Rahman Hilmi/.ssh/id_ed25519_arhsmoque2'
-
-vault_dir = 'D:/_ARH-AGENT-OS/ARH-OS-Central/arh-secrets-vault'
-
-# Decrypt Firebase secrets (Project: arh-firebase-db)
-res_fb = subprocess.run(['sops', '-d', 'sops/firebase.enc.yaml'], cwd=vault_dir, env=env, capture_output=True, text=True)
-firebase_secrets = yaml.safe_load(res_fb.stdout)
-
-# Decrypt Cloudflare / D1 / R2 secrets
-res_cf = subprocess.run(['sops', '-d', 'sops/cloudflare.enc.yaml'], cwd=vault_dir, env=env, capture_output=True, text=True)
-cloudflare_secrets = yaml.safe_load(res_cf.stdout)
+# 2. Open any surface in your browser:
+# Customer Dine-In: http://localhost:8080/customer/?table=T05
+# Kitchen Display:  http://localhost:8080/kds/
+# Cashier Register: http://localhost:8080/pos/
+# Manager Hub:      http://localhost:8080/admin/
+# Living Sandbox:   http://localhost:8080/test-sandbox.html
 ```
 
 ---
@@ -36,20 +31,43 @@ cloudflare_secrets = yaml.safe_load(res_cf.stdout)
 {
   "id": "wf-truffle-mac",
   "name": "Smoked Truffle Mac & Cheese",
-  "description": "Four-cheese blend infused with black truffle oil and topped with smoked beef bits.",
+  "category": "sides",
   "price": 18.90,
-  "category_id": "sides",
+  "description": "Four-cheese blend infused with black truffle oil and topped with smoked beef bits.",
+  "badge": "Popular",
   "station": "fry",
-  "image": "../assets/images/menu/truffle-mac.webp",
-  "modifier_group_ids": ["mod-spice-level", "mod-extra-cheese"]
+  "dietary": ["halal"],
+  "is_sold_out": false,
+  "modifiers": [
+    {
+      "id": "spice_level",
+      "name": "Spice Level",
+      "type": "single",
+      "required": true,
+      "options": [
+        { "name": "Mild", "price": 0 },
+        { "name": "Spicy Jalapeno", "price": 1.50 }
+      ]
+    },
+    {
+      "id": "extra_cheese",
+      "name": "Cheese Topping",
+      "type": "single",
+      "required": false,
+      "options": [
+        { "name": "Extra Melted Cheddar", "price": 3.00 },
+        { "name": "Shaved Parmesan", "price": 2.50 }
+      ]
+    }
+  ]
 }
 ```
 
 2. **Verify Station Keyword in `shared/showroom-bridge.js`**:
 If using a custom category name, ensure the keyword appears in `CategoryStationMap` or the regex in `resolveStation(category, itemName)`:
 ```javascript
-// Keywords automatically route to 'fry' if category is omitted/custom
-/fries|curly|truffle|wedges|nugget|onion|ring|mac|cheese/i.test(itemName) -> 'fry'
+// Keywords automatically route to 'fry' if category is omitted or custom
+/(fries|curly|truffle|wedges|nugget|tenders|onion ring|popcorn|wings|corndog|nacho|fry)/i.test(itemName) -> 'fry'
 ```
 
 3. **Run Bridge Verification**:

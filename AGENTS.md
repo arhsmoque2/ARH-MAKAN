@@ -11,15 +11,14 @@
 4. **Honest Status Reporting**: Never report false-positive cloud sync states in status HUDs. `cloudActive` must reflect verified network connectivity.
 5. **Traceability via Flight Recorder**: Use the built-in telemetry flight recorder (`shared/flight-recorder.js`) to capture user action trajectories, network payloads, and unhandled errors into machine-readable JSONL.
 
-## Secrets & Cloud Credentials
-Primary encrypted store is the SOPS vault (`_ARH-AGENT-OS/ARH-OS-Central/arh-secrets-vault/sops/`):
-- **Firebase RTDB**: `sops/firebase.enc.yaml` (Project: `arh-firebase-db`, Endpoint: `https://arh-firebase-db-default-rtdb.asia-southeast1.firebasedatabase.app`, Root: `woodfire_kulim`)
-- **Cloudflare & D1**: `sops/cloudflare.enc.yaml`
-- **GitHub PATs**: `sops/github.enc.yaml` (Accounts: `arhsmoque`, `arhsmoque2`)
-- **Decryption Identity**: `C:\Users\Abdul Rahman Hilmi\.ssh\id_ed25519_arhsmoque2`
+## Secrets & Configuration Governance
+- **Zero Plaintext Secrets**: Never commit plaintext API keys, tokens, or private identity paths to this repository.
+- **Environment Injection**: Configuration and runtime tokens are injected via standard environment variables (e.g. `FIREBASE_RTDB_URL`, `CLOUDFLARE_API_TOKEN`) or resolved through the central ARH secret injector mechanism.
+- **Offline-First Resilience**: The multi-surface suite operates fully offline-first using local `BroadcastChannel` and `localStorage` state buses. Cloud database sync is an optional tier configured strictly via environment or runtime settings.
 
 ## Standard Verification Gate
 Always run the full 7-gate CI Doctor before committing or merging:
 ```bash
 node scripts/arh-ci-doctor.mjs
 ```
+

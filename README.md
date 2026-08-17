@@ -8,13 +8,15 @@
 
 ```text
 arh-makan/
+├── index.html           # Suite Surface Directory & Quick Launchpad
+├── test-sandbox.html    # Quad-Split Multi-Surface Review Sandbox
 ├── customer/            # Customer Mobile Menu (Table QR binding, modifiers, split-bill, service calls)
 ├── kds/                 # Kitchen Display System (Web Audio chimes, station routing, Expo view, 80mm prep tickets)
 ├── pos/                 # Cashier Touch Register (Fast cash denomination pad, 58mm/80mm ESC/POS receipts, table floor map)
 ├── admin/               # Manager Hub (Real-time revenue KPIs, 86/sold-out toggles, live batch Table QR exporter)
 ├── shared/              # 3-Tier Realtime State Engine, ISO/IEC QR Generator, ESC/POS Formatter, Flight Recorder
 ├── showroom/            # Interactive Multi-Surface Showroom in simulated device viewports
-├── evidence/            # Standalone Living Test Sandbox (evidence/test-sandbox.html)
+├── evidence/            # Test receipts, telemetry samples, and offline benchmark snapshots
 └── scripts/             # 7-Gate CI Doctor, Matrix Scannability, and Bridge Unit Test Suites
 ```
 
@@ -26,7 +28,7 @@ arh-makan/
 |---|---|---|
 | **Architecture** | Pure Vanilla JS (ESM), HTML5, CSS3 Tokens | **Ready / Production** |
 | **State Synchronization** | 3-Tier Hybrid (BroadcastChannel $\rightarrow$ localStorage $\rightarrow$ Firebase RTDB REST/SSE) | **Ready / Production** |
-| **Cloud Database** | Firebase RTDB (`arh-firebase-db` at `woodfire_kulim`) | **Active / Verified** |
+| **Cloud Database** | Firebase RTDB REST / SSE (Optional Remote Tier) | **Configured / Dynamic Probe** |
 | **Edge Hosting** | Cloudflare Workers / Pages (`wrangler.jsonc`) | **Ready / Verified** |
 | **QR Code Engine** | Pure client-side ISO/IEC 18004 Matrix Encoder (<12KB ESM) | **Ready / Tested** |
 | **Thermal Printing** | 58mm / 80mm ESC/POS Formatter (Customer receipts & kitchen prep tickets) | **Ready / Production** |
