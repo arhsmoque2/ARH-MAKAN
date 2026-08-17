@@ -46,16 +46,11 @@ export default {
         })
         .transform(response);
 
-      const newHeaders = new Headers(transformed.headers);
-      newHeaders.set('X-Content-Type-Options', 'nosniff');
-      newHeaders.set('X-Frame-Options', 'SAMEORIGIN');
-      newHeaders.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-
-      return new Response(transformed.body, {
-        status: transformed.status,
-        statusText: transformed.statusText,
-        headers: newHeaders,
-      });
+      const res = new Response(transformed.body, transformed);
+      res.headers.set('X-Content-Type-Options', 'nosniff');
+      res.headers.set('X-Frame-Options', 'SAMEORIGIN');
+      res.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+      return res;
     }
 
     // Default static response
