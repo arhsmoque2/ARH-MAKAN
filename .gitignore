@@ -23,4 +23,5 @@ blob-report/
 .claude/skills/*
 !.claude/skills/flow-of-events-first/
 !.claude/skills/fnb-taste-palette-design/
+!.claude/skills/session-intelligence-harvester/
 !.claude/settings.json
