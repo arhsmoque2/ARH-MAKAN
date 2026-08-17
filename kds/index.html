@@ -6,11 +6,12 @@
   <title>Woodfire KDS · Kitchen Operations</title>
   <link rel="stylesheet" href="../shared/theme.css">
   <link rel="stylesheet" href="./kds.css">
+  <script src="../shared/flight-recorder.js"></script>
 </head>
 <body class="kds-layout">
 
   <!-- Audio Unlock Banner -->
-  <div id="audio-unlock-banner" style="background: var(--gold-primary); color: #080604; text-align: center; padding: 10px; font-weight: bold; cursor: pointer;">
+  <div id="audio-unlock-banner" style="background: var(--gold-primary); color: #080604; text-align: center; padding: 8px 12px; font-weight: bold; cursor: pointer; font-size: 0.85rem;">
     🔔 Tap here to enable Kitchen Audio Chimes for incoming orders
   </div>
 
@@ -26,11 +27,12 @@
     </div>
 
     <!-- Station Selector -->
-    <nav class="kds-stations">
-      <button class="station-btn active" data-station="all">All Stations</button>
-      <button class="station-btn" data-station="grill">🥩 Grill / Meats</button>
-      <button class="station-btn" data-station="fry">🍟 Fry & Sides</button>
-      <button class="station-btn" data-station="bar">🥤 Bar & Drinks</button>
+    <nav class="kds-stations" id="kds-station-nav">
+      <button class="station-btn active" data-station="all">All Stations <span class="st-count" id="count-all">0</span></button>
+      <button class="station-btn" data-station="grill">🥩 Grill <span class="st-count" id="count-grill">0</span></button>
+      <button class="station-btn" data-station="fry">🍟 Fry <span class="st-count" id="count-fry">0</span></button>
+      <button class="station-btn" data-station="bar">🥤 Bar <span class="st-count" id="count-bar">0</span></button>
+      <button class="station-btn" data-station="expo">📋 Expo Summary</button>
     </nav>
 
     <!-- Controls -->

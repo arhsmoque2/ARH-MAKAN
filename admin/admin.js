@@ -1,4 +1,5 @@
 import { hub } from '../shared/realtime-adapter.js';
+import { QRCode } from '../shared/qr-generator.js';
 
 let menuData = null;
 
@@ -6,6 +7,7 @@ async function init() {
   try {
     const res = await fetch('../shared/mock-data/menu.json');
     menuData = await res.json();
+    updateSyncHUD();
     renderKPIs();
     renderStockToggles();
     renderOrdersTable();
@@ -13,6 +15,13 @@ async function init() {
   } catch (e) {
     console.error('Failed to init admin:', e);
   }
+}
+
+function updateSyncHUD() {
+  const badge = document.getElementById('sync-status-text');
+  if (!badge) return;
+  const status = hub.getSyncStatus();
+  badge.innerText = status.mode;
 }
 
 // Render KPI Cards
@@ -23,10 +32,15 @@ function renderKPIs() {
 
   const totalRev = paidOrders.reduce((sum, o) => sum + (o.total_amount || 0), 0);
 
-  document.getElementById('kpi-rev').innerText = `RM ${totalRev.toFixed(2)}`;
-  document.getElementById('kpi-total-orders').innerText = orders.length;
-  document.getElementById('kpi-active').innerText = activeOrders.length;
-  document.getElementById('kpi-avg-prep').innerText = '14m';
+  const kpiRev = document.getElementById('kpi-rev');
+  const kpiTotal = document.getElementById('kpi-total-orders');
+  const kpiActive = document.getElementById('kpi-active');
+  const kpiAvg = document.getElementById('kpi-avg-prep');
+
+  if (kpiRev) kpiRev.innerText = `RM ${totalRev.toFixed(2)}`;
+  if (kpiTotal) kpiTotal.innerText = orders.length;
+  if (kpiActive) kpiActive.innerText = activeOrders.length;
+  if (kpiAvg) kpiAvg.innerText = '14m';
 }
 
 // 86 / Sold Out Inventory Toggles
@@ -86,45 +100,114 @@ function renderOrdersTable() {
   `).join('');
 }
 
-// 1-Click Printable QR Codes Generator
+// 1-Click Printable Dynamic Scannable QR Codes Generator
 function renderQRGenerator() {
   const container = document.getElementById('admin-qr-grid');
   if (!container) return;
 
   const tables = ['T01', 'T02', 'T03', 'T04', 'T05', 'T06', 'T07', 'T08'];
-  const host = window.location.origin;
+  const origin = window.location.origin;
+  const pathPrefix = window.location.pathname.replace(/\/admin\/.*$/, '');
 
   container.innerHTML = tables.map(t => {
-    const url = `${host}/customer/?table=${t}`;
+    const targetUrl = `${origin}${pathPrefix}/customer/index.html?table=${t}`;
+    const svgContent = QRCode.generateSvg(targetUrl, {
+      size: 140,
+      margin: 1,
+      dark: '#080604',
+      light: '#ffffff'
+    });
+
     return `
-      <div class="card-glass" style="padding: 16px; text-align: center;">
-        <div style="font-family: var(--font-display); font-weight: bold; font-size: 1.2rem; color: var(--gold-light);">
+      <div class="card-glass" style="padding: 16px; text-align: center; display: flex; flex-direction: column; align-items: center;">
+        <div style="font-family: var(--font-display); font-weight: bold; font-size: 1.25rem; color: var(--gold-light);">
           TABLE ${t}
         </div>
-        <div style="background: white; padding: 12px; border-radius: 8px; margin: 10px auto; width: 140px; height: 140px; display: flex; align-items: center; justify-content: center;">
-          <!-- SVG QR Code Placeholder -->
-          <svg viewBox="0 0 100 100" width="100%" height="100%">
-            <rect width="100" height="100" fill="#fff"/>
-            <rect x="10" y="10" width="25" height="25" fill="#000"/>
-            <rect x="15" y="15" width="15" height="15" fill="#fff"/>
-            <rect x="65" y="10" width="25" height="25" fill="#000"/>
-            <rect x="70" y="15" width="15" height="15" fill="#fff"/>
-            <rect x="10" y="65" width="25" height="25" fill="#000"/>
-            <rect x="15" y="70" width="15" height="15" fill="#fff"/>
-            <rect x="42" y="42" width="16" height="16" fill="#000"/>
-            <rect x="42" y="15" width="8" height="20" fill="#000"/>
-            <rect x="65" y="45" width="20" height="8" fill="#000"/>
-            <rect x="45" y="65" width="15" height="20" fill="#000"/>
-          </svg>
+        <div style="background: white; padding: 8px; border-radius: 12px; margin: 10px auto; width: 140px; height: 140px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(0,0,0,0.3);">
+          ${svgContent}
         </div>
-        <div class="text-xs text-muted mono" style="word-break: break-all;">?table=${t}</div>
-        <a href="../customer/index.html?table=${t}" target="_blank" class="btn btn-sm btn-primary" style="margin-top: 8px; width: 100%;">
-          Test Menu ↗
-        </a>
+        <div class="text-xs text-muted mono" style="word-break: break-all; margin-bottom: 8px;">?table=${t}</div>
+        <div style="display: flex; gap: 6px; width: 100%;">
+          <a href="../customer/index.html?table=${t}" target="_blank" class="btn btn-sm btn-secondary" style="flex: 1; text-align: center; text-decoration: none; padding: 6px 4px; font-size: 0.75rem;">
+            Test ↗
+          </a>
+          <button class="btn btn-sm btn-primary" onclick="window.downloadTableQR('${t}', '${targetUrl}')" style="flex: 1; padding: 6px 4px; font-size: 0.75rem;">
+            Download
+          </button>
+        </div>
       </div>
     `;
   }).join('');
 }
+
+window.downloadTableQR = (tableId, targetUrl) => {
+  const canvas = document.createElement('canvas');
+  QRCode.renderCanvas(canvas, targetUrl, { size: 600, margin: 2 });
+  const a = document.createElement('a');
+  a.download = `table-${tableId}-qr.png`;
+  a.href = canvas.toDataURL('image/png');
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+};
+
+window.printAllTentCards = () => {
+  const tables = ['T01', 'T02', 'T03', 'T04', 'T05', 'T06', 'T07', 'T08'];
+  const origin = window.location.origin;
+  const pathPrefix = window.location.pathname.replace(/\/admin\/.*$/, '');
+
+  const cardsHtml = tables.map(t => {
+    const targetUrl = `${origin}${pathPrefix}/customer/index.html?table=${t}`;
+    const svg = QRCode.generateSvg(targetUrl, { size: 180, margin: 2 });
+    return `
+      <div style="
+        border: 2px solid #000;
+        border-radius: 12px;
+        padding: 20px;
+        width: 240px;
+        text-align: center;
+        page-break-inside: avoid;
+        margin: 10px;
+        display: inline-block;
+        font-family: sans-serif;
+      ">
+        <div style="font-size: 16px; font-weight: bold; letter-spacing: 1px;">WOODFIRE</div>
+        <div style="font-size: 11px; color: #555; margin-bottom: 12px;">DINE-IN ORDERING</div>
+        <div style="display: flex; justify-content: center; margin-bottom: 12px;">${svg}</div>
+        <div style="font-size: 20px; font-weight: 900;">TABLE ${t}</div>
+        <div style="font-size: 10px; color: #777; margin-top: 6px;">Scan to view menu & order</div>
+      </div>
+    `;
+  }).join('');
+
+  const iframe = document.createElement('iframe');
+  iframe.style.display = 'none';
+  document.body.appendChild(iframe);
+  const doc = iframe.contentWindow.document;
+  doc.open();
+  doc.write(`
+    <html>
+      <head>
+        <title>Table Tent Cards</title>
+        <style>
+          @page { size: A4 portrait; margin: 15mm; }
+          body { margin: 0; padding: 0; background: #fff; text-align: center; }
+        </style>
+      </head>
+      <body>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+          ${cardsHtml}
+        </div>
+      </body>
+    </html>
+  `);
+  doc.close();
+
+  setTimeout(() => {
+    iframe.contentWindow.focus();
+    iframe.contentWindow.print();
+  }, 250);
+};
 
 // Navigation Tabs
 document.querySelectorAll('.admin-nav-btn').forEach(btn => {
