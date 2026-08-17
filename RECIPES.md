@@ -117,31 +117,40 @@ When an operator encounters a bug during testing:
 
 ## 🧪 Recipe 5: Running CI Doctor & Quality Gates
 
-Always run the full suite before pushing:
+Always run the full 8-gate suite before pushing:
 ```bash
 node scripts/arh-ci-doctor.mjs
+# or via npm:
+npm test
 ```
 
 To run individual sub-tests:
 ```bash
-# QR Code matrix density and scannability
+# 1. QR Code matrix density and scannability
 node scripts/test-qr-verify.mjs
 
-# Station routing unit suite
+# 2. Station routing unit suite
 node scripts/test-showroom-bridge.mjs
 
-# Infrastructure preflight (Wrangler + Firebase probe)
+# 3. Infrastructure preflight (Wrangler config + Firebase probe)
 node scripts/verify-infra-preflight.mjs
+
+# 4. Cloudflare Worker Edge Runtime & Fetch Suite
+node scripts/test-worker-runtime.mjs
 ```
 
 ---
 
-## 🚀 Recipe 6: Deploying to Cloudflare Workers / Pages
+## 🚀 Recipe 6: Deploying to Cloudflare Workers with Dynamic Secrets
 
+Deployments are driven automatically by GitHub Actions on push to `main` or via `workflow_dispatch`.
+
+To deploy manually via CLI with runtime secrets:
 ```bash
-# Test dry run build
-npx wrangler deploy --dry-run
+# 1. Test worker runtime simulation locally
+node scripts/test-worker-runtime.mjs
 
-# Deploy to staging/production
-npx wrangler deploy
+# 2. Deploy with dynamically injected environment variable (no plaintext in wrangler.jsonc)
+npx wrangler deploy -c ./wrangler.jsonc --var FIREBASE_DATABASE_URL:$FIREBASE_DATABASE_URL
 ```
+
