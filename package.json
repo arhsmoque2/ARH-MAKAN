@@ -1,0 +1,12 @@
+{
+  "name": "arh-makan",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "ARH-MAKAN Multi-Surface Restaurant Operating System Suite",
+  "scripts": {
+    "test": "node scripts/arh-ci-doctor.mjs",
+    "doctor": "node scripts/arh-ci-doctor.mjs",
+    "dev": "npx serve -p 8080 .",
+    "precommit": "node scripts/arh-ci-doctor.mjs"
+  }
+}

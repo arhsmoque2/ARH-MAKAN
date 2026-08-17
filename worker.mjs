@@ -10,12 +10,12 @@ export default {
 
     // Dynamic runtime config endpoint
     if (url.pathname === '/api/config') {
-      const dbUrl = env.FIREBASE_DATABASE_URL || 'https://arh-firebase-db-default-rtdb.asia-southeast1.firebasedatabase.app';
+      const dbUrl = env.FIREBASE_DATABASE_URL || null;
       return new Response(JSON.stringify({
-        firebase: {
+        firebase: dbUrl ? {
           url: dbUrl,
           root: 'woodfire_kulim'
-        }
+        } : null
       }), {
         headers: {
           'Content-Type': 'application/json',
@@ -33,16 +33,16 @@ export default {
     const response = await env.ASSETS.fetch(targetRequest);
     const contentType = response.headers.get('Content-Type') || '';
 
-    // If serving HTML, inject runtime window.ARH_REALTIME_CONFIG into <head>
+    // If serving HTML and cloud DB is configured, inject runtime window.ARH_REALTIME_CONFIG into <head>
     const isHtml = contentType.includes('text/html') ||
       url.pathname === '/' ||
       url.pathname === '' ||
       url.pathname.endsWith('.html') ||
       url.pathname.endsWith('/');
 
-    const dbUrl = env.FIREBASE_DATABASE_URL || 'https://arh-firebase-db-default-rtdb.asia-southeast1.firebasedatabase.app';
+    const dbUrl = env.FIREBASE_DATABASE_URL || null;
 
-    if (isHtml && typeof HTMLRewriter !== 'undefined') {
+    if (isHtml && dbUrl && typeof HTMLRewriter !== 'undefined') {
       const configScript = `<script>window.ARH_REALTIME_CONFIG = { url: ${JSON.stringify(dbUrl)}, root: "woodfire_kulim" };</script>`;
       
       const transformed = new HTMLRewriter()

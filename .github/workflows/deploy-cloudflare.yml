@@ -28,5 +28,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy -c ./wrangler.jsonc
+          command: deploy -c ./wrangler.jsonc --var FIREBASE_DATABASE_URL:${{ secrets.FIREBASE_DATABASE_URL }}
+
 

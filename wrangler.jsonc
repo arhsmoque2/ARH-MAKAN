@@ -4,8 +4,6 @@
   "compatibility_date": "2026-07-24",
   "assets": {
     "directory": "."
-  },
-  "vars": {
-    "FIREBASE_DATABASE_URL": "https://arh-firebase-db-default-rtdb.asia-southeast1.firebasedatabase.app"
   }
 }
+
