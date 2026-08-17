@@ -5,6 +5,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   validate:
@@ -20,4 +21,7 @@ jobs:
           node-version: 20
 
       - name: Run CI Doctor
+        env:
+          FIREBASE_DATABASE_URL: ${{ secrets.FIREBASE_DATABASE_URL }}
         run: node scripts/arh-ci-doctor.mjs
+
