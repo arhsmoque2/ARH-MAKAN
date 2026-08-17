@@ -34,8 +34,15 @@ export default {
     const contentType = response.headers.get('Content-Type') || '';
 
     // If serving HTML, inject runtime window.ARH_REALTIME_CONFIG into <head>
+    const isHtml = contentType.includes('text/html') ||
+      url.pathname === '/' ||
+      url.pathname === '' ||
+      url.pathname.endsWith('.html') ||
+      url.pathname.endsWith('/');
+
     const dbUrl = env.FIREBASE_DATABASE_URL || 'https://arh-firebase-db-default-rtdb.asia-southeast1.firebasedatabase.app';
-    if (contentType.includes('text/html') && typeof HTMLRewriter !== 'undefined') {
+
+    if (isHtml && typeof HTMLRewriter !== 'undefined') {
       const configScript = `<script>window.ARH_REALTIME_CONFIG = { url: ${JSON.stringify(dbUrl)}, root: "woodfire_kulim" };</script>`;
       
       const transformed = new HTMLRewriter()
@@ -46,11 +53,11 @@ export default {
         })
         .transform(response);
 
-      const res = new Response(transformed.body, transformed);
-      res.headers.set('X-Content-Type-Options', 'nosniff');
-      res.headers.set('X-Frame-Options', 'SAMEORIGIN');
-      res.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-      return res;
+      transformed.headers.set('X-Content-Type-Options', 'nosniff');
+      transformed.headers.set('X-Frame-Options', 'SAMEORIGIN');
+      transformed.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+
+      return transformed;
     }
 
     // Default static response
