@@ -47,7 +47,7 @@ class RealtimeHub {
   _initCloudTier() {
     if (typeof window === 'undefined') return;
 
-    // Detect Firebase RTDB config from explicit runtime globals
+    // 1. Direct Global Config (injected by Cloudflare Worker HTMLRewriter or inline script)
     const config = window.ARH_REALTIME_CONFIG || window.STORE_CONFIG?.firebase;
     const dbUrl = config?.databaseURL || config?.url;
     const root = config?.root || 'woodfire_kulim';
@@ -57,10 +57,33 @@ class RealtimeHub {
       this.cloudRoot = root;
       this.cloudState = 'connecting';
       this._startCloudSync();
-    } else {
-      this.cloudState = 'local_only';
-      this.cloudActive = false;
+      return;
     }
+
+    // 2. Asynchronous Endpoint Fallback Probe (/api/config)
+    if (window.location && window.location.protocol && window.location.protocol.startsWith('http')) {
+      fetch('/api/config', { headers: { 'Accept': 'application/json' } })
+        .then(res => res.ok ? res.json() : null)
+        .then(data => {
+          if (data?.firebase?.url) {
+            this.cloudDbUrl = data.firebase.url.replace(/\/$/, '');
+            this.cloudRoot = data.firebase.root || 'woodfire_kulim';
+            this.cloudState = 'connecting';
+            this._startCloudSync();
+          } else {
+            this.cloudState = 'local_only';
+            this.cloudActive = false;
+          }
+        })
+        .catch(() => {
+          this.cloudState = 'local_only';
+          this.cloudActive = false;
+        });
+      return;
+    }
+
+    this.cloudState = 'local_only';
+    this.cloudActive = false;
   }
 
   async _startCloudSync() {

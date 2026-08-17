@@ -21,8 +21,8 @@ const wranglerPath = path.join(root, 'wrangler.jsonc');
 if (fs.existsSync(wranglerPath)) {
   try {
     const raw = fs.readFileSync(wranglerPath, 'utf-8');
-    // Strip JSONC comments for parsing
-    const stripped = raw.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
+    // Strip JSONC comments for parsing while preserving URLs in strings
+    const stripped = raw.replace(/("(?:\\.|[^\\"])*")|\/\*[\s\S]*?\*\/|\/\/.*$/gm, (match, stringLiteral) => stringLiteral || '');
     const config = JSON.parse(stripped);
 
     if (!config.name) throw new Error('Missing "name" in wrangler.jsonc');

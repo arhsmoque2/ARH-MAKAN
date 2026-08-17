@@ -1,0 +1,723 @@
+{
+  "project": "ARH-MAKAN",
+  "llm_enabled": false,
+  "subsystems": [
+    {
+      "name": "(project root)",
+      "purpose": "Files located under (project root). Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "file_indices": [
+        16,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        43,
+        71,
+        72,
+        73,
+        74
+      ]
+    },
+    {
+      "name": ".claude",
+      "purpose": "Files located under .claude. Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "file_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ]
+    },
+    {
+      "name": ".github",
+      "purpose": "Files located under .github. Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "file_indices": [
+        17,
+        18
+      ]
+    },
+    {
+      "name": "admin",
+      "purpose": "Files located under admin. Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "file_indices": [
+        27,
+        28,
+        29
+      ]
+    },
+    {
+      "name": "customer",
+      "purpose": "Files located under customer. Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "file_indices": [
+        30,
+        31,
+        32
+      ]
+    },
+    {
+      "name": "docs",
+      "purpose": "Files located under docs. Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "file_indices": [
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41
+      ]
+    },
+    {
+      "name": "evidence",
+      "purpose": "Files located under evidence. Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "file_indices": [
+        42
+      ]
+    },
+    {
+      "name": "kds",
+      "purpose": "Files located under kds. Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "file_indices": [
+        44,
+        45,
+        46
+      ]
+    },
+    {
+      "name": "pos",
+      "purpose": "Files located under pos. Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "file_indices": [
+        47,
+        48,
+        49
+      ]
+    },
+    {
+      "name": "scripts",
+      "purpose": "Files located under scripts. Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "file_indices": [
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58
+      ]
+    },
+    {
+      "name": "shared",
+      "purpose": "Files located under shared. Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "file_indices": [
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67
+      ]
+    },
+    {
+      "name": "showroom",
+      "purpose": "Files located under showroom. Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "file_indices": [
+        68,
+        69,
+        70
+      ]
+    }
+  ],
+  "flow": {
+    "summary": "This manual was generated without AI assistance (--no-llm). Parts are grouped by directory; no connection diagram data was inferred.",
+    "relationships": []
+  },
+  "chapters": {
+    "0": "This section was generated without AI assistance (--no-llm). Re-run with the LLM enabled for a narrative description.\n\nFiles in this part: .editorconfig, .gitignore, AGENTS.md, CHANGELOG.md, GOTCHAS.md, HANDOFF.md, PLAN.md, README.md, RECIPES.md, index.html, test-sandbox.html, worker.mjs, wrangler.jsonc, wrangler.toml.",
+    "1": "This section was generated without AI assistance (--no-llm). Re-run with the LLM enabled for a narrative description.\n\nFiles in this part: .claude/settings.json, .claude/skills/flow-of-events-first/SKILL.md, .claude/skills/flow-of-events-first/checklists/rehearsal-verification-checklist.md, .claude/skills/flow-of-events-first/recipes/exception-over-redesign.md, .claude/skills/flow-of-events-first/recipes/worked-example-modifiers.md, .claude/skills/fnb-taste-palette-design/MANIFEST.md, .claude/skills/fnb-taste-palette-design/README.md, .claude/skills/fnb-taste-palette-design/SKILL.md, .claude/skills/fnb-taste-palette-design/checklists/fnb-taste-review-checklist.md, .claude/skills/fnb-taste-palette-design/contracts/item-lightbox.contract.md, .claude/skills/fnb-taste-palette-design/recipes/resolve-owner-vibe-to-design.recipe.md, .claude/skills/fnb-taste-palette-design/references/github-native-governance-options.md, .claude/skills/fnb-taste-palette-design/registries/fnb-palette-registry.json, .claude/skills/fnb-taste-palette-design/registries/fnb-vibe-registry.json, .claude/skills/fnb-taste-palette-design/route-index.yml, .claude/skills/fnb-taste-palette-design/schemas/fnb.design.config.schema.json.",
+    "2": "This section was generated without AI assistance (--no-llm). Re-run with the LLM enabled for a narrative description.\n\nFiles in this part: .github/workflows/ci.yml, .github/workflows/deploy-cloudflare.yml.",
+    "3": "This section was generated without AI assistance (--no-llm). Re-run with the LLM enabled for a narrative description.\n\nFiles in this part: admin/admin.css, admin/admin.js, admin/index.html.",
+    "4": "This section was generated without AI assistance (--no-llm). Re-run with the LLM enabled for a narrative description.\n\nFiles in this part: customer/customer.css, customer/customer.js, customer/index.html.",
+    "5": "This section was generated without AI assistance (--no-llm). Re-run with the LLM enabled for a narrative description.\n\nFiles in this part: docs/decisions/0001-flow-of-events-first-architecture-baseline.md, docs/decisions/0002-multi-surface-actor-boundaries-and-authority-matrix.md, docs/decisions/0003-zero-build-vanilla-esm-design-tokens-stack.md, docs/decisions/0004-realtime-hybrid-state-sync-and-offline-resilience.md, docs/decisions/0005-kds-ticket-aging-and-web-audio-chime-engine.md, docs/decisions/0006-counter-pos-multi-tender-and-esc-pos-thermal-printing.md, docs/decisions/0007-dine-in-table-qr-binding-and-live-service-call-protocol.md, docs/proposals/2026-08-17-premium-fullstack-fnb-architecture-and-build-plan.md, docs/recipes/adding-menu-category-and-modifiers.md.",
+    "6": "This section was generated without AI assistance (--no-llm). Re-run with the LLM enabled for a narrative description.\n\nFiles in this part: evidence/test-sandbox.html.",
+    "7": "This section was generated without AI assistance (--no-llm). Re-run with the LLM enabled for a narrative description.\n\nFiles in this part: kds/index.html, kds/kds.css, kds/kds.js.",
+    "8": "This section was generated without AI assistance (--no-llm). Re-run with the LLM enabled for a narrative description.\n\nFiles in this part: pos/index.html, pos/pos.css, pos/pos.js.",
+    "9": "This section was generated without AI assistance (--no-llm). Re-run with the LLM enabled for a narrative description.\n\nFiles in this part: scripts/arh-ci-doctor.mjs, scripts/check.mjs, scripts/generate-test-sandbox.mjs, scripts/lint.mjs, scripts/profile-assets.mjs, scripts/test-qr-verify.mjs, scripts/test-showroom-bridge.mjs, scripts/verify-a11y-html.mjs, scripts/verify-infra-preflight.mjs.",
+    "10": "This section was generated without AI assistance (--no-llm). Re-run with the LLM enabled for a narrative description.\n\nFiles in this part: shared/audio-engine.js, shared/escpos-formatter.js, shared/flight-recorder.js, shared/mock-data/menu.json, shared/qr-generator.js, shared/realtime-adapter.js, shared/schema.json, shared/showroom-bridge.js, shared/theme.css.",
+    "11": "This section was generated without AI assistance (--no-llm). Re-run with the LLM enabled for a narrative description.\n\nFiles in this part: showroom/index.html, showroom/showroom.css, showroom/showroom.js."
+  },
+  "at_a_glance": "ARH-MAKAN contains 75 files (25 code, 12 config, 27 docs, 11 other).\n\nIts parts, grouped by location: (project root), .claude, .github, admin, customer, docs, evidence, kds, pos, scripts, shared, showroom.\n\nStack hints detected: none detected. Port/provenance markers found: 4. Decision and design documents found: 0.\n\n(Generated without AI assistance — re-run with the LLM enabled for a narrative overview.)",
+  "glossary": "The following technical terms appear in this project. Plain-language definitions are added when the manual is generated with the LLM enabled.\n\n- **API** — appears in `.claude/skills/flow-of-events-first/SKILL.md:166`. Definition pending.\n- **CLI** — appears in `.claude/skills/flow-of-events-first/SKILL.md:3`. Definition pending.\n- **endpoint** — appears in `GOTCHAS.md:5`. Definition pending.\n- **environment variable** — appears in `AGENTS.md:16`. Definition pending.\n- **hook** — appears in `.claude/skills/flow-of-events-first/SKILL.md:3`. Definition pending.\n- **hooks** — appears in `.claude/skills/flow-of-events-first/SKILL.md:3`. Definition pending.\n- **HTTP** — appears in `.claude/settings.json:3`. Definition pending.\n- **JSON** — appears in `.claude/skills/flow-of-events-first/SKILL.md:94`. Definition pending.\n- **JSONL** — appears in `AGENTS.md:12`. Definition pending.\n- **Lua** — appears in `.claude/skills/flow-of-events-first/checklists/rehearsal-verification-checklist.md:36`. Definition pending.\n- **pane** — appears in `.claude/skills/flow-of-events-first/recipes/worked-example-modifiers.md:93`. Definition pending.\n- **PATH** — appears in `.claude/skills/flow-of-events-first/SKILL.md:66`. Definition pending.\n- **POST** — appears in `.claude/skills/flow-of-events-first/recipes/exception-over-redesign.md:40`. Definition pending.\n- **regex** — appears in `CHANGELOG.md:11`. Definition pending.\n- **repository** — appears in `.claude/skills/fnb-taste-palette-design/references/github-native-governance-options.md:7`. Definition pending.\n- **telemetry** — appears in `AGENTS.md:12`. Definition pending.\n- **WebSocket** — appears in `docs/decisions/0004-realtime-hybrid-state-sync-and-offline-resilience.md:16`. Definition pending.\n- **YAML** — appears in `.claude/skills/flow-of-events-first/SKILL.md:251`. Definition pending.",
+  "jargon": [
+    {
+      "term": "API",
+      "path": ".claude/skills/flow-of-events-first/SKILL.md",
+      "line": 166
+    },
+    {
+      "term": "CLI",
+      "path": ".claude/skills/flow-of-events-first/SKILL.md",
+      "line": 3
+    },
+    {
+      "term": "endpoint",
+      "path": "GOTCHAS.md",
+      "line": 5
+    },
+    {
+      "term": "environment variable",
+      "path": "AGENTS.md",
+      "line": 16
+    },
+    {
+      "term": "hook",
+      "path": ".claude/skills/flow-of-events-first/SKILL.md",
+      "line": 3
+    },
+    {
+      "term": "hooks",
+      "path": ".claude/skills/flow-of-events-first/SKILL.md",
+      "line": 3
+    },
+    {
+      "term": "HTTP",
+      "path": ".claude/settings.json",
+      "line": 3
+    },
+    {
+      "term": "JSON",
+      "path": ".claude/skills/flow-of-events-first/SKILL.md",
+      "line": 94
+    },
+    {
+      "term": "JSONL",
+      "path": "AGENTS.md",
+      "line": 12
+    },
+    {
+      "term": "Lua",
+      "path": ".claude/skills/flow-of-events-first/checklists/rehearsal-verification-checklist.md",
+      "line": 36
+    },
+    {
+      "term": "pane",
+      "path": ".claude/skills/flow-of-events-first/recipes/worked-example-modifiers.md",
+      "line": 93
+    },
+    {
+      "term": "PATH",
+      "path": ".claude/skills/flow-of-events-first/SKILL.md",
+      "line": 66
+    },
+    {
+      "term": "POST",
+      "path": ".claude/skills/flow-of-events-first/recipes/exception-over-redesign.md",
+      "line": 40
+    },
+    {
+      "term": "regex",
+      "path": "CHANGELOG.md",
+      "line": 11
+    },
+    {
+      "term": "repository",
+      "path": ".claude/skills/fnb-taste-palette-design/references/github-native-governance-options.md",
+      "line": 7
+    },
+    {
+      "term": "telemetry",
+      "path": "AGENTS.md",
+      "line": 12
+    },
+    {
+      "term": "WebSocket",
+      "path": "docs/decisions/0004-realtime-hybrid-state-sync-and-offline-resilience.md",
+      "line": 16
+    },
+    {
+      "term": "YAML",
+      "path": ".claude/skills/flow-of-events-first/SKILL.md",
+      "line": 251
+    }
+  ],
+  "briefs": [
+    {
+      "index": 0,
+      "name": "(project root)",
+      "purpose": "Files located under (project root). Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "files": [
+        ".editorconfig",
+        ".gitignore",
+        "AGENTS.md",
+        "CHANGELOG.md",
+        "GOTCHAS.md",
+        "HANDOFF.md",
+        "PLAN.md",
+        "README.md",
+        "RECIPES.md",
+        "index.html",
+        "test-sandbox.html",
+        "worker.mjs",
+        "wrangler.jsonc",
+        "wrangler.toml"
+      ],
+      "snippets": [
+        {
+          "path": ".editorconfig",
+          "start_line": 1,
+          "end_line": 15,
+          "text": "root = true\n\n[*]\ncharset = utf-8\nend_of_line = lf\ninsert_final_newline = true\ntrim_trailing_whitespace = true\nindent_style = space\nindent_size = 2\n\n[*.{js,mjs,json,css,html}]\nindent_size = 2\n\n[*.md]\ntrim_trailing_whitespace = false"
+        },
+        {
+          "path": ".gitignore",
+          "start_line": 1,
+          "end_line": 26,
+          "text": "# OS intermediate and scratch files\n.DS_Store\nThumbs.db\n*.bak\n*.tmp\n*.log\n\n# Node / package manager artifacts\nnode_modules/\ndist/\n.wrangler/\npackage-lock.json\n\n# Local test & coverage artifacts\ntest-results/\nplaywright-report/\nblob-report/\n.coverage/\n\n# Dotfiles wholesale ignore with vendored skills carve-out (ARH-URUS pattern)\n.claude/*\n!.claude/skills/\n.claude/skills/*\n!.claude/skills/flow-of-events-first/\n!.claude/skills/fnb-taste-palette-design/\n!.claude/settings.json"
+        },
+        {
+          "path": "AGENTS.md",
+          "start_line": 1,
+          "end_line": 24,
+          "text": "# AGENTS.md — ARH-MAKAN\n\n## Runtime Orientation\n- **Role**: Autonomous, Efficient, Compliant Agent.\n- **Objective**: Deliver and maintain the production-grade F&B operating suite adhering strictly to Flow-of-Events-First and zero-build Vanilla/ESM edge architecture.\n\n## Prime Directives\n1. **Flow of Events First**: Always verify changes against actual rendered DOM/pixels and live UI state transitions.\n2. **Zero-Build Edge Architecture**: Pure Vanilla JS/ESM, HTML5, and curated CSS tokens. No heavyweight bundlers or compile steps required to serve or test.\n3. **Cross-Origin Resilient**: Multi-surface state sync operates across independent Cloudflare Worker origins via Tier 3 Firebase RTDB REST + SSE streams, with local BroadcastChannel and localStorage fallbacks.\n4. **Honest Status Reporting**: Never report false-positive cloud sync states in status HUDs. `cloudActive` must reflect verified network connectivity.\n5. **Traceability via Flight Recorder**: Use the built-in telemetry flight recorder (`shared/flight-recorder.js`) to capture user action trajectories, network payloads, and unhandled errors into machine-readable JSONL.\n\n## Secrets & Configuration Governance\n- **Zero Plaintext Secrets**: Never commit plaintext API keys, tokens, or private identity paths to this repository.\n- **Environment Injection**: Configuration and runtime tokens are injected via standard environment variables (e.g. `FIREBASE_RTDB_URL`, `CLOUDFLARE_API_TOKEN`) or resolved through the central ARH secret injector mechanism.\n- **Offline-First Resilience**: The multi-surface suite operates fully offline-first using local `BroadcastChannel` and `localStorage` state buses. Cloud database sync is an optional tier configured strictly via environment or runtime settings.\n\n## Standard Verification Gate\nAlways run the full 7-gate CI Doctor before committing or merging:\n```bash\nnode scripts/arh-ci-doctor.mjs\n```\n"
+        },
+        {
+          "path": "CHANGELOG.md",
+          "start_line": 1,
+          "end_line": 19,
+          "text": "# Changelog — ARH-MAKAN\n\nAll notable changes to the ARH-MAKAN repository are documented in this file.\n\n## [2.2.0] - 2026-08-17\n### Added\n- **Zero-Dependency Dynamic QR Engine (`shared/qr-generator.js`)**: Pure client-side ISO/IEC 18004 compliant QR matrix encoder (<12KB ESM) supporting dynamic table URL encoding, 1-click PNG export, and A4 printable Table Tent Card batch layout.\n- **Expediter (Expo) Summary View (`kds/`)**: Aggregates all active un-bumped items across the floor with per-table counts.\n- **ESC/POS Thermal Formatter (`shared/escpos-formatter.js`)**: 58mm/80mm formatted thermal receipt and kitchen prep ticket generator.\n- **Fast Cash Denomination Pad (`pos/`)**: Instant change calculation pad (`Exact`, `RM 20`, `RM 50`, `RM 100`).\n- **Showroom Bridge Station-Routing Engine (`shared/showroom-bridge.js`)**: Automatic category mapping and regex keyword fallback preventing station fallthrough.\n- **Client-Side Flight Recorder (`shared/flight-recorder.js`)**: 2KB zero-dependency telemetry engine capturing user click trajectories, network payloads, and unhandled JS exceptions into JSONL.\n- **Living Multi-Surface Test Sandbox (`test-sandbox.html`)**: Quad-split interactive dashboard with 1-click scenario injectors (Rush Hour, 86 Sold Out, Waiter calls).\n- **Portable 7-Gate CI Doctor (`scripts/arh-ci-doctor.mjs`)**: Self-contained multi-gate quality and preflight suite.\n\n### Fixed\n- Station routing fallthrough for Woodfire menu categories (`fries`, `sides`, `upgrades`, `starters` -> `fry`).\n- Double table prefix formatting in KDS Expo view (`TT05` -> `T05`).\n- Honest sync status HUD gating preventing false-positive cloud badges when offline."
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "index": 1,
+      "name": ".claude",
+      "purpose": "Files located under .claude. Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "files": [
+        ".claude/settings.json",
+        ".claude/skills/flow-of-events-first/SKILL.md",
+        ".claude/skills/flow-of-events-first/checklists/rehearsal-verification-checklist.md",
+        ".claude/skills/flow-of-events-first/recipes/exception-over-redesign.md",
+        ".claude/skills/flow-of-events-first/recipes/worked-example-modifiers.md",
+        ".claude/skills/fnb-taste-palette-design/MANIFEST.md",
+        ".claude/skills/fnb-taste-palette-design/README.md",
+        ".claude/skills/fnb-taste-palette-design/SKILL.md",
+        ".claude/skills/fnb-taste-palette-design/checklists/fnb-taste-review-checklist.md",
+        ".claude/skills/fnb-taste-palette-design/contracts/item-lightbox.contract.md",
+        ".claude/skills/fnb-taste-palette-design/recipes/resolve-owner-vibe-to-design.recipe.md",
+        ".claude/skills/fnb-taste-palette-design/references/github-native-governance-options.md",
+        ".claude/skills/fnb-taste-palette-design/registries/fnb-palette-registry.json",
+        ".claude/skills/fnb-taste-palette-design/registries/fnb-vibe-registry.json",
+        ".claude/skills/fnb-taste-palette-design/route-index.yml",
+        ".claude/skills/fnb-taste-palette-design/schemas/fnb.design.config.schema.json"
+      ],
+      "snippets": [
+        {
+          "path": ".claude/settings.json",
+          "start_line": 1,
+          "end_line": 8,
+          "text": "{\n  \"extraKnownMarketplaces\": [\n    \"https://github.com/arhsmoque2/arh-cloud-agent-toolkit\"\n  ],\n  \"enabledPlugins\": [\n    \"arh-cloud-agent-toolkit\"\n  ]\n}"
+        },
+        {
+          "path": ".claude/skills/flow-of-events-first/SKILL.md",
+          "start_line": 36,
+          "end_line": 75,
+          "text": "                                          entrypoint)                       not code/state)\n```\n\nSkipping straight to \"here's the workflow\" (or straight to \"here's the\nobjective\") risks designing around whatever's already built, already\ndocumented, or already assumed, instead of around what's actually true.\nSkipping the last arrow -- verifying against rendered pixels instead of\ncode or state -- risks shipping a workflow that is correctly *specified*\nand still completely non-functional. Both failures are the same mistake at\ndifferent ends of the pipeline: substituting an abstraction for the thing\nit's supposed to represent.\n\n## Why this is a real rule, not a platitude\n\n2026-08-04, this repo: item modifiers were implemented across three tiers.\nEvery step was done in the right order -- the canonical menu was grounded in\nreal photographed prices before any workflow was written, the workflow was\ndocumented per persona, the code was written to match it, and it was tested:\n`node --check` passed, a Playwright suite clicked through the flow and read\nback correct cart totals and validation payloads out of JavaScript state.\nIt was reported as verified.\n\nPremium's storefront was still completely broken. `openItem()` wrote the\nitem's name, price, and modifier choices into the DOM -- into the wrong\nelement, because `document.querySelector('[data-item-detail]')` matched a\ndifferent, invisible element first. The real dialog stayed empty forever.\nNo amount of reading the code would surface this: the code reads as a normal,\ncorrect selector call. No amount of reading JS state would surface it either\n-- the *event listener* was attached to the wrong node, so the state-reading\nchecks that clicked buttons via `document.querySelector(...).click()` never\neven exercised the real path a mouse would take through a rendered page.\nIt was only found by looking at a screenshot, because a screenshot is the\nonly check that verifies what the last layer exists to verify: that a human\ncan actually see and complete the flow of events this was all supposed to\nserve.\n\nThe lesson generalizes past this one bug: a clean diff, a passing type\ncheck, and a green test suite are necessary and prove the *workflow* was\nimplemented. None of them prove the *flow of events* still completes for a\nreal person. Only rehearsing it against a render does."
+        },
+        {
+          "path": ".claude/skills/flow-of-events-first/checklists/rehearsal-verification-checklist.md",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "# Rehearsal verification checklist\n\nRun this before writing a workflow doc or code (items 1-4), and again\nbefore reporting a UI-touching change as done (items 5-9). Both passes are\nrequired; neither substitutes for the other.\n\n## Before starting (layers 1-3)\n\n1. [ ] The flow of events is written down in plain language, per entrypoint\n       touched (customer / store owner / platform operator / CLI agent),\n       before any workflow doc or code exists for this change.\n2. [ ] It's sourced from something outside your own prior work -- the real\n       product, real photos/screenshots, the operator's own words, a fresh\n       read of the actual deployed thing -- not from existing docs or code,\n       which may already be a stale or wrong abstraction.\n3. [ ] The required actions are stated separately from the workflow -- each\n       one describable in a sentence with no UI element in it. If you can't\n       write the required action without naming a button or a screen,\n       you've skipped straight to layer 3.\n4. [ ] Every workflow step you're about to write or change traces back to a\n       specific required action, which traces back to a specific item in\n       the flow of events. If it doesn't, ask whether you're solving a\n       real problem or just filling out a template. Every entrypoint the\n       change touches has been walked through this, not just the easiest\n       one.\n\n## Before reporting done (layer 5)\n\n5. [ ] You re-walked the *exact* flow of events from steps 1-4 against the\n       **rendered** UI -- clicked what a real actor would click, in the\n       order they'd click it -- not read the code that was supposed to\n       produce it.\n6. [ ] At least one artifact exists that a human can look at and confirm\n       with their own eyes: a screenshot, a recording, or a live\n       observation. A passing `node --check`, a clean diff, or a JS state\n       dump read via `page.evaluate` does not count as this artifact --\n       pair it with one, never substitute it.\n7. [ ] Every entrypoint/surface the change touches has been rehearsed, not\n       just the one that was easiest to test. (Example: a modifier feature\n       touches the customer's add-to-cart flow AND the WhatsApp message"
+        },
+        {
+          "path": ".claude/skills/flow-of-events-first/recipes/exception-over-redesign.md",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "# Recipe: exception path over redesign, for governing mechanisms\n\nThe general pattern from \"Design for imperfection\" in `SKILL.md`, made\nconcrete, plus where it already exists in this repo as a precedent.\n\n## The pattern\n\nA governing/gating mechanism -- a permission check, a validation rule, a\npre-tool-use hook, anything that blocks an action by rule -- will\neventually meet a legitimate case it didn't foresee. Design the escape\nhatch in from day one:\n\n1. The rule blocks by default, as designed.\n2. A structured, scoped exception can be granted for one specific\n   case -- naming exactly the command/action/actor/item it applies to, not\n   a blanket bypass. A JSON allowlist entry is a reasonable shape: specific\n   enough to audit, cheap enough to grant without a redesign.\n3. The exception is logged somewhere visible (a tracked file, not a\n   private memory) so it can be reviewed later.\n4. When the *same shape* of exception gets requested again, that's the\n   signal -- not the first request -- that the rule itself is missing a\n   real case. Fold it into the rule's core logic then, once you're folding\n   in a proven pattern instead of guessing at one from a single data point.\n\nThe cost this avoids: redesigning core governing logic under pressure,\nevery single time reality doesn't match the model, which produces fatigue\nand creates pressure to under-design the rule in the first place so it\nnever has to be revisited.\n\n## Where this pattern already exists in this repo\n\nTwo real precedents, both worth reusing as templates rather than\nreinventing the shape next time a governing mechanism is needed:\n\n- **`RELEASE_STATE = { status: \"mockup\" }`** (every storefront tier). The\n  default rule blocks real checkout. The escape hatch is a single flag,\n  flipped per-store when that store is promoted -- not a rewrite of the\n  checkout code path. See `governance/pilot-agreement-summary.md` for the\n  documented steps to grant that exception for one store.\n- **`foundation`'s kill switch** (`POST /kill-switch/:slug`,"
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "index": 2,
+      "name": ".github",
+      "purpose": "Files located under .github. Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "files": [
+        ".github/workflows/ci.yml",
+        ".github/workflows/deploy-cloudflare.yml"
+      ],
+      "snippets": [
+        {
+          "path": ".github/workflows/ci.yml",
+          "start_line": 1,
+          "end_line": 23,
+          "text": "name: CI Doctor & Integrity Gate\n\non:\n  push:\n    branches: [ main ]\n  pull_request:\n    branches: [ main ]\n\njobs:\n  validate:\n    name: Schema, Syntax & Integrity Check\n    runs-on: ubuntu-latest\n    steps:\n      - name: Checkout repository\n        uses: actions/checkout@v4\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v4\n        with:\n          node-version: 20\n\n      - name: Run CI Doctor\n        run: node scripts/arh-ci-doctor.mjs"
+        },
+        {
+          "path": ".github/workflows/deploy-cloudflare.yml",
+          "start_line": 1,
+          "end_line": 28,
+          "text": "name: Deploy to Cloudflare Workers\n\non:\n  push:\n    branches: [ main ]\n\njobs:\n  deploy:\n    name: Validate & Deploy to Cloudflare\n    runs-on: ubuntu-latest\n    steps:\n      - name: Checkout repository\n        uses: actions/checkout@v4\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v4\n        with:\n          node-version: 20\n\n      - name: Run CI Doctor\n        run: node scripts/arh-ci-doctor.mjs\n\n      - name: Deploy to Cloudflare Workers\n        uses: cloudflare/wrangler-action@v3\n        with:\n          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}\n          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}\n          command: deploy -c ./wrangler.jsonc"
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "index": 3,
+      "name": "admin",
+      "purpose": "Files located under admin. Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "files": [
+        "admin/admin.css",
+        "admin/admin.js",
+        "admin/index.html"
+      ],
+      "snippets": [
+        {
+          "path": "admin/admin.css",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "/* Owner Admin Operations Console Styles */\n\n.admin-layout {\n  display: flex;\n  min-height: 100vh;\n  background: #080604;\n}\n\n.admin-sidebar {\n  width: 220px;\n  background: var(--bg-surface);\n  border-right: 1px solid var(--border-card);\n  padding: 20px 14px;\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  flex-shrink: 0;\n}\n\n.admin-nav-btn {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 12px 14px;\n  border-radius: var(--radius-sm);\n  background: transparent;\n  border: 1px solid transparent;\n  color: var(--text-secondary);\n  font-family: var(--font-body);\n  font-size: 0.9rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all var(--transition-fast);\n}\n\n.admin-nav-btn:hover {\n  background: var(--bg-surface-raised);\n  color: var(--text-primary);\n}\n"
+        },
+        {
+          "path": "admin/admin.js",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "import { hub } from '../shared/realtime-adapter.js';\nimport { QRCode } from '../shared/qr-generator.js';\n\nlet menuData = null;\n\nasync function init() {\n  try {\n    const res = await fetch('../shared/mock-data/menu.json');\n    menuData = await res.json();\n    updateSyncHUD();\n    renderKPIs();\n    renderStockToggles();\n    renderOrdersTable();\n    renderQRGenerator();\n  } catch (e) {\n    console.error('Failed to init admin:', e);\n  }\n}\n\nfunction updateSyncHUD() {\n  const badge = document.getElementById('sync-status-text');\n  if (!badge) return;\n  const status = hub.getSyncStatus();\n  badge.innerText = status.mode;\n}\n\n// Render KPI Cards\nfunction renderKPIs() {\n  const orders = hub.getOrders();\n  const paidOrders = orders.filter(o => o.status === 'paid');\n  const activeOrders = orders.filter(o => o.status !== 'paid' && o.status !== 'cancelled');\n\n  const totalRev = paidOrders.reduce((sum, o) => sum + (o.total_amount || 0), 0);\n\n  const kpiRev = document.getElementById('kpi-rev');\n  const kpiTotal = document.getElementById('kpi-total-orders');\n  const kpiActive = document.getElementById('kpi-active');\n  const kpiAvg = document.getElementById('kpi-avg-prep');\n\n  if (kpiRev) kpiRev.innerText = `RM ${totalRev.toFixed(2)}`;"
+        },
+        {
+          "path": "admin/index.html",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Woodfire Admin · Store Operations & Floor Hub</title>\n  <link rel=\"stylesheet\" href=\"../shared/theme.css\">\n  <link rel=\"stylesheet\" href=\"./admin.css\">\n  <script src=\"../shared/flight-recorder.js\"></script>\n</head>\n<body class=\"admin-layout\">\n\n  <!-- Sidebar -->\n  <aside class=\"admin-sidebar\">\n    <div style=\"margin-bottom: 14px;\">\n      <a href=\"../index.html\" class=\"btn btn-sm btn-secondary\" style=\"width: 100%; text-decoration: none;\">← Central Hub</a>\n    </div>\n\n    <div style=\"display: flex; align-items: center; gap: 8px; margin-bottom: 20px; padding: 0 4px;\">\n      <div style=\"font-size: 1.6rem;\">🔥</div>\n      <div>\n        <div style=\"font-family: var(--font-display); font-weight: bold; color: var(--gold-light); font-size: 1.1rem;\">\n          Woodfire Hub\n        </div>\n        <div class=\"text-xs text-muted\">Manager Operations</div>\n      </div>\n    </div>\n\n    <div id=\"sync-status-badge\" style=\"margin-bottom: 16px; padding: 6px 10px; border-radius: 8px; background: rgba(212, 160, 23, 0.08); border: 1px solid rgba(212, 160, 23, 0.2); font-size: 0.72rem; color: var(--gold-light); display: flex; align-items: center; gap: 6px;\">\n      <span style=\"width: 8px; height: 8px; border-radius: 50%; background: var(--color-success); display: inline-block;\"></span>\n      <span id=\"sync-status-text\">Local Realtime Hub</span>\n    </div>\n\n    <button class=\"admin-nav-btn active\" data-target=\"pane-dashboard\">📊 Dashboard</button>\n    <button class=\"admin-nav-btn\" data-target=\"pane-inventory\">📦 86 / Stock Toggles</button>\n    <button class=\"admin-nav-btn\" data-target=\"pane-tables\">🪑 Table QR Codes</button>\n    <button class=\"admin-nav-btn\" data-target=\"pane-orders\">🧾 Shift Orders</button>\n  </aside>\n\n  <!-- Main Content -->"
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "index": 4,
+      "name": "customer",
+      "purpose": "Files located under customer. Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "files": [
+        "customer/customer.css",
+        "customer/customer.js",
+        "customer/index.html"
+      ],
+      "snippets": [
+        {
+          "path": "customer/customer.css",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "/* Customer Dine-In Surface Styles */\n\n.customer-container {\n  max-width: 600px;\n  margin: 0 auto;\n  min-height: 100vh;\n  display: flex;\n  flex-direction: column;\n  background: var(--bg-main);\n  padding-bottom: 90px;\n  position: relative;\n}\n\n/* Header */\n.cust-header {\n  padding: 16px 20px;\n  background: var(--bg-glass);\n  backdrop-filter: blur(20px);\n  position: sticky;\n  top: 0;\n  z-index: 100;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  border-bottom: 1px solid var(--border-subtle);\n}\n\n.table-badge {\n  font-family: var(--font-mono);\n  font-size: 0.85rem;\n  font-weight: 700;\n  padding: 6px 12px;\n  border-radius: var(--radius-full);\n  background: var(--gold-subtle);\n  color: var(--gold-light);\n  border: 1px solid rgba(212, 160, 23, 0.3);\n}\n\n/* Hero */\n.cust-hero {"
+        },
+        {
+          "path": "customer/customer.js",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "import { hub } from '../shared/realtime-adapter.js';\nimport { sound } from '../shared/audio-engine.js';\n\nlet menuData = null;\nlet currentTable = 'T05';\nlet activeDietary = 'all';\nlet cart = [];\nlet pendingModifierItem = null;\nlet activePlacedOrder = null;\n\n// Initialize Table Session from URL or Storage\nfunction initTableSession() {\n  const params = new URLSearchParams(window.location.search);\n  const tableParam = params.get('table');\n  if (tableParam) {\n    currentTable = tableParam.toUpperCase();\n    sessionStorage.setItem('arh_table_id', currentTable);\n  } else {\n    currentTable = sessionStorage.getItem('arh_table_id') || 'T05';\n  }\n\n  const badge = document.getElementById('table-indicator');\n  if (badge) badge.innerText = `TABLE ${currentTable} · DINE-IN`;\n}\n\n// Load Menu\nasync function init() {\n  initTableSession();\n  try {\n    const res = await fetch('../shared/mock-data/menu.json');\n    menuData = await res.json();\n    renderDietaryPills();\n    renderMenu();\n    updateCartUI();\n    checkActiveTableOrder();\n  } catch (e) {\n    console.error('Failed to load customer menu:', e);\n  }\n}\n"
+        },
+        {
+          "path": "customer/index.html",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Woodfire Kulim · Digital Dine-In Menu</title>\n  <link rel=\"stylesheet\" href=\"../shared/theme.css\">\n  <link rel=\"stylesheet\" href=\"./customer.css\">\n  <script src=\"../shared/flight-recorder.js\"></script>\n</head>\n<body>\n\n  <div class=\"customer-container\">\n    <!-- Header -->\n    <header class=\"cust-header\">\n      <div style=\"display: flex; align-items: center; gap: 10px;\">\n        <a href=\"../index.html\" class=\"btn btn-sm btn-secondary\" style=\"padding: 4px 10px; text-decoration: none;\">← Hub</a>\n        <div style=\"font-size: 1.3rem;\">🔥</div>\n        <div style=\"font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--gold-light);\">\n          Woodfire\n        </div>\n      </div>\n      <div class=\"table-badge\" id=\"table-indicator\">TABLE T05 · DINE-IN</div>\n    </header>\n\n    <!-- Active Order Tracker Banner -->\n    <div id=\"order-tracker-banner\" style=\"display: none; background: var(--bg-surface-raised); border-bottom: 1px solid var(--border-card); padding: 14px 20px;\">\n      <div style=\"display: flex; align-items: center; justify-content: space-between;\">\n        <span style=\"font-weight: 700; color: var(--gold-light);\">Live Kitchen Tracker <span id=\"tracker-order-id\"></span></span>\n        <button class=\"btn btn-sm btn-secondary\" onclick=\"window.openSplitBillModal()\">Split Bill 🧮</button>\n      </div>\n\n      <div class=\"tracker-steps\">\n        <div class=\"tracker-step\" id=\"step-placed\">\n          <div class=\"step-dot\">1</div>\n          <span>Placed</span>\n        </div>\n        <div class=\"tracker-step\" id=\"step-cooking\">\n          <div class=\"step-dot\">2</div>\n          <span>Cooking</span>"
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "index": 5,
+      "name": "docs",
+      "purpose": "Files located under docs. Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "files": [
+        "docs/decisions/0001-flow-of-events-first-architecture-baseline.md",
+        "docs/decisions/0002-multi-surface-actor-boundaries-and-authority-matrix.md",
+        "docs/decisions/0003-zero-build-vanilla-esm-design-tokens-stack.md",
+        "docs/decisions/0004-realtime-hybrid-state-sync-and-offline-resilience.md",
+        "docs/decisions/0005-kds-ticket-aging-and-web-audio-chime-engine.md",
+        "docs/decisions/0006-counter-pos-multi-tender-and-esc-pos-thermal-printing.md",
+        "docs/decisions/0007-dine-in-table-qr-binding-and-live-service-call-protocol.md",
+        "docs/proposals/2026-08-17-premium-fullstack-fnb-architecture-and-build-plan.md",
+        "docs/recipes/adding-menu-category-and-modifiers.md"
+      ],
+      "snippets": [
+        {
+          "path": "docs/decisions/0001-flow-of-events-first-architecture-baseline.md",
+          "start_line": 1,
+          "end_line": 21,
+          "text": "# ADR-0001: Flow-of-Events-First Architecture Baseline\n\n## Status\nAccepted (2026-08-17)\n\n## Context\nF&B software frequently suffers from catastrophic divergence between abstract software models and real-world restaurant floor dynamics. Common points of failure include:\n- A customer at Table 5 orders, but the app lacks table binding or modifier enforcement, resulting in incomplete kitchen tickets.\n- A cashier cannot quickly settle a bill during peak rush because the UI requires multiple nested modal confirmations.\n- A kitchen chef misses orders because an external audio file fails to load or autoplays were blocked by browser permissions.\n- Code passes unit tests and state assertions, but visual DOM bugs leave modal dialogs unclickable for real customers.\n\n## Decision\n1. **Flow of Events Precedes Code**: Every surface and feature must originate from the physical flow of events outside software:\n   $$\\text{Physical Reality} \\longrightarrow \\text{Required Actions} \\longrightarrow \\text{Workflow Design} \\longrightarrow \\text{Implementation} \\longrightarrow \\text{Rendered Pixel Verification}$$\n2. **Multi-Entrypoint Separation**: The system is split into dedicated actor surfaces (`customer`, `kds`, `pos`, `admin`, `showroom`), ensuring each entrypoint has a specialized, frictionless layout.\n3. **Rendered Pixel Proof**: Verification requires rehearsing the actual rendered DOM and screenshots rather than mocking JS state.\n\n## Consequences\n- **Positive**: Zero discrepancy between what the customer/staff sees and what the business enforces.\n- **Guardrail**: Modifying an action requires reviewing all affected actor entrypoints (e.g. updating menu modifiers touches customer selection, POS grid, and KDS ticket rendering)."
+        },
+        {
+          "path": "docs/decisions/0002-multi-surface-actor-boundaries-and-authority-matrix.md",
+          "start_line": 1,
+          "end_line": 26,
+          "text": "# ADR-0002: Multi-Surface Actor Boundaries and Authority Matrix\n\n## Status\nAccepted (2026-08-17)\n\n## Context\nA single monolithic application attempting to serve customers, kitchen chefs, cashiers, and restaurant owners in one view creates role confusion, security vulnerabilities, and bloated payloads.\n\n## Decision\nWe enforce strict architectural and permission boundaries across 4 core operational surfaces:\n\n1. **Customer Surface (`/customer`)**:\n   - Authority: Tokenized table session (`?table=Txx&s=xxx`). Can append items to active table cart, emit 1-tap service calls, view live prep tracker, calculate split-bill.\n   - Guardrail: Read-only pricing; cannot edit submitted tickets or view other tables' orders.\n2. **Kitchen Surface (`/kds`)**:\n   - Authority: View live incoming tickets, filter by station (`Grill`, `Fry`, `Bar`, `Expo`), bump item prep state (`queued ➔ cooking ➔ ready`).\n   - Guardrail: Cannot modify billing, cancel orders without manager override, or adjust inventory prices.\n3. **Point of Sale Surface (`/pos`)**:\n   - Authority: High-speed counter order entry, table floor status matrix, multi-tender settlement (`Cash`, `DuitNow QR`, `Card`), thermal receipt dispatch.\n   - Guardrail: Voids and discounts >20% require Manager PIN.\n4. **Owner / Operations Surface (`/admin`)**:\n   - Authority: Shift KPI analytics, 86/out-of-stock live toggles, SVG Table QR code generation, staff PIN administration.\n   - Guardrail: Governed by Master Owner PIN.\n\n## Consequences\n- Clean separation of concerns with optimized touch targets per device (Mobile for Customer, Landscape Tablet/Monitor for KDS, POS Terminal for Cashier, Desktop for Admin)."
+        },
+        {
+          "path": "docs/decisions/0003-zero-build-vanilla-esm-design-tokens-stack.md",
+          "start_line": 1,
+          "end_line": 18,
+          "text": "# ADR-0003: Zero-Build Vanilla/ESM and Luxury Design Tokens Stack\n\n## Status\nAccepted (2026-08-17)\n\n## Context\nCommercial POS and KDS systems frequently fail in production due to complex client-side bundling, hydration mismatches, fragile Node/Webpack build steps, and vendor lock-in. Furthermore, generic utility-first UI frameworks often produce sterile, cookie-cutter aesthetics unsuitable for premium F&B brands.\n\n## Decision\n1. **Zero-Build Stack**: The entire suite is authored in native modern HTML5, Vanilla JavaScript (ESM modules), and structured Vanilla CSS.\n2. **Immediate Executability**: Any surface can be opened directly in a browser, served via lightweight static server, or deployed to Cloudflare Pages/Workers without compilation steps.\n3. **Curated Luxury Design Tokens**:\n   - Palette: Deep Noir backgrounds (`#0d0b08`, `#16120e`, `#221c15`), warm gold/champagne accents (`#D4A017`, `#E5C158`, `#9E7710`), crisp semantic accents (Emerald `#2ECC71`, Coral Red `#E74C3C`, Amber `#F39C12`).\n   - Typography: Google Fonts `Playfair Display` (Headlines/Branding), `DM Sans` (Body UI), and `JetBrains Mono` (Prices, Table Codes, Timers).\n   - Glassmorphism & Elevation: Layered surface cards with subtle border illumination (`rgba(212,160,23,0.12)`) and micro-animations.\n\n## Consequences\n- 100% portable, instant loading (<200ms initial paint), zero runtime hydration cost, and visually differentiated luxury branding."
+        },
+        {
+          "path": "docs/decisions/0004-realtime-hybrid-state-sync-and-offline-resilience.md",
+          "start_line": 1,
+          "end_line": 20,
+          "text": "# ADR-0004: Realtime Hybrid State Sync and Offline Resilience\n\n## Status\nAccepted (2026-08-17)\n\n## Context\nA restaurant floor requires instant multi-device coordination (Customer places order $\\rightarrow$ KDS receives ticket $\\rightarrow$ POS updates table status). However, restaurant Wi-Fi is notoriously unstable. If an internet blip drops an entire table's active cart or freezes the POS cashier, the business halts.\n\n## Decision\nWe implement a 3-tier hybrid realtime sync architecture in `shared/realtime-adapter.js`:\n\n1. **Tier 1: Browser `BroadcastChannel` (Instant Local Multi-Tab Sync)**:\n   - All open browser tabs (Showroom, KDS, POS, Customer) communicate across an `arh_fnb_sync` channel with zero network latency (<5ms).\n2. **Tier 2: `localStorage` / `IndexedDB` (Crash Resilience & Offline Queue)**:\n   - Full active state (Orders, Table matrix, 86 inventory) is continuously serialized to persistent storage. If a device refreshes or loses connection, state is restored immediately.\n3. **Tier 3: Cloud Realtime Provider (Firebase RTDB / WebSocket Gateway)**:\n   - When configured, changes publish upstream to Firebase RTDB for cross-network restaurant synchronization. If offline, mutations queue locally and replay upon reconnection.\n\n## Consequences\n- Guaranteed sub-second responsiveness, seamless showroom demonstrations without requiring cloud setup, and rock-solid resilience against network dropouts."
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "index": 6,
+      "name": "evidence",
+      "purpose": "Files located under evidence. Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "files": [
+        "evidence/test-sandbox.html"
+      ],
+      "snippets": [
+        {
+          "path": "evidence/test-sandbox.html",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>ARH-MAKAN Living Test Sandbox & Operator Review Suite</title>\n  <style>\n    :root {\n      --bg-dark: #0b0d14;\n      --bg-surface: #121520;\n      --border-color: #242938;\n      --gold: #d4af37;\n      --gold-light: #f3e5ab;\n      --text: #f8fafc;\n      --text-muted: #94a3b8;\n    }\n    * { box-sizing: border-box; margin: 0; padding: 0; }\n    body {\n      font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif;\n      background: var(--bg-dark);\n      color: var(--text);\n      display: flex;\n      flex-direction: column;\n      height: 100vh;\n      overflow: hidden;\n    }\n    header {\n      background: var(--bg-surface);\n      border-bottom: 1px solid var(--border-color);\n      padding: 10px 20px;\n      display: flex;\n      justify-content: space-between;\n      align-items: center;\n      flex-wrap: wrap;\n      gap: 12px;\n      z-index: 100;\n    }\n    .header-left {\n      display: flex;\n      align-items: center;"
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "index": 7,
+      "name": "kds",
+      "purpose": "Files located under kds. Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "files": [
+        "kds/index.html",
+        "kds/kds.css",
+        "kds/kds.js"
+      ],
+      "snippets": [
+        {
+          "path": "kds/index.html",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Woodfire KDS · Kitchen Operations</title>\n  <link rel=\"stylesheet\" href=\"../shared/theme.css\">\n  <link rel=\"stylesheet\" href=\"./kds.css\">\n  <script src=\"../shared/flight-recorder.js\"></script>\n</head>\n<body class=\"kds-layout\">\n\n  <!-- Audio Unlock Banner -->\n  <div id=\"audio-unlock-banner\" style=\"background: var(--gold-primary); color: #080604; text-align: center; padding: 8px 12px; font-weight: bold; cursor: pointer; font-size: 0.85rem;\">\n    🔔 Tap here to enable Kitchen Audio Chimes for incoming orders\n  </div>\n\n  <!-- Header -->\n  <header class=\"kds-header\">\n    <div class=\"kds-brand\">\n      <a href=\"../index.html\" class=\"btn btn-sm btn-secondary\" style=\"padding: 6px 12px; text-decoration: none;\">← Hub</a>\n      <div class=\"kds-logo\">🔥</div>\n      <div>\n        <h1 class=\"kds-title\">Woodfire KDS</h1>\n        <div class=\"kds-subtitle\">Live Kitchen Operations System</div>\n      </div>\n    </div>\n\n    <!-- Station Selector -->\n    <nav class=\"kds-stations\" id=\"kds-station-nav\">\n      <button class=\"station-btn active\" data-station=\"all\">All Stations <span class=\"st-count\" id=\"count-all\">0</span></button>\n      <button class=\"station-btn\" data-station=\"grill\">🥩 Grill <span class=\"st-count\" id=\"count-grill\">0</span></button>\n      <button class=\"station-btn\" data-station=\"fry\">🍟 Fry <span class=\"st-count\" id=\"count-fry\">0</span></button>\n      <button class=\"station-btn\" data-station=\"bar\">🥤 Bar <span class=\"st-count\" id=\"count-bar\">0</span></button>\n      <button class=\"station-btn\" data-station=\"expo\">📋 Expo Summary</button>\n    </nav>\n\n    <!-- Controls -->\n    <div class=\"kds-controls\">\n      <div class=\"badge badge-gold\" id=\"active-count\">0 Active Tickets</div>"
+        },
+        {
+          "path": "kds/kds.css",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "/* Kitchen Display System (KDS) Layout & Card Styles */\n\n.kds-layout {\n  display: flex;\n  flex-direction: column;\n  height: 100vh;\n  overflow: hidden;\n  background-color: #080604;\n}\n\n/* Header */\n.kds-header {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 12px 20px;\n  background: var(--bg-surface);\n  border-bottom: 1px solid var(--border-card);\n  gap: 16px;\n  flex-shrink: 0;\n}\n\n.kds-brand {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n\n.kds-logo {\n  width: 38px;\n  height: 38px;\n  border-radius: 50%;\n  background: var(--gold-primary);\n  color: #080604;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 20px;\n  font-weight: bold;\n}"
+        },
+        {
+          "path": "kds/kds.js",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "import { hub } from '../shared/realtime-adapter.js';\nimport { sound } from '../shared/audio-engine.js';\nimport { escPos } from '../shared/escpos-formatter.js';\n\nlet currentStation = 'all';\nlet previousOrderCount = 0;\n\n// Audio unlock handler\nconst audioBtn = document.getElementById('audio-toggle-btn');\nconst audioBanner = document.getElementById('audio-unlock-banner');\n\nfunction handleUnlockAudio() {\n  sound.unlock();\n  if (audioBanner) audioBanner.style.display = 'none';\n  if (audioBtn) {\n    audioBtn.innerHTML = '🔔 Audio ON';\n    audioBtn.classList.remove('btn-secondary');\n    audioBtn.classList.add('btn-primary');\n  }\n}\n\nif (audioBtn) audioBtn.addEventListener('click', handleUnlockAudio);\nif (audioBanner) audioBanner.addEventListener('click', handleUnlockAudio);\n\n// Station Filter Selection\ndocument.querySelectorAll('.station-btn').forEach(btn => {\n  btn.addEventListener('click', (e) => {\n    document.querySelectorAll('.station-btn').forEach(b => b.classList.remove('active'));\n    e.currentTarget.classList.add('active');\n    currentStation = e.currentTarget.dataset.station;\n    renderTickets(hub.getOrders());\n  });\n});\n\n// Live Service Requests\nfunction renderServiceAlerts(requests) {\n  const alertContainer = document.getElementById('service-alert-container');\n  if (!alertContainer) return;\n\n  const activeReqs = requests.filter(r => r.status === 'active');"
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "index": 8,
+      "name": "pos",
+      "purpose": "Files located under pos. Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "files": [
+        "pos/index.html",
+        "pos/pos.css",
+        "pos/pos.js"
+      ],
+      "snippets": [
+        {
+          "path": "pos/index.html",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Woodfire POS · Cashier & Terminal</title>\n  <link rel=\"stylesheet\" href=\"../shared/theme.css\">\n  <link rel=\"stylesheet\" href=\"./pos.css\">\n  <script src=\"../shared/flight-recorder.js\"></script>\n</head>\n<body class=\"pos-layout\">\n\n  <!-- Left Category Rail -->\n  <aside class=\"pos-rail\" id=\"pos-category-rail\">\n    <!-- Rendered dynamically -->\n  </aside>\n\n  <!-- Center Main Menu Column -->\n  <main class=\"pos-main-col\">\n    <div class=\"pos-topbar\">\n      <div style=\"display: flex; align-items: center; gap: 12px;\">\n        <a href=\"../index.html\" class=\"btn btn-sm btn-secondary\" style=\"padding: 6px 12px; text-decoration: none;\">← Hub</a>\n        <div style=\"font-family: var(--font-display); font-size: 1.2rem; color: var(--gold-light);\">\n          Woodfire POS\n        </div>\n      </div>\n      <div class=\"pos-search\">\n        <input type=\"text\" class=\"form-input\" id=\"pos-search-input\" placeholder=\"🔍 Search menu item or code...\">\n      </div>\n      <div class=\"badge badge-success\">● Cashier Ready</div>\n    </div>\n\n    <!-- Product Grid or Tables Map -->\n    <div class=\"pos-grid\" id=\"pos-menu-grid\">\n      <!-- Rendered dynamically -->\n    </div>\n  </main>\n\n  <!-- Right Cart & Tender Column -->\n  <aside class=\"pos-cart-col\">"
+        },
+        {
+          "path": "pos/pos.css",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "/* Counter POS Layout & Touch Grid Styles */\n\n.pos-layout {\n  display: flex;\n  height: 100vh;\n  overflow: hidden;\n  background-color: #080604;\n}\n\n/* Category Sidebar Rail */\n.pos-rail {\n  width: 100px;\n  background: var(--bg-surface);\n  border-right: 1px solid var(--border-card);\n  display: flex;\n  flex-direction: column;\n  padding: 12px 6px;\n  gap: 8px;\n  overflow-y: auto;\n  flex-shrink: 0;\n}\n\n.rail-btn {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 12px 6px;\n  background: transparent;\n  border: 1px solid transparent;\n  border-radius: var(--radius-md);\n  color: var(--text-secondary);\n  font-family: var(--font-body);\n  font-size: 0.75rem;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all var(--transition-fast);\n  text-align: center;\n}\n"
+        },
+        {
+          "path": "pos/pos.js",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "import { hub } from '../shared/realtime-adapter.js';\nimport { sound } from '../shared/audio-engine.js';\nimport { escPos } from '../shared/escpos-formatter.js';\n\nlet menuData = null;\nlet currentCategory = 'burgers';\nlet currentTable = 'T01';\nlet cart = [];\nlet pendingModifierItem = null;\n\n// Initialize\nasync function init() {\n  try {\n    const res = await fetch('../shared/mock-data/menu.json');\n    menuData = await res.json();\n    renderCategories();\n    renderMenuGrid();\n    renderTableSelector();\n    updateCartUI();\n  } catch (e) {\n    console.error('Failed to load menu data:', e);\n  }\n}\n\n// Category Rail\nfunction renderCategories() {\n  const rail = document.getElementById('pos-category-rail');\n  if (!rail || !menuData) return;\n\n  const categories = [\n    { id: 'tables', name: 'Tables', icon: '🪑' },\n    ...menuData.categories\n  ];\n\n  rail.innerHTML = categories.map(cat => `\n    <button class=\"rail-btn ${cat.id === currentCategory ? 'active' : ''}\" data-cat=\"${cat.id}\">\n      <div class=\"rail-icon\">${cat.icon}</div>\n      <div>${cat.name}</div>\n    </button>\n  `).join('');"
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "index": 9,
+      "name": "scripts",
+      "purpose": "Files located under scripts. Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "files": [
+        "scripts/arh-ci-doctor.mjs",
+        "scripts/check.mjs",
+        "scripts/generate-test-sandbox.mjs",
+        "scripts/lint.mjs",
+        "scripts/profile-assets.mjs",
+        "scripts/test-qr-verify.mjs",
+        "scripts/test-showroom-bridge.mjs",
+        "scripts/verify-a11y-html.mjs",
+        "scripts/verify-infra-preflight.mjs"
+      ],
+      "snippets": [
+        {
+          "path": "scripts/arh-ci-doctor.mjs",
+          "start_line": 1,
+          "end_line": 32,
+          "text": "#!/usr/bin/env node\nimport { execSync } from 'node:child_process';\nimport path from 'node:path';\nimport { fileURLToPath } from 'node:url';\n\nconst __filename = fileURLToPath(import.meta.url);\nconst __dirname = path.dirname(__filename);\nconst root = path.resolve(__dirname, '..');\n\nconsole.log('🩺 Running ARH CI Doctor & Full Devtool Suite for ARH-MAKAN...\\n');\n\nfunction run(cmd, desc) {\n  process.stdout.write(`⚙️ ${desc}... `);\n  try {\n    execSync(cmd, { cwd: root, stdio: 'pipe' });\n    console.log('✅ OK');\n  } catch (err) {\n    console.log('❌ FAILED');\n    console.error(err.stderr ? err.stderr.toString() : err.message);\n    process.exit(1);\n  }\n}\n\nrun('node scripts/check.mjs', '1. Static Integrity & Schema Validation');\nrun('node scripts/lint.mjs', '2. ESM JavaScript Syntax & Linter Gate');\nrun('node scripts/verify-a11y-html.mjs', '3. HTML5 & A11y Accessibility Verification');\nrun('node scripts/profile-assets.mjs', '4. Performance Budget & Asset Profiler');\nrun('node scripts/test-showroom-bridge.mjs', '5. Showroom Bridge & Station-Routing Suite');\nrun('node scripts/test-qr-verify.mjs', '6. QR Code Matrix Scannability & Density Gate');\nrun('node scripts/verify-infra-preflight.mjs', '7. Cloud Infrastructure & Config Preflight');\n\nconsole.log('\\n🎉 🩺 CI Doctor completed all 7 validation gates successfully!');"
+        },
+        {
+          "path": "scripts/check.mjs",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "#!/usr/bin/env node\nimport fs from 'node:fs';\nimport path from 'node:path';\nimport { fileURLToPath } from 'node:url';\n\nconst __filename = fileURLToPath(import.meta.url);\nconst __dirname = path.dirname(__filename);\nconst root = path.resolve(__dirname, '..');\n\nconsole.log('🔍 Running ARH-MAKAN Static Integrity & Syntax Doctor...\\n');\n\nlet errors = 0;\nlet passes = 0;\n\nfunction checkFile(filePath, desc, validator) {\n  const fullPath = path.join(root, filePath);\n  if (!fs.existsSync(fullPath)) {\n    console.error(`❌ [MISSING] ${desc}: ${filePath}`);\n    errors++;\n    return;\n  }\n  try {\n    const content = fs.readFileSync(fullPath, 'utf-8');\n    if (validator) {\n      validator(content, fullPath);\n    }\n    console.log(`✅ [PASS] ${desc}: ${filePath}`);\n    passes++;\n  } catch (err) {\n    console.error(`❌ [FAIL] ${desc}: ${filePath} -> ${err.message}`);\n    errors++;\n  }\n}\n\n// 1. Check Core Schemas and JSON Files\ncheckFile('shared/schema.json', 'JSON Schema Definition', (content) => {\n  JSON.parse(content);\n});\n\ncheckFile('shared/mock-data/menu.json', 'Menu Catalog Data', (content) => {"
+        },
+        {
+          "path": "scripts/generate-test-sandbox.mjs",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "/**\n * Living Multi-Surface Test Sandbox Generator\n * Builds a standalone, interactive test harness HTML page allowing operators\n * to view, test, and manipulate all 4 surfaces (Customer, KDS, POS, Admin) side-by-side.\n */\n\nimport fs from 'node:fs';\nimport path from 'node:path';\nimport { fileURLToPath } from 'node:url';\n\nconst __filename = fileURLToPath(import.meta.url);\nconst __dirname = path.dirname(__filename);\nconst root = path.resolve(__dirname, '..');\n\nconst sandboxHtml = `<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>ARH-MAKAN Living Test Sandbox & Operator Review Suite</title>\n  <style>\n    :root {\n      --bg-dark: #0b0d14;\n      --bg-surface: #121520;\n      --border-color: #242938;\n      --gold: #d4af37;\n      --gold-light: #f3e5ab;\n      --text: #f8fafc;\n      --text-muted: #94a3b8;\n    }\n    * { box-sizing: border-box; margin: 0; padding: 0; }\n    body {\n      font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif;\n      background: var(--bg-dark);\n      color: var(--text);\n      display: flex;\n      flex-direction: column;\n      height: 100vh;\n      overflow: hidden;\n    }"
+        },
+        {
+          "path": "scripts/lint.mjs",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "#!/usr/bin/env node\nimport fs from 'node:fs';\nimport path from 'node:path';\nimport { fileURLToPath } from 'node:url';\n\nconst __filename = fileURLToPath(import.meta.url);\nconst __dirname = path.dirname(__filename);\nconst root = path.resolve(__dirname, '..');\n\nconsole.log('🧹 Running ARH-MAKAN ESM Syntax & Linter Gate...\\n');\n\nconst jsFiles = [\n  'shared/realtime-adapter.js',\n  'shared/audio-engine.js',\n  'customer/customer.js',\n  'kds/kds.js',\n  'pos/pos.js',\n  'admin/admin.js',\n  'showroom/showroom.js',\n  'scripts/check.mjs',\n  'scripts/arh-ci-doctor.mjs',\n  'scripts/profile-assets.mjs'\n];\n\nlet errors = 0;\n\nfor (const file of jsFiles) {\n  const fullPath = path.join(root, file);\n  if (!fs.existsSync(fullPath)) {\n    console.error(`❌ [MISSING] ${file}`);\n    errors++;\n    continue;\n  }\n\n  const content = fs.readFileSync(fullPath, 'utf-8');\n\n  // Check 1: Forbidden patterns (e.g. alert in core logic or accidental console.trace)\n  if (content.includes('debugger;')) {\n    console.error(`❌ [LINT] ${file} contains forbidden 'debugger;' statement`);\n    errors++;"
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "index": 10,
+      "name": "shared",
+      "purpose": "Files located under shared. Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "files": [
+        "shared/audio-engine.js",
+        "shared/escpos-formatter.js",
+        "shared/flight-recorder.js",
+        "shared/mock-data/menu.json",
+        "shared/qr-generator.js",
+        "shared/realtime-adapter.js",
+        "shared/schema.json",
+        "shared/showroom-bridge.js",
+        "shared/theme.css"
+      ],
+      "snippets": [
+        {
+          "path": "shared/audio-engine.js",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "/**\n * ARH-MAKAN Web Audio Synthesized Chime Engine\n * Absorbed and upgraded from amogha-cafe/kitchen.\n * Generates zero-latency synthesized bells/pings without external audio files.\n */\n\nclass FnbAudioEngine {\n  constructor() {\n    this.ctx = null;\n    this.isUnlocked = false;\n  }\n\n  init() {\n    if (!this.ctx) {\n      const AudioCtx = window.AudioContext || window.webkitAudioContext;\n      if (AudioCtx) {\n        this.ctx = new AudioCtx();\n      }\n    }\n    if (this.ctx && this.ctx.state === 'suspended') {\n      this.ctx.resume();\n    }\n    this.isUnlocked = !!(this.ctx && this.ctx.state === 'running');\n    return this.isUnlocked;\n  }\n\n  unlock() {\n    const success = this.init();\n    if (success) {\n      this.playGentlePing();\n    }\n    return success;\n  }\n\n  /**\n   * Dual-tone marimba chime for incoming orders\n   */\n  playNewOrderChime() {\n    if (!this.init()) return;\n    const now = this.ctx.currentTime;"
+        },
+        {
+          "path": "shared/escpos-formatter.js",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "/**\n * ESC/POS Thermal Receipt & Kitchen Prep Ticket Formatter\n * Ported from industry-standard POS patterns (Kasirku / escpos-php / Star Micronics).\n * Supports 58mm (32 cols) and 80mm (42/48 cols) thermal rolls, raw byte buffers,\n * and high-fidelity pixel-perfect browser thermal print previews.\n */\n\nexport const PaperWidth = {\n  MM_58: 32,\n  MM_80: 42,\n  MM_80_WIDE: 48\n};\n\nexport class EscPosReceiptBuilder {\n  constructor(options = {}) {\n    this.width = options.width || PaperWidth.MM_80;\n    this.storeName = options.storeName || 'WOODFIRE KULIM';\n    this.tagline = options.tagline || 'Gourmet Burgers & Smoked Meats';\n    this.contact = options.contact || 'Tel: +60 16-979 9778';\n    this.address = options.address || 'Kulim Square Commercial Centre, Kedah';\n    this.taxRate = options.taxRate !== undefined ? options.taxRate : 0.06;\n    this.taxName = options.taxName || 'SST (6%)';\n    this.currency = options.currency || 'RM';\n  }\n\n  // --- String Formatting Helpers ---\n\n  padLine(left, right, width = this.width) {\n    const leftStr = String(left || '');\n    const rightStr = String(right || '');\n    const spaceCount = Math.max(1, width - leftStr.length - rightStr.length);\n    return leftStr + ' '.repeat(spaceCount) + rightStr;\n  }\n\n  centerText(text, width = this.width) {\n    const str = String(text || '');\n    if (str.length >= width) return str.slice(0, width);\n    const pad = Math.floor((width - str.length) / 2);\n    return ' '.repeat(pad) + str;\n  }"
+        },
+        {
+          "path": "shared/flight-recorder.js",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "/**\n * ARH Frontend Flight Recorder & Agent Telemetry Engine (v1.0)\n * Lightweight (2KB), zero-dependency client telemetry engine.\n * Records user interaction trajectories, network payloads, state mutations, and unhandled JS exceptions\n * into structured JSON Lines (.jsonl) for instant agent inspection without manual explanations.\n */\n\n(function () {\n  if (typeof window === 'undefined') return;\n  if (window.__ARH_FLIGHT_RECORDER_INITIALIZED__) return;\n  window.__ARH_FLIGHT_RECORDER_INITIALIZED__ = true;\n\n  const STORAGE_KEY = 'arh_flight_record_events';\n  const MAX_EVENTS = 200;\n  const events = [];\n\n  function getSurfaceName() {\n    const p = window.location.pathname;\n    if (p.includes('/customer')) return 'Customer';\n    if (p.includes('/kds')) return 'KDS';\n    if (p.includes('/pos')) return 'POS';\n    if (p.includes('/admin')) return 'Admin';\n    if (p.includes('/showroom')) return 'Showroom';\n    return 'Hub';\n  }\n\n  function record(type, payload = {}) {\n    const entry = {\n      timestamp: new Date().toISOString(),\n      surface: getSurfaceName(),\n      url: window.location.href,\n      type,\n      ...payload\n    };\n\n    events.push(entry);\n    if (events.length > MAX_EVENTS) events.shift();\n\n    try {\n      localStorage.setItem(STORAGE_KEY, JSON.stringify(events));"
+        },
+        {
+          "path": "shared/mock-data/menu.json",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "{\n  \"restaurant\": {\n    \"name\": \"Woodfire Kulim\",\n    \"tagline\": \"Premium Smoked Meats & Gourmet Burgers\",\n    \"currency\": \"RM\",\n    \"locale\": \"en-MY\",\n    \"phone\": \"60169799778\",\n    \"tax_rate\": 0.06\n  },\n  \"categories\": [\n    { \"id\": \"burgers\", \"name\": \"Gourmet Burgers\", \"icon\": \"🍔\" },\n    { \"id\": \"smoked\", \"name\": \"Smoked Meats & Steaks\", \"icon\": \"🥩\" },\n    { \"id\": \"chicken\", \"name\": \"Crispy Chicken\", \"icon\": \"🍗\" },\n    { \"id\": \"sides\", \"name\": \"Artisan Sides\", \"icon\": \"🍟\" },\n    { \"id\": \"shakes\", \"name\": \"Signature Shakes & Drinks\", \"icon\": \"🥤\" }\n  ],\n  \"items\": [\n    {\n      \"id\": \"wf-gourmet-burger\",\n      \"name\": \"Woodfire Gourmet Burger\",\n      \"category\": \"burgers\",\n      \"price\": 24.90,\n      \"description\": \"Signature smashed beef patty, smoked turkey bacon, melted Monterey Jack, caramelized onions, house barbecue glaze.\",\n      \"badge\": \"Signature\",\n      \"station\": \"grill\",\n      \"dietary\": [\"halal\"],\n      \"is_sold_out\": false,\n      \"modifiers\": [\n        {\n          \"id\": \"bun\",\n          \"name\": \"Bun Selection\",\n          \"type\": \"single\",\n          \"required\": true,\n          \"options\": [\n            { \"name\": \"Toasted Brioche\", \"price\": 0 },\n            { \"name\": \"Charcoal Sesame\", \"price\": 1.50 },\n            { \"name\": \"Lettuce Wrap (Low Carb)\", \"price\": 0 }\n          ]\n        },\n        {"
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "index": 11,
+      "name": "showroom",
+      "purpose": "Files located under showroom. Grouped by directory because this manual was generated with --no-llm (no AI narrative).",
+      "owner_angle": "These files sit together in the project layout.",
+      "files": [
+        "showroom/index.html",
+        "showroom/showroom.css",
+        "showroom/showroom.js"
+      ],
+      "snippets": [
+        {
+          "path": "showroom/index.html",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>ARH-MAKAN · Multi-Surface Showroom</title>\n  <link rel=\"stylesheet\" href=\"../shared/theme.css\">\n  <link rel=\"stylesheet\" href=\"./showroom.css\">\n</head>\n<body class=\"showroom-layout\">\n\n  <!-- Top Switcher Bar -->\n  <header class=\"showroom-topbar\">\n    <div class=\"showroom-brand\">\n      <a href=\"../index.html\" class=\"btn btn-sm btn-secondary\" style=\"padding: 6px 12px; text-decoration: none;\">← Hub</a>\n      <div style=\"font-size: 1.6rem;\">🔥</div>\n      <div>\n        <div style=\"font-family: var(--font-display); font-weight: bold; color: var(--gold-light); font-size: 1.15rem;\">\n          ARH-MAKAN\n        </div>\n        <div class=\"text-xs text-muted\">Multi-Surface Operating Suite Showroom</div>\n      </div>\n    </div>\n\n    <!-- Surface Switcher Tabs -->\n    <nav class=\"showroom-surface-selector\">\n      <button class=\"surface-tab-btn active\" data-surface=\"customer\">📱 Customer Dine-In</button>\n      <button class=\"surface-tab-btn\" data-surface=\"kds\">👨‍🍳 Kitchen KDS</button>\n      <button class=\"surface-tab-btn\" data-surface=\"pos\">💻 Counter POS</button>\n      <button class=\"surface-tab-btn\" data-surface=\"admin\">📊 Owner Admin</button>\n    </nav>\n\n    <!-- Controls -->\n    <div style=\"display: flex; align-items: center; gap: 12px;\">\n      <span class=\"text-xs mono text-muted\" id=\"preview-title-label\">Customer Dine-In Menu (Mobile)</span>\n      <a id=\"preview-open-link\" href=\"../customer/index.html?table=T05\" target=\"_blank\" class=\"btn btn-sm btn-primary\">\n        Open in Tab ↗\n      </a>\n    </div>\n  </header>"
+        },
+        {
+          "path": "showroom/showroom.css",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "/* Multi-Surface Showroom Switcher Styles */\n\n.showroom-layout {\n  display: flex;\n  flex-direction: column;\n  height: 100vh;\n  overflow: hidden;\n  background-color: #060504;\n}\n\n.showroom-topbar {\n  background: var(--bg-surface);\n  border-bottom: 1px solid var(--border-card);\n  padding: 12px 24px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 16px;\n  flex-shrink: 0;\n  z-index: 100;\n}\n\n.showroom-brand {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n}\n\n.showroom-surface-selector {\n  display: flex;\n  background: var(--bg-surface-raised);\n  padding: 4px;\n  border-radius: var(--radius-md);\n  border: 1px solid var(--border-card);\n  gap: 6px;\n}\n\n.surface-tab-btn {\n  background: transparent;\n  border: 1px solid transparent;"
+        },
+        {
+          "path": "showroom/showroom.js",
+          "start_line": 1,
+          "end_line": 40,
+          "text": "const surfaces = {\n  customer: {\n    url: '../customer/index.html?table=T05',\n    title: 'Customer Dine-In Menu (Mobile)',\n    device: 'mobile'\n  },\n  kds: {\n    url: '../kds/index.html',\n    title: 'Kitchen Display System (Landscape)',\n    device: 'tablet'\n  },\n  pos: {\n    url: '../pos/index.html',\n    title: 'Counter POS Terminal (Desktop)',\n    device: 'desktop'\n  },\n  admin: {\n    url: '../admin/index.html',\n    title: 'Store Owner & Operations Console',\n    device: 'desktop'\n  }\n};\n\nconst iframe = document.getElementById('showroom-iframe');\nconst frame = document.getElementById('device-frame');\nconst label = document.getElementById('preview-title-label');\nconst openLink = document.getElementById('preview-open-link');\n\nfunction switchSurface(surfaceKey) {\n  const cfg = surfaces[surfaceKey];\n  if (!cfg) return;\n\n  // Update tabs\n  document.querySelectorAll('.surface-tab-btn').forEach(btn => {\n    btn.classList.toggle('active', btn.dataset.surface === surfaceKey);\n  });\n\n  // Update device frame class\n  frame.className = `device-frame ${cfg.device}`;\n"
+        }
+      ],
+      "relationships": []
+    }
+  ],
+  "warnings": [],
+  "llm_meta": {
+    "stage_calls": []
+  },
+  "llm_drafted": {
+    "at_a_glance": false,
+    "glossary": false,
+    "chapters": []
+  }
+}

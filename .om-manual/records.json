@@ -1,0 +1,79 @@
+{
+  "target": "D:\\ARH-GITHUB\\arhsmoque2\\ARH-MAKAN",
+  "agents_md": {
+    "path": "AGENTS.md",
+    "excerpt": "# AGENTS.md — ARH-MAKAN\n\n## Runtime Orientation\n- **Role**: Autonomous, Efficient, Compliant Agent.\n- **Objective**: Deliver and maintain the production-grade F&B operating suite adhering strictly to Flow-of-Events-First and zero-build Vanilla/ESM edge architecture.\n\n## Prime Directives\n1. **Flow of Events First**: Always verify changes against actual rendered DOM/pixels and live UI state transitions.\n2. **Zero-Build Edge Architecture**: Pure Vanilla JS/ESM, HTML5, and curated CSS tokens. No heavyweight bundlers or compile steps required to serve or test.\n3. **Cross-Origin Resilient**: Multi-surface state sync operates across independent Cloudflare Worker origins via Tier 3 Firebase RTDB REST + SSE streams, with local BroadcastChannel and localStorage fallbacks.\n4. **Honest Status Reporting**: Never report false-positive cloud sync states in status HUDs. `cloudActive` must reflect verified network connectivity.\n5. **Traceability via Flight Recorder**: Use the built-in telemetry flight recorder (`shared/flight-recorder.js`) to capture user action trajectories, network payloads, and unhandled errors into machine-readable JSONL.\n\n## Secrets & Configuration Governance\n- **Zero Plaintext Secrets**: Never commit plaintext API keys, tokens, or private identity paths to this repository.\n- **Environment Injection**: Configuration and runtime tokens are injected via standard environment variables (e.g. `FIREBASE_RTDB_URL`, `CLOUDFLARE_API_TOKEN`) or resolved through the central ARH secret injector mechanism.\n- **Offline-First Resilience**: The multi-surface suite operates fully offline-first using local `BroadcastChannel` and `localStorage` state buses. Cloud database sync is an optional tier configured strictly via environment or runtime settings.\n\n## Standard Verification Gate\nAlways run the full 7-gate CI Doctor before committing or merging:\n```bash\nnode scripts/arh-ci-doctor.mjs\n```\n"
+  },
+  "readmes": [
+    {
+      "path": ".claude/skills/fnb-taste-palette-design/README.md",
+      "usage_sections": []
+    },
+    {
+      "path": "README.md",
+      "usage_sections": []
+    }
+  ],
+  "decisions": [],
+  "design_docs": [],
+  "port_markers": [
+    {
+      "path": ".claude/skills/flow-of-events-first/SKILL.md",
+      "line": 56,
+      "text": "It was reported as verified.",
+      "context_before": "back correct cart totals and validation payloads out of JavaScript state."
+    },
+    {
+      "path": ".claude/skills/flow-of-events-first/recipes/worked-example-modifiers.md",
+      "line": 63,
+      "text": "tiers reported correct cart contents and correct `/validate-order` payload",
+      "context_before": "buttons and read `cart`/`state.cart` back via `page.evaluate`. All three"
+    },
+    {
+      "path": ".claude/skills/flow-of-events-first/recipes/worked-example-modifiers.md",
+      "line": 64,
+      "text": "shapes. This was reported as verified.",
+      "context_before": "tiers reported correct cart contents and correct `/validate-order` payload"
+    },
+    {
+      "path": "README.md",
+      "line": 68,
+      "text": "- **Agent Flight Recorder Export**: 1-click export of structured JSONL error logs with action trajectories and stack traces.",
+      "context_before": "- **Scenario Triggers**: 1-click injection of 4-order Rush Hour waves, 86 inventory toggles, and waiter call bells."
+    }
+  ],
+  "recovery_markers": [
+    {
+      "path": ".claude/skills/fnb-taste-palette-design/SKILL.md",
+      "line": 111,
+      "text": "- rollback_requirement"
+    },
+    {
+      "path": ".claude/skills/fnb-taste-palette-design/checklists/fnb-taste-review-checklist.md",
+      "line": 69,
+      "text": "- Rollback or previous snapshot is planned."
+    },
+    {
+      "path": ".claude/skills/fnb-taste-palette-design/references/github-native-governance-options.md",
+      "line": 78,
+      "text": "- rollback path;"
+    },
+    {
+      "path": "docs/decisions/0004-realtime-hybrid-state-sync-and-offline-resilience.md",
+      "line": 15,
+      "text": "- Full active state (Orders, Table matrix, 86 inventory) is continuously serialized to persistent storage. If a device refreshes or loses connection, state is restored immediately."
+    }
+  ],
+  "git": {
+    "is_repo": true,
+    "repo_root": "D:/ARH-GITHUB/arhsmoque2/ARH-MAKAN",
+    "log": [
+      "b422361 feat: dynamic QR engine, Tier 3 cloud sync, KDS expo aggregation, ESC/POS thermal receipts, and Showroom bridge (#1)",
+      "462275f feat: central index hub portal with back navigation on all surfaces and single bookmarkable root URL",
+      "087c9c8 feat: add asset profiler, lint gate, a11y validator, Cloudflare Workers deployment config & CI workflow",
+      "90880b1 feat: complete full-stack F&B suite (ADRs, KDS, POS, Customer Dine-In, Admin, Showroom, CI Doctor)",
+      "aeee659 feat: initial repository scaffold, architecture blueprint, and 6-phase build plan"
+    ],
+    "error": null
+  }
+}

@@ -1,20 +1,64 @@
 /**
- * ARH-MAKAN Cloudflare Worker Static Assets Router
- * Directs root traffic to /showroom/ and serves all static assets across customer, kds, pos, admin.
+ * ARH-MAKAN Cloudflare Worker Static Assets & Realtime Config Router
+ * Serves all static assets across customer, kds, pos, admin, and showroom.
+ * Automatically injects Tier 3 Firebase RTDB runtime configuration into served HTML pages.
  */
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // Root path serves the central hub
-    if (url.pathname === '/' || url.pathname === '') {
-      return env.ASSETS.fetch(new Request(`${url.origin}/index.html`, request));
+    // Dynamic runtime config endpoint
+    if (url.pathname === '/api/config') {
+      const dbUrl = env.FIREBASE_DATABASE_URL || 'https://arh-firebase-db-default-rtdb.asia-southeast1.firebasedatabase.app';
+      return new Response(JSON.stringify({
+        firebase: {
+          url: dbUrl,
+          root: 'woodfire_kulim'
+        }
+      }), {
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'public, max-age=300',
+          'Access-Control-Allow-Origin': '*'
+        }
+      });
     }
 
-    const response = await env.ASSETS.fetch(request);
+    // Direct root request to index.html
+    const targetRequest = (url.pathname === '/' || url.pathname === '')
+      ? new Request(`${url.origin}/index.html`, request)
+      : request;
 
-    // Add security and performance headers
+    const response = await env.ASSETS.fetch(targetRequest);
+    const contentType = response.headers.get('Content-Type') || '';
+
+    // If serving HTML, inject runtime window.ARH_REALTIME_CONFIG into <head>
+    const dbUrl = env.FIREBASE_DATABASE_URL || 'https://arh-firebase-db-default-rtdb.asia-southeast1.firebasedatabase.app';
+    if (contentType.includes('text/html') && typeof HTMLRewriter !== 'undefined') {
+      const configScript = `<script>window.ARH_REALTIME_CONFIG = { url: ${JSON.stringify(dbUrl)}, root: "woodfire_kulim" };</script>`;
+      
+      const transformed = new HTMLRewriter()
+        .on('head', {
+          element(el) {
+            el.append(configScript, { html: true });
+          }
+        })
+        .transform(response);
+
+      const newHeaders = new Headers(transformed.headers);
+      newHeaders.set('X-Content-Type-Options', 'nosniff');
+      newHeaders.set('X-Frame-Options', 'SAMEORIGIN');
+      newHeaders.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+
+      return new Response(transformed.body, {
+        status: transformed.status,
+        statusText: transformed.statusText,
+        headers: newHeaders,
+      });
+    }
+
+    // Default static response
     const newHeaders = new Headers(response.headers);
     newHeaders.set('X-Content-Type-Options', 'nosniff');
     newHeaders.set('X-Frame-Options', 'SAMEORIGIN');
@@ -27,3 +71,4 @@ export default {
     });
   },
 };
+
