@@ -27,6 +27,6 @@ run('node scripts/verify-a11y-html.mjs', '3. HTML5 & A11y Accessibility Verifica
 run('node scripts/profile-assets.mjs', '4. Performance Budget & Asset Profiler');
 run('node scripts/test-showroom-bridge.mjs', '5. Showroom Bridge & Station-Routing Suite');
 run('node scripts/test-qr-verify.mjs', '6. QR Code Matrix Scannability & Density Gate');
-run('node D:/_ARH-AGENT-OS/_AGENT-CAPABILITIES/arh-infra-devkit/bin/arh-infra-doctor.mjs .', '7. Cloud Infrastructure & Live RTDB Preflight');
+run('node scripts/verify-infra-preflight.mjs', '7. Cloud Infrastructure & Config Preflight');
 
 console.log('\n🎉 🩺 CI Doctor completed all 7 validation gates successfully!');

@@ -1,8 +1,8 @@
 /**
- * ARH-MAKAN Shared Realtime State Adapter (v2.1)
+ * ARH-MAKAN Shared Realtime State Adapter (v2.2)
  * Implements 3-Tier Hybrid State Synchronization:
  * - Tier 1: BroadcastChannel (Instant local multi-surface sync <5ms)
- * - Tier 2: localStorage (Crash resilience & offline queue)
+ * - Tier 2: localStorage + MemoryStore (Crash resilience & offline queue)
  * - Tier 3: Zero-Dependency Cross-Origin Cloud Realtime Engine (Firebase RTDB REST + SSE Stream)
  */
 
@@ -13,8 +13,9 @@ class RealtimeHub {
     this.listeners = new Map();
     this.memStore = new Map();
     
-    // Cloud sync state
+    // Cloud sync state (starts false, requires active proven connection)
     this.cloudActive = false;
+    this.cloudState = 'local_only'; // 'local_only' | 'connecting' | 'connected' | 'degraded'
     this.cloudDbUrl = null;
     this.cloudRoot = 'woodfire_kulim';
     this.sseConnections = [];
@@ -37,7 +38,7 @@ class RealtimeHub {
     // Seed initial mock orders if completely empty
     this._seedIfEmpty();
 
-    // Auto-detect and connect Cloud Tier 3 (Cross-Origin Native REST + SSE)
+    // Auto-detect and connect Cloud Tier 3 if configured
     this._initCloudTier();
   }
 
@@ -46,40 +47,52 @@ class RealtimeHub {
   _initCloudTier() {
     if (typeof window === 'undefined') return;
 
-    // Detect Firebase RTDB config from STORE_CONFIG or ARH_REALTIME_CONFIG or default
+    // Detect Firebase RTDB config from explicit runtime globals
     const config = window.ARH_REALTIME_CONFIG || window.STORE_CONFIG?.firebase;
-    const dbUrl = config?.databaseURL || config?.url || 'https://arh-firebase-db-default-rtdb.asia-southeast1.firebasedatabase.app';
+    const dbUrl = config?.databaseURL || config?.url;
     const root = config?.root || 'woodfire_kulim';
 
     if (dbUrl) {
       this.cloudDbUrl = dbUrl.replace(/\/$/, '');
       this.cloudRoot = root;
-      this.cloudActive = true;
+      this.cloudState = 'connecting';
       this._startCloudSync();
-      console.log(`⚡ [ARH-MAKAN Hub] Connected to Tier 3 Cross-Origin Cloud Stream: ${this.cloudDbUrl}/${this.cloudRoot}`);
+    } else {
+      this.cloudState = 'local_only';
+      this.cloudActive = false;
     }
   }
 
   async _startCloudSync() {
     if (!this.cloudDbUrl) return;
 
-    // 1. Initial Fetch of Orders, Service Requests, and Inventory from Cloud
     try {
+      // 1. Initial Fetch of Orders, Service Requests, and Inventory from Cloud
       const [resOrders, resReqs, resInv] = await Promise.allSettled([
-        fetch(`${this.cloudDbUrl}/${this.cloudRoot}/orders.json`).then(r => r.ok ? r.json() : null),
+        fetch(`${this.cloudDbUrl}/${this.cloudRoot}/orders.json`).then(r => r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))),
         fetch(`${this.cloudDbUrl}/${this.cloudRoot}/service_requests.json`).then(r => r.ok ? r.json() : null),
         fetch(`${this.cloudDbUrl}/${this.cloudRoot}/inventory.json`).then(r => r.ok ? r.json() : null)
       ]);
 
-      if (resOrders.status === 'fulfilled' && resOrders.value) {
-        const cloudOrders = Object.values(resOrders.value);
-        cloudOrders.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
-        this._storageSet('orders', JSON.stringify(cloudOrders));
-        this._notify('orders', cloudOrders);
+      if (resOrders.status === 'fulfilled') {
+        this.cloudActive = true;
+        this.cloudState = 'connected';
+        console.log(`⚡ [ARH-MAKAN Hub] Connected to Tier 3 Cross-Origin Cloud Stream: ${this.cloudDbUrl}/${this.cloudRoot}`);
+
+        if (resOrders.value && typeof resOrders.value === 'object') {
+          const cloudOrders = Object.values(resOrders.value).filter(Boolean);
+          cloudOrders.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+          this._storageSet('orders', JSON.stringify(cloudOrders));
+          this._notify('orders', cloudOrders);
+        }
+      } else {
+        this.cloudActive = false;
+        this.cloudState = 'degraded';
+        console.warn('Initial cloud sync failed; running in local fallback mode:', resOrders.reason?.message);
       }
 
       if (resReqs.status === 'fulfilled' && resReqs.value) {
-        const cloudReqs = Object.values(resReqs.value).filter(r => r.status === 'active');
+        const cloudReqs = Object.values(resReqs.value).filter(r => r && r.status === 'active');
         this._storageSet('service_requests', JSON.stringify(cloudReqs));
         this._notify('service_requests', cloudReqs);
       }
@@ -90,11 +103,15 @@ class RealtimeHub {
         this._notify('inventory', list);
       }
     } catch (err) {
-      console.warn('Initial cloud sync fetch error (operating with local fallback):', err.message);
+      this.cloudActive = false;
+      this.cloudState = 'degraded';
+      console.warn('Initial cloud sync fetch error (operating in local fallback):', err.message);
     }
 
-    // 2. Open Realtime Server-Sent Events (SSE) Stream
-    this._openCloudSSE();
+    // 2. Open Realtime Server-Sent Events (SSE) Stream if active
+    if (this.cloudActive) {
+      this._openCloudSSE();
+    }
   }
 
   _openCloudSSE() {
@@ -106,9 +123,9 @@ class RealtimeHub {
         try {
           const payload = JSON.parse(e.data);
           if (payload.path === '/' && payload.data) {
-            const list = Object.values(payload.data);
+            const list = Object.values(payload.data).filter(Boolean);
             list.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
-            this.saveOrders(list, false);
+            this.saveOrders(list);
           } else if (payload.data && typeof payload.data === 'object' && payload.data.order_id) {
             const current = this.getOrders();
             const idx = current.findIndex(o => o.order_id === payload.data.order_id);
@@ -117,7 +134,7 @@ class RealtimeHub {
             } else {
               current.unshift(payload.data);
             }
-            this.saveOrders(current, false);
+            this.saveOrders(current);
           }
         } catch (_) {}
       });
@@ -128,7 +145,7 @@ class RealtimeHub {
           const payload = JSON.parse(e.data);
           if (payload.data) {
             const list = Object.values(payload.data).filter(r => r && r.status === 'active');
-            this.saveServiceRequests(list, false);
+            this.saveServiceRequests(list);
           }
         } catch (_) {}
       });
@@ -140,11 +157,21 @@ class RealtimeHub {
   }
 
   getSyncStatus() {
+    let mode = 'Local Multi-Surface (BroadcastChannel)';
+    if (this.cloudActive) {
+      mode = 'Cloud Synced (Firebase RTDB + SSE)';
+    } else if (this.cloudState === 'degraded') {
+      mode = 'Cloud Sync Degraded (Operating in Local Mode)';
+    } else if (!this.bc) {
+      mode = 'Single-Tab Storage (Offline)';
+    }
+
     return {
       tier: this.cloudActive ? 3 : (this.bc ? 2 : 1),
-      mode: this.cloudActive ? 'Cloud Synced (Firebase RTDB + SSE)' : 'Local Multi-Surface (BroadcastChannel)',
+      mode,
       cloudActive: this.cloudActive,
-      cloudUrl: this.cloudDbUrl
+      cloudState: this.cloudState,
+      cloudUrl: this.cloudActive ? this.cloudDbUrl : null
     };
   }
 
@@ -181,7 +208,7 @@ class RealtimeHub {
     }
   }
 
-  saveOrders(orders, syncToCloud = true) {
+  saveOrders(orders) {
     try {
       this._storageSet('orders', JSON.stringify(orders));
       this._broadcast({ type: 'ORDERS_UPDATED', timestamp: Date.now() });
@@ -200,7 +227,7 @@ class RealtimeHub {
     }
   }
 
-  saveServiceRequests(requests, syncToCloud = true) {
+  saveServiceRequests(requests) {
     try {
       this._storageSet('service_requests', JSON.stringify(requests));
       this._broadcast({ type: 'SERVICE_REQUESTS_UPDATED', timestamp: Date.now() });
