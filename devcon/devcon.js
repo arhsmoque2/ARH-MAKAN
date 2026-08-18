@@ -295,28 +295,28 @@ window.injectRushHour = () => {
   const tables = ['T01', 'T04', 'T08', 'T12'];
   tables.forEach((tbl, idx) => {
     setTimeout(() => {
-      hub.dispatchOrder({
+      hub.createOrder({
         order_id: 'RUSH-' + Math.floor(1000 + Math.random() * 9000),
         table_id: tbl,
-        status: 'placed',
+        status: 'pending',
         items: [
           { name: 'Woodfire Double Beef', category: 'burgers', station: 'grill', qty: 2, unit_price: 29.90, total_price: 59.80 },
           { name: 'Curly Fries', category: 'fries', station: 'fry', qty: 1, unit_price: 8.90, total_price: 8.90 },
           { name: 'Salted Caramel Shake', category: 'shakes', station: 'bar', qty: 2, unit_price: 14.90, total_price: 29.80 }
         ],
         subtotal: 98.50,
-        tax_amount: 5.91,
+        tax: 5.91,
         total_amount: 104.41,
-        created_at: Date.now()
+        created_at: new Date().toISOString()
       });
     }, idx * 250);
   });
 };
 
 window.injectWaiterCalls = () => {
-  hub.dispatchServiceRequest('T03', 'water', 'Ice Water');
-  hub.dispatchServiceRequest('T07', 'cutlery', 'Extra Cutlery');
-  hub.dispatchServiceRequest('T05', 'bill', 'Request Bill');
+  hub.createServiceRequest('T03', 'water', 'Ice Water');
+  hub.createServiceRequest('T07', 'cutlery', 'Extra Cutlery');
+  hub.createServiceRequest('T05', 'bill', 'Request Bill');
 };
 
 window.injectStockToggle = () => {

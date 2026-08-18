@@ -71,7 +71,7 @@ try {
   // 1. Click Rush Hour Wave Scenario Trigger
   console.log('⚡ Injecting Rush Hour Wave (4 concurrent table orders)...');
   await page.evaluate(() => {
-    if (window.triggerRushHourWave) window.triggerRushHourWave();
+    if (window.injectRushHour) window.injectRushHour();
   });
   await page.waitForTimeout(3000);
 
@@ -153,11 +153,15 @@ try {
 }
 
 // Find recorded video and rename to standard artifact
-const videoFiles = fs.readdirSync(recordingsDir).filter(f => f.endsWith('.webm'));
+const targetName = 'arh-makan-multi-surface-simulation.webm';
+const videoFiles = fs.readdirSync(recordingsDir).filter(f => f.endsWith('.webm') && f !== targetName);
 if (videoFiles.length > 0) {
   const latestVideo = videoFiles[videoFiles.length - 1];
-  const targetPath = path.join(recordingsDir, 'arh-makan-multi-surface-simulation.webm');
-  fs.copyFileSync(path.join(recordingsDir, latestVideo), targetPath);
+  const targetPath = path.join(recordingsDir, targetName);
+  fs.renameSync(path.join(recordingsDir, latestVideo), targetPath);
+  // Playwright names videos non-deterministically per-context; drop any other
+  // raw leftovers from this run so only the canonical artifact ever gets committed.
+  videoFiles.slice(0, -1).forEach(f => fs.rmSync(path.join(recordingsDir, f), { force: true }));
   const sizeMb = (fs.statSync(targetPath).size / (1024 * 1024)).toFixed(2);
   console.log(`\n🎉 📹 Simulation video recorded successfully:`);
   console.log(`   └─ ${targetPath} (${sizeMb} MB)`);
