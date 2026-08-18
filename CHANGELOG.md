@@ -2,6 +2,16 @@
 
 All notable changes to the ARH-MAKAN repository are documented in this file.
 
+## [2.8.0] - 2026-08-19
+### Added
+- **Cloud Agent Independence & Zero-Touch Session Bootstrap (`scripts/bootstrap-agent-session.mjs`, `.claude/hooks/`, `.agents/hooks/`)**: Automated script warming dependencies, detecting pre-baked Chromium paths across environments, checking cloud infrastructure readiness, and running baseline health sanity in <10s.
+- **E2E Interactive Runtime Smoke Gate (`scripts/test-e2e-smoke.mjs` — Gate 13)**: Playwright runtime clicker traversing all 5 surfaces, triggering interactive workflows (DuitNow checkout, POS verification, KDS bumps, Admin 86 stock, DevCon Scenario Lab injections), and asserting 0 unhandled exceptions or console errors.
+- **Docs Freshness & Living Knowledge Triad Linter (`scripts/check-docs-freshness.mjs` — Gate 14)**: Automated checker enforcing CHANGELOG, ADRs, and README synchronization.
+- **Autonomous PR Review & Architecture Sign-Off Gate (`.github/workflows/agent-review-gate.yml`)**: Automated PR workflow running full 14-gate verification and posting review summaries.
+- **Standing Health Audit Sentinel (`.github/workflows/audit-sentinel.yml`)**: Weekly cron workflow monitoring system integrity and environmental drift continuously.
+- **14-Gate CI Doctor Suite (`scripts/arh-ci-doctor.mjs`)**: Upgraded quality harness with all 14 gates.
+- **ADR-0013**: Documented architecture decisions in `docs/decisions/0013-cloud-agent-independence-e2e-smoke-and-sentinel-automation.md`.
+
 ## [2.7.0] - 2026-08-19
 ### Added
 - **2-Way Malaysian DuitNow QR & Real-Time Cashier Verification Handshake (`shared/realtime-adapter.js`, `customer/`, `pos/`, `admin/`, `devcon/`)**:
