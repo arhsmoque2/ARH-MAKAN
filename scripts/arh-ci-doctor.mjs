@@ -30,6 +30,9 @@ run('node scripts/test-showroom-bridge.mjs', '6. Showroom Bridge & Station-Routi
 run('node scripts/test-qr-verify.mjs', '7. QR Code Matrix Scannability & Density Gate');
 run('node scripts/verify-infra-preflight.mjs', '8. Cloud Infrastructure & Config Preflight');
 run('node scripts/test-worker-runtime.mjs', '9. Cloudflare Worker Runtime & Edge Fetch Suite');
+run('node scripts/check-design-tokens.mjs', '10. Design Token & Theme Consistency Linter');
+run('node scripts/check-ui-integrity.mjs', '11. Multi-Viewport UI Integrity & Layout Overflow Gate');
+run('node scripts/test-visual-regression.mjs', '12. Visual Regression Baseline Snapshot Gate');
 
-console.log('\n🎉 🩺 CI Doctor completed all 9 validation gates successfully!');
+console.log('\n🎉 🩺 CI Doctor completed all 12 validation gates successfully!');
 
