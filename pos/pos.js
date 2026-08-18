@@ -518,6 +518,76 @@ window.completePayment = (method = 'cash') => {
   updateCartUI();
 };
 
+window.completeSplitTender = () => {
+  const subtotal = cart.reduce((sum, it) => sum + it.total_price, 0);
+  const tax = subtotal * 0.06;
+  const total = subtotal + tax;
+
+  const cashInput = parseFloat(document.getElementById('cash-tender-input')?.value) || 0;
+  const cardOrQrAmount = Math.max(0, total - cashInput);
+
+  if (cashInput <= 0 || cardOrQrAmount <= 0) {
+    alert(`Please enter a partial cash amount less than the total RM ${total.toFixed(2)} to split tender.`);
+    return;
+  }
+
+  const order = hub.createOrder({
+    table_id: currentTable,
+    type: 'dine_in',
+    items: cart,
+    subtotal,
+    tax,
+    total_amount: total,
+    payment_method: 'split_tender',
+    notes: `Split Tender: RM ${cashInput.toFixed(2)} Cash + RM ${cardOrQrAmount.toFixed(2)} DuitNow/Card`
+  });
+
+  hub.settlePayment(order.order_id, 'split_tender');
+  sound.playNewOrderChime();
+  closePaymentModal();
+
+  const receiptHtml = escPos.generateHtmlReceipt(order);
+  escPos.printHtml(receiptHtml);
+
+  cart = [];
+  updateCartUI();
+};
+
+window.printShiftZReport = () => {
+  const orders = hub.getOrders().filter(o => o.status === 'paid');
+  const totalSales = orders.reduce((sum, o) => sum + (Number(o.total_amount) || 0), 0);
+  const cashSales = orders.filter(o => o.payment_method === 'cash').reduce((sum, o) => sum + (Number(o.total_amount) || 0), 0);
+  const qrCardSales = totalSales - cashSales;
+  const openingFloat = 300.00;
+  const actualCount = parseFloat(document.getElementById('float-actual-count')?.value) || (openingFloat + cashSales);
+  const diff = actualCount - (openingFloat + cashSales);
+
+  const zReportHtml = `
+    <div style="font-family: var(--font-mono); font-size: 11px; width: 58mm; color: #000; padding: 4px;">
+      <div style="text-align: center; font-weight: bold; font-size: 13px;">=== END OF SHIFT Z-REPORT ===</div>
+      <div style="text-align: center;">WOODFIRE KULIM</div>
+      <div style="text-align: center;">${new Date().toLocaleString()}</div>
+      <div style="border-top: 1px dashed #000; margin: 6px 0;"></div>
+      <div style="display: flex; justify-content: space-between;"><span>Opening Float:</span><span>RM ${openingFloat.toFixed(2)}</span></div>
+      <div style="display: flex; justify-content: space-between;"><span>Cash Sales:</span><span>RM ${cashSales.toFixed(2)}</span></div>
+      <div style="display: flex; justify-content: space-between;"><span>QR/Card Sales:</span><span>RM ${qrCardSales.toFixed(2)}</span></div>
+      <div style="border-top: 1px solid #000; margin: 4px 0;"></div>
+      <div style="display: flex; justify-content: space-between; font-weight: bold;"><span>Total Gross Sales:</span><span>RM ${totalSales.toFixed(2)}</span></div>
+      <div style="display: flex; justify-content: space-between;"><span>Total Orders Settled:</span><span>${orders.length}</span></div>
+      <div style="border-top: 1px dashed #000; margin: 6px 0;"></div>
+      <div style="display: flex; justify-content: space-between;"><span>Expected Drawer:</span><span>RM ${(openingFloat + cashSales).toFixed(2)}</span></div>
+      <div style="display: flex; justify-content: space-between;"><span>Actual Count:</span><span>RM ${actualCount.toFixed(2)}</span></div>
+      <div style="display: flex; justify-content: space-between; font-weight: bold;"><span>Over / Short:</span><span>RM ${diff >= 0 ? '+' : ''}${diff.toFixed(2)}</span></div>
+      <div style="border-top: 1px dashed #000; margin: 6px 0;"></div>
+      <div style="text-align: center; font-size: 10px;">Shift Register Closed & Verified</div>
+    </div>
+  `;
+
+  escPos.printHtml(zReportHtml);
+  sound.playGentlePing();
+  alert('🖨️ Shift Z-Report sent to thermal printer!');
+};
+
 // Search
 const searchInput = document.getElementById('pos-search-input');
 if (searchInput) {

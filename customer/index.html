@@ -16,11 +16,14 @@
       <div style="display: flex; align-items: center; gap: 10px;">
         <a href="../index.html" class="btn btn-sm btn-secondary" style="padding: 4px 10px; text-decoration: none;">← Hub</a>
         <div style="font-size: 1.3rem;">🔥</div>
-        <div style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--gold-light);">
+        <div style="font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: var(--gold-light);">
           Woodfire
         </div>
       </div>
-      <div class="table-badge" id="table-indicator">TABLE T05 · DINE-IN</div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button class="btn btn-sm btn-secondary" id="lang-toggle-btn" onclick="window.toggleLanguage()" style="font-size: 0.72rem; padding: 4px 8px;">🇬🇧 EN</button>
+        <div class="table-badge" id="table-indicator">TABLE T05 · DINE-IN</div>
+      </div>
     </header>
 
     <!-- Active Order Tracker Banner -->
@@ -185,6 +188,47 @@
       <button class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 1.05rem;" onclick="window.submitOrderToKitchen()">
         🔥 Send Order to Kitchen
       </button>
+    </div>
+  </div>
+
+  <!-- Post-Dining 5-Star Rating & Review Modal (QR-Menu pattern) -->
+  <div class="modal-overlay" id="review-modal">
+    <div class="modal-dialog">
+      <div style="text-align: center; margin-bottom: 16px;">
+        <div style="font-size: 2.2rem; margin-bottom: 6px;">⭐</div>
+        <h2 style="color: var(--gold-light); margin-bottom: 4px;">How was your dining experience?</h2>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">Woodfire Kulim values your feedback!</p>
+      </div>
+
+      <!-- Star Selector -->
+      <div id="star-rating-row" style="display: flex; justify-content: center; gap: 8px; font-size: 2rem; cursor: pointer; margin-bottom: 18px;">
+        <span class="star-node" data-val="1" onclick="window.setRating(1)">⭐</span>
+        <span class="star-node" data-val="2" onclick="window.setRating(2)">⭐</span>
+        <span class="star-node" data-val="3" onclick="window.setRating(3)">⭐</span>
+        <span class="star-node" data-val="4" onclick="window.setRating(4)">⭐</span>
+        <span class="star-node" data-val="5" onclick="window.setRating(5)">⭐</span>
+      </div>
+
+      <!-- Compliment Chips -->
+      <div style="margin-bottom: 16px;">
+        <label style="font-size: 0.82rem; color: var(--text-secondary);">What did you love?</label>
+        <div id="review-tags-container" style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px;">
+          <button type="button" class="btn btn-sm btn-secondary tag-chip" onclick="window.toggleReviewTag(this, '🍔 Super Juicy Burgers')">🍔 Super Juicy Burgers</button>
+          <button type="button" class="btn btn-sm btn-secondary tag-chip" onclick="window.toggleReviewTag(this, '⚡ Fast Kitchen')">⚡ Fast Kitchen</button>
+          <button type="button" class="btn btn-sm btn-secondary tag-chip" onclick="window.toggleReviewTag(this, '🍟 Crispy Fries')">🍟 Crispy Fries</button>
+          <button type="button" class="btn btn-sm btn-secondary tag-chip" onclick="window.toggleReviewTag(this, '🥤 Awesome Shakes')">🥤 Awesome Shakes</button>
+          <button type="button" class="btn btn-sm btn-secondary tag-chip" onclick="window.toggleReviewTag(this, '👨‍🍳 Friendly Staff')">👨‍🍳 Friendly Staff</button>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <textarea id="review-comment" class="form-input" placeholder="Any comments or special shout-outs for the chef?" rows="2"></textarea>
+      </div>
+
+      <div style="display: flex; gap: 10px; justify-content: flex-end;">
+        <button class="btn btn-secondary" onclick="window.closeReviewModal()">Skip</button>
+        <button class="btn btn-primary" onclick="window.submitReviewFeedback()">⭐ Submit Review</button>
+      </div>
     </div>
   </div>
 

@@ -110,6 +110,17 @@ try {
     });
 
     await page.goto(`${baseUrl}${sc.path}`, { waitUntil: 'domcontentloaded' });
+    await page.addStyleTag({
+      content: `
+        .ticket-timer, #live-clock, .live-time-ticker {
+          opacity: 0 !important;
+        }
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      `
+    });
     await page.waitForTimeout(400);
 
     const baselinePath = path.join(baselinesDir, `${sc.name}.png`);
