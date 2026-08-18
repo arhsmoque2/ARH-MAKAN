@@ -1,0 +1,1082 @@
+{
+  "categories": [
+    {
+      "id": "burgers",
+      "name": "Burgers",
+      "emoji": "🍔",
+      "type": "food",
+      "showAddons": true
+    },
+    {
+      "id": "smoked",
+      "name": "Smoked Meat Platters",
+      "emoji": "🥩",
+      "type": "food",
+      "showAddons": true
+    },
+    {
+      "id": "fries",
+      "name": "Fries",
+      "emoji": "🍟",
+      "type": "food"
+    },
+    {
+      "id": "chicken",
+      "name": "Fried Chicken & Sando",
+      "emoji": "🍗",
+      "type": "food"
+    },
+    {
+      "id": "shakes",
+      "name": "Shakes & Drinks",
+      "emoji": "🥤",
+      "type": "drinks"
+    },
+    {
+      "id": "upgrades",
+      "name": "Set Upgrades",
+      "emoji": "⬆",
+      "type": "food"
+    }
+  ],
+  "addonLibrary": [
+    {
+      "id": "dill-pickle",
+      "label": "Dill Pickle",
+      "priceDelta": 1
+    },
+    {
+      "id": "cheese",
+      "label": "Cheese",
+      "priceDelta": 2
+    },
+    {
+      "id": "hash-brown",
+      "label": "Hash Brown",
+      "priceDelta": 2.5
+    },
+    {
+      "id": "egg",
+      "label": "Egg",
+      "priceDelta": 2.5
+    },
+    {
+      "id": "mushroom",
+      "label": "Mushroom",
+      "priceDelta": 3
+    },
+    {
+      "id": "chicken-patty",
+      "label": "Chicken Patty",
+      "priceDelta": 7
+    },
+    {
+      "id": "beef-patty",
+      "label": "Beef Patty",
+      "priceDelta": 8
+    },
+    {
+      "id": "platter-bun",
+      "label": "Platter Bun",
+      "priceDelta": 4
+    },
+    {
+      "id": "bbq-sauce",
+      "label": "BBQ Sauce",
+      "priceDelta": 2
+    },
+    {
+      "id": "woodfire-sauce",
+      "label": "Woodfire Sauce",
+      "priceDelta": 2
+    },
+    {
+      "id": "salted-egg-sauce",
+      "label": "Salted Egg Sauce",
+      "priceDelta": 3
+    },
+    {
+      "id": "coney-sauce",
+      "label": "Coney Sauce",
+      "priceDelta": 3
+    },
+    {
+      "id": "cheese-sauce",
+      "label": "Cheese Sauce",
+      "priceDelta": 3
+    },
+    {
+      "id": "chicken-slice",
+      "label": "Chicken Slice",
+      "priceDelta": 2
+    },
+    {
+      "id": "smoked-beef-slice",
+      "label": "Smoked Beef Slice",
+      "priceDelta": 3
+    },
+    {
+      "id": "smoked-brisket-slice",
+      "label": "Smoked Brisket Slice",
+      "priceDelta": 19
+    }
+  ],
+  "items": [
+    {
+      "id": "gourmet-burger",
+      "categoryId": "burgers",
+      "subcategory": "",
+      "name": "Gourmet Burger",
+      "description": "Beef or chicken patty, chicken slice, pickles, tomatoes, salted egg sauce",
+      "emoji": "🍔",
+      "basePrice": 20.9,
+      "available": true,
+      "imageUrl": "/images/gourmet-burger.png",
+      "imageFile": "gourmet-burger.png",
+      "badge": "Popular",
+      "modifiers": [
+        {
+          "id": "meat",
+          "type": "radio",
+          "label": "Choose your meat",
+          "required": true,
+          "max": 1,
+          "options": [
+            {
+              "label": "Beef",
+              "priceDelta": 0
+            },
+            {
+              "label": "Chicken",
+              "priceDelta": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stuffed-cheese",
+      "categoryId": "burgers",
+      "subcategory": "",
+      "name": "Stuffed Cheese",
+      "description": "Beef or chicken patty, chicken slice, cheese, grilled onions, beef coney sauce",
+      "emoji": "🧀",
+      "basePrice": 20.9,
+      "available": true,
+      "imageUrl": "/images/stuffed-cheese.png",
+      "imageFile": "stuffed-cheese.png",
+      "modifiers": [
+        {
+          "id": "meat",
+          "type": "radio",
+          "label": "Choose your meat",
+          "required": true,
+          "max": 1,
+          "options": [
+            {
+              "label": "Beef",
+              "priceDelta": 0
+            },
+            {
+              "label": "Chicken",
+              "priceDelta": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bbq-burger",
+      "categoryId": "burgers",
+      "subcategory": "",
+      "name": "BBQ Burger",
+      "description": "Beef or chicken patty, egg, cheese, fried onions, pickles, BBQ sauce",
+      "emoji": "🍔",
+      "basePrice": 21.9,
+      "available": true,
+      "imageUrl": "/images/bbq-burger.png",
+      "imageFile": "bbq-burger.png",
+      "modifiers": [
+        {
+          "id": "meat",
+          "type": "radio",
+          "label": "Choose your meat",
+          "required": true,
+          "max": 1,
+          "options": [
+            {
+              "label": "Beef",
+              "priceDelta": 0
+            },
+            {
+              "label": "Chicken",
+              "priceDelta": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mushroom-burger",
+      "categoryId": "burgers",
+      "subcategory": "",
+      "name": "Mushroom Burger",
+      "description": "Beef or chicken patty, shiitake mushrooms, potato hash brown, Woodfire sauce",
+      "emoji": "🍄",
+      "basePrice": 23.9,
+      "available": true,
+      "imageUrl": "/images/mushroom-burger.png",
+      "imageFile": "mushroom-burger.png",
+      "modifiers": [
+        {
+          "id": "meat",
+          "type": "radio",
+          "label": "Choose your meat",
+          "required": true,
+          "max": 1,
+          "options": [
+            {
+              "label": "Beef",
+              "priceDelta": 0
+            },
+            {
+              "label": "Chicken",
+              "priceDelta": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "smoked-burger",
+      "categoryId": "burgers",
+      "subcategory": "",
+      "name": "Smoked Burger",
+      "description": "Beef or chicken patty, cheese, fried onions, pickles, beef bacon, BBQ sauce",
+      "emoji": "🍔",
+      "basePrice": 24.9,
+      "available": true,
+      "imageUrl": "/images/smoked-burger.png",
+      "imageFile": "smoked-burger.png",
+      "modifiers": [
+        {
+          "id": "meat",
+          "type": "radio",
+          "label": "Choose your meat",
+          "required": true,
+          "max": 1,
+          "options": [
+            {
+              "label": "Beef",
+              "priceDelta": 0
+            },
+            {
+              "label": "Chicken",
+              "priceDelta": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "double-patty",
+      "categoryId": "burgers",
+      "subcategory": "",
+      "name": "Double Patty",
+      "description": "2x beef or chicken patty, chicken slice, pickles, tomatoes, salted egg sauce",
+      "emoji": "🍔",
+      "basePrice": 29.9,
+      "available": true,
+      "imageUrl": "/images/double-patty.png",
+      "imageFile": "double-patty.png",
+      "modifiers": [
+        {
+          "id": "meat",
+          "type": "radio",
+          "label": "Choose your meat",
+          "required": true,
+          "max": 1,
+          "options": [
+            {
+              "label": "Beef",
+              "priceDelta": 0
+            },
+            {
+              "label": "Chicken",
+              "priceDelta": 0
+            },
+            {
+              "label": "Mix",
+              "priceDelta": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "brisket-burger",
+      "categoryId": "burgers",
+      "subcategory": "",
+      "name": "Brisket Burger",
+      "description": "Beef or chicken patty, smoked beef brisket, cheese, fried onions, pickles, streaky beef, BBQ sauce",
+      "emoji": "🍔",
+      "basePrice": 39.9,
+      "available": true,
+      "imageUrl": "/images/brisket-burger.png",
+      "imageFile": "brisket-burger.png",
+      "badge": "Signature",
+      "modifiers": [
+        {
+          "id": "meat",
+          "type": "radio",
+          "label": "Choose your meat",
+          "required": true,
+          "max": 1,
+          "options": [
+            {
+              "label": "Beef",
+              "priceDelta": 0
+            },
+            {
+              "label": "Chicken",
+              "priceDelta": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cheesesteak",
+      "categoryId": "burgers",
+      "subcategory": "",
+      "name": "Cheesesteak 2.0 (Beef)",
+      "description": "Sliced beef, cheese sauce, grilled onions, BBQ sauce",
+      "emoji": "🧀",
+      "basePrice": 19.9,
+      "available": true,
+      "imageUrl": "/images/cheesesteak.png",
+      "imageFile": "cheesesteak.png"
+    },
+    {
+      "id": "brisket-cheesesteak",
+      "categoryId": "burgers",
+      "subcategory": "",
+      "name": "Brisket Cheesesteak",
+      "description": "Brisket slice, sliced beef, cheese sauce, grilled onions, BBQ sauce",
+      "emoji": "🧀",
+      "basePrice": 39.9,
+      "available": true,
+      "imageUrl": "/images/brisket-cheesesteak.png",
+      "imageFile": "brisket-cheesesteak.png"
+    },
+    {
+      "id": "smoked-chicken-quarter",
+      "categoryId": "smoked",
+      "subcategory": "",
+      "name": "Smoked Chicken (Quarter)",
+      "description": "Smoked chicken thigh. Served with curly fries or toasted bread and sauces.",
+      "emoji": "🍗",
+      "basePrice": 23,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    },
+    {
+      "id": "smoked-brisket-200g",
+      "categoryId": "smoked",
+      "subcategory": "",
+      "name": "Smoked Brisket (200g)",
+      "description": "Smoked beef brisket. Served with curly fries or toasted bread and sauces.",
+      "emoji": "🥩",
+      "basePrice": 46,
+      "available": true,
+      "imageUrl": "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80",
+      "imageFile": null,
+      "badge": "Chef pick"
+    },
+    {
+      "id": "smoked-lamb-rib",
+      "categoryId": "smoked",
+      "subcategory": "",
+      "name": "Smoked Lamb Rib",
+      "description": "Smoked lamb rib. Price may vary; contact outlet.",
+      "emoji": "🍖",
+      "basePrice": 50,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    },
+    {
+      "id": "smoked-beef-rib",
+      "categoryId": "smoked",
+      "subcategory": "",
+      "name": "Smoked Beef Rib",
+      "description": "Smoked beef rib. Price may vary; contact outlet.",
+      "emoji": "🥩",
+      "basePrice": 90,
+      "available": true,
+      "imageUrl": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=900&q=80",
+      "imageFile": null
+    },
+    {
+      "id": "curly-fries",
+      "categoryId": "fries",
+      "subcategory": "",
+      "name": "Curly Fries",
+      "description": "Curly fries & spice",
+      "emoji": "🍟",
+      "basePrice": 6.9,
+      "available": true,
+      "imageUrl": "https://images.unsplash.com/photo-1585109649139-366815a0d713?auto=format&fit=crop&w=600&q=80",
+      "imageFile": null
+    },
+    {
+      "id": "cheese-fries",
+      "categoryId": "fries",
+      "subcategory": "",
+      "name": "Cheese Fries",
+      "description": "Curly fries & cheese sauce",
+      "emoji": "🍟",
+      "basePrice": 12.9,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    },
+    {
+      "id": "coney-fries",
+      "categoryId": "fries",
+      "subcategory": "",
+      "name": "Coney Fries",
+      "description": "Curly fries, cheese & coney sauce",
+      "emoji": "🍟",
+      "basePrice": 13.9,
+      "available": true,
+      "imageUrl": "https://images.unsplash.com/photo-1585109649139-366815a0d713?auto=format&fit=crop&w=600&q=80",
+      "imageFile": null
+    },
+    {
+      "id": "beef-cheese-fries",
+      "categoryId": "fries",
+      "subcategory": "",
+      "name": "Beef & Cheese Fries",
+      "description": "Curly fries, cheese sauce & meat slice",
+      "emoji": "🍟",
+      "basePrice": 16.9,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    },
+    {
+      "id": "chicken-cheese-fries",
+      "categoryId": "fries",
+      "subcategory": "",
+      "name": "Chicken & Cheese Fries",
+      "description": "Curly fries, cheese sauce & chicken slice",
+      "emoji": "🍟",
+      "basePrice": 17.9,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    },
+    {
+      "id": "bone-in-kids",
+      "categoryId": "chicken",
+      "subcategory": "Bone-In Chicken",
+      "name": "Bone-In Ala Carte (No Heat / Kids)",
+      "description": "1 piece",
+      "emoji": "🍗",
+      "basePrice": 8,
+      "available": true,
+      "imageUrl": "/images/fried-chicken-1pc.png",
+      "imageFile": "fried-chicken-1pc.png"
+    },
+    {
+      "id": "bone-in-light",
+      "categoryId": "chicken",
+      "subcategory": "Bone-In Chicken",
+      "name": "Bone-In Ala Carte (Level 1-3 / Glazed)",
+      "description": "1 piece",
+      "emoji": "🍗",
+      "basePrice": 9.5,
+      "available": true,
+      "imageUrl": "/images/fried-chicken-1pc.png",
+      "imageFile": "fried-chicken-1pc.png"
+    },
+    {
+      "id": "bone-in-hot",
+      "categoryId": "chicken",
+      "subcategory": "Bone-In Chicken",
+      "name": "Bone-In Ala Carte (Level 4)",
+      "description": "1 piece",
+      "emoji": "🍗",
+      "basePrice": 11.5,
+      "available": true,
+      "imageUrl": "/images/fried-chicken-1pc.png",
+      "imageFile": "fried-chicken-1pc.png"
+    },
+    {
+      "id": "set-a-kids",
+      "categoryId": "chicken",
+      "subcategory": "Set A [Firestarter]",
+      "name": "Set A Firestarter (No Heat / Kids)",
+      "description": "2 pcs chicken, 1 fries, 1 sauce, 1 soft drink",
+      "emoji": "🍗",
+      "basePrice": 24.9,
+      "available": true,
+      "imageUrl": "/images/fried-chicken-2pc-combo.png",
+      "imageFile": "fried-chicken-2pc-combo.png"
+    },
+    {
+      "id": "set-a-light",
+      "categoryId": "chicken",
+      "subcategory": "Set A [Firestarter]",
+      "name": "Set A Firestarter (Level 1-3 / Glazed)",
+      "description": "2 pcs chicken, 1 fries, 1 sauce, 1 soft drink",
+      "emoji": "🍗",
+      "basePrice": 26.9,
+      "available": true,
+      "imageUrl": "/images/fried-chicken-2pc-combo.png",
+      "imageFile": "fried-chicken-2pc-combo.png"
+    },
+    {
+      "id": "set-a-hot",
+      "categoryId": "chicken",
+      "subcategory": "Set A [Firestarter]",
+      "name": "Set A Firestarter (Level 4)",
+      "description": "2 pcs chicken, 1 fries, 1 sauce, 1 soft drink",
+      "emoji": "🍗",
+      "basePrice": 28.9,
+      "available": true,
+      "imageUrl": "/images/fried-chicken-2pc-combo.png",
+      "imageFile": "fried-chicken-2pc-combo.png"
+    },
+    {
+      "id": "set-b-kids",
+      "categoryId": "chicken",
+      "subcategory": "Set B [MVP]",
+      "name": "Set B MVP (No Heat / Kids)",
+      "description": "2 pcs chicken, 1 fries, 1 sauce, 1 soft drink, 1 coleslaw, 1 side",
+      "emoji": "🍗",
+      "basePrice": 31.9,
+      "available": true,
+      "imageUrl": "/images/fried-chicken-2pc-deluxe-combo.png",
+      "imageFile": "fried-chicken-2pc-deluxe-combo.png"
+    },
+    {
+      "id": "set-b-light",
+      "categoryId": "chicken",
+      "subcategory": "Set B [MVP]",
+      "name": "Set B MVP (Level 1-3 / Glazed)",
+      "description": "2 pcs chicken, 1 fries, 1 sauce, 1 soft drink, 1 coleslaw, 1 side",
+      "emoji": "🍗",
+      "basePrice": 33.9,
+      "available": true,
+      "imageUrl": "/images/fried-chicken-2pc-deluxe-combo.png",
+      "imageFile": "fried-chicken-2pc-deluxe-combo.png"
+    },
+    {
+      "id": "set-b-hot",
+      "categoryId": "chicken",
+      "subcategory": "Set B [MVP]",
+      "name": "Set B MVP (Level 4)",
+      "description": "2 pcs chicken, 1 fries, 1 sauce, 1 soft drink, 1 coleslaw, 1 side",
+      "emoji": "🍗",
+      "basePrice": 35.9,
+      "available": true,
+      "imageUrl": "/images/fried-chicken-2pc-deluxe-combo.png",
+      "imageFile": "fried-chicken-2pc-deluxe-combo.png"
+    },
+    {
+      "id": "boneless-kids",
+      "categoryId": "chicken",
+      "subcategory": "Boneless Chicken",
+      "name": "Boneless Ala Carte (No Heat / Kids)",
+      "description": "1 piece",
+      "emoji": "🍗",
+      "basePrice": 5.9,
+      "available": true,
+      "imageUrl": "/images/chicken-tenders-3pc.png",
+      "imageFile": "chicken-tenders-3pc.png"
+    },
+    {
+      "id": "boneless-light",
+      "categoryId": "chicken",
+      "subcategory": "Boneless Chicken",
+      "name": "Boneless Ala Carte (Level 1-3 / Glazed)",
+      "description": "1 piece",
+      "emoji": "🍗",
+      "basePrice": 6.9,
+      "available": true,
+      "imageUrl": "/images/chicken-tenders-3pc.png",
+      "imageFile": "chicken-tenders-3pc.png"
+    },
+    {
+      "id": "boneless-hot",
+      "categoryId": "chicken",
+      "subcategory": "Boneless Chicken",
+      "name": "Boneless Ala Carte (Level 4)",
+      "description": "1 piece",
+      "emoji": "🍗",
+      "basePrice": 8.9,
+      "available": true,
+      "imageUrl": "/images/chicken-tenders-3pc.png",
+      "imageFile": "chicken-tenders-3pc.png"
+    },
+    {
+      "id": "set-c-kids",
+      "categoryId": "chicken",
+      "subcategory": "Set C [Firestarter]",
+      "name": "Set C Firestarter (No Heat / Kids)",
+      "description": "2 pcs boneless, 1 fries, 1 sauce, 1 soft drink",
+      "emoji": "🍗",
+      "basePrice": 23.9,
+      "available": true,
+      "imageUrl": "/images/chicken-tenders-3pc-combo.png",
+      "imageFile": "chicken-tenders-3pc-combo.png"
+    },
+    {
+      "id": "set-c-light",
+      "categoryId": "chicken",
+      "subcategory": "Set C [Firestarter]",
+      "name": "Set C Firestarter (Level 1-3 / Glazed)",
+      "description": "2 pcs boneless, 1 fries, 1 sauce, 1 soft drink",
+      "emoji": "🍗",
+      "basePrice": 25.9,
+      "available": true,
+      "imageUrl": "/images/chicken-tenders-3pc-combo.png",
+      "imageFile": "chicken-tenders-3pc-combo.png"
+    },
+    {
+      "id": "set-c-hot",
+      "categoryId": "chicken",
+      "subcategory": "Set C [Firestarter]",
+      "name": "Set C Firestarter (Level 4)",
+      "description": "2 pcs boneless, 1 fries, 1 sauce, 1 soft drink",
+      "emoji": "🍗",
+      "basePrice": 27.9,
+      "available": true,
+      "imageUrl": "/images/chicken-tenders-3pc-combo.png",
+      "imageFile": "chicken-tenders-3pc-combo.png"
+    },
+    {
+      "id": "set-d-kids",
+      "categoryId": "chicken",
+      "subcategory": "Set D [MVP]",
+      "name": "Set D MVP (No Heat / Kids)",
+      "description": "2 pcs boneless, 1 fries, 1 sauce, 1 soft drink, 1 coleslaw, 1 side",
+      "emoji": "🍗",
+      "basePrice": 29.9,
+      "available": true,
+      "imageUrl": "/images/chicken-tenders-3pc-deluxe-combo.png",
+      "imageFile": "chicken-tenders-3pc-deluxe-combo.png"
+    },
+    {
+      "id": "set-d-light",
+      "categoryId": "chicken",
+      "subcategory": "Set D [MVP]",
+      "name": "Set D MVP (Level 1-3 / Glazed)",
+      "description": "2 pcs boneless, 1 fries, 1 sauce, 1 soft drink, 1 coleslaw, 1 side",
+      "emoji": "🍗",
+      "basePrice": 31.9,
+      "available": true,
+      "imageUrl": "/images/chicken-tenders-3pc-deluxe-combo.png",
+      "imageFile": "chicken-tenders-3pc-deluxe-combo.png"
+    },
+    {
+      "id": "set-d-hot",
+      "categoryId": "chicken",
+      "subcategory": "Set D [MVP]",
+      "name": "Set D MVP (Level 4)",
+      "description": "2 pcs boneless, 1 fries, 1 sauce, 1 soft drink, 1 coleslaw, 1 side",
+      "emoji": "🍗",
+      "basePrice": 33.9,
+      "available": true,
+      "imageUrl": "/images/chicken-tenders-3pc-deluxe-combo.png",
+      "imageFile": "chicken-tenders-3pc-deluxe-combo.png"
+    },
+    {
+      "id": "sando-kids",
+      "categoryId": "chicken",
+      "subcategory": "Sando",
+      "name": "Sando Ala Carte (No Heat / Kids)",
+      "description": "Chicken sandwich, 1 piece",
+      "emoji": "🥪",
+      "basePrice": 12.9,
+      "available": true,
+      "imageUrl": "/images/chicken-sandwich.png",
+      "imageFile": "chicken-sandwich.png"
+    },
+    {
+      "id": "sando-light",
+      "categoryId": "chicken",
+      "subcategory": "Sando",
+      "name": "Sando Ala Carte (Level 1-3 / Glazed)",
+      "description": "Chicken sandwich, 1 piece",
+      "emoji": "🥪",
+      "basePrice": 14.9,
+      "available": true,
+      "imageUrl": "/images/chicken-sandwich.png",
+      "imageFile": "chicken-sandwich.png"
+    },
+    {
+      "id": "sando-hot",
+      "categoryId": "chicken",
+      "subcategory": "Sando",
+      "name": "Sando Ala Carte (Level 4)",
+      "description": "Chicken sandwich, 1 piece",
+      "emoji": "🥪",
+      "basePrice": 16.9,
+      "available": true,
+      "imageUrl": "/images/chicken-sandwich.png",
+      "imageFile": "chicken-sandwich.png"
+    },
+    {
+      "id": "set-e-kids",
+      "categoryId": "chicken",
+      "subcategory": "Set E [Firestarter]",
+      "name": "Set E Firestarter (No Heat / Kids)",
+      "description": "1 pc sando, 1 fries, 1 sauce, 1 soft drink",
+      "emoji": "🥪",
+      "basePrice": 24.9,
+      "available": true,
+      "imageUrl": "/images/chicken-sandwich-combo.png",
+      "imageFile": "chicken-sandwich-combo.png"
+    },
+    {
+      "id": "set-e-light",
+      "categoryId": "chicken",
+      "subcategory": "Set E [Firestarter]",
+      "name": "Set E Firestarter (Level 1-3 / Glazed)",
+      "description": "1 pc sando, 1 fries, 1 sauce, 1 soft drink",
+      "emoji": "🥪",
+      "basePrice": 26.9,
+      "available": true,
+      "imageUrl": "/images/chicken-sandwich-combo.png",
+      "imageFile": "chicken-sandwich-combo.png"
+    },
+    {
+      "id": "set-e-hot",
+      "categoryId": "chicken",
+      "subcategory": "Set E [Firestarter]",
+      "name": "Set E Firestarter (Level 4)",
+      "description": "1 pc sando, 1 fries, 1 sauce, 1 soft drink",
+      "emoji": "🥪",
+      "basePrice": 28.9,
+      "available": true,
+      "imageUrl": "/images/chicken-sandwich-combo.png",
+      "imageFile": "chicken-sandwich-combo.png"
+    },
+    {
+      "id": "set-f-kids",
+      "categoryId": "chicken",
+      "subcategory": "Set F [MVP]",
+      "name": "Set F MVP (No Heat / Kids)",
+      "description": "2 pcs sando, 1 fries, 1 sauce, 1 soft drink, 1 coleslaw, 1 side",
+      "emoji": "🥪",
+      "basePrice": 31.9,
+      "available": true,
+      "imageUrl": "/images/chicken-sandwich-deluxe-combo.png",
+      "imageFile": "chicken-sandwich-deluxe-combo.png"
+    },
+    {
+      "id": "set-f-light",
+      "categoryId": "chicken",
+      "subcategory": "Set F [MVP]",
+      "name": "Set F MVP (Level 1-3 / Glazed)",
+      "description": "2 pcs sando, 1 fries, 1 sauce, 1 soft drink, 1 coleslaw, 1 side",
+      "emoji": "🥪",
+      "basePrice": 33.9,
+      "available": true,
+      "imageUrl": "/images/chicken-sandwich-deluxe-combo.png",
+      "imageFile": "chicken-sandwich-deluxe-combo.png"
+    },
+    {
+      "id": "set-f-hot",
+      "categoryId": "chicken",
+      "subcategory": "Set F [MVP]",
+      "name": "Set F MVP (Level 4)",
+      "description": "2 pcs sando, 1 fries, 1 sauce, 1 soft drink, 1 coleslaw, 1 side",
+      "emoji": "🥪",
+      "basePrice": 35.9,
+      "available": true,
+      "imageUrl": "/images/chicken-sandwich-deluxe-combo.png",
+      "imageFile": "chicken-sandwich-deluxe-combo.png"
+    },
+    {
+      "id": "vanilla-shake",
+      "categoryId": "shakes",
+      "subcategory": "",
+      "name": "Vanilla Shake",
+      "description": "",
+      "emoji": "🥤",
+      "basePrice": 16.9,
+      "available": true,
+      "imageUrl": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80",
+      "imageFile": null
+    },
+    {
+      "id": "chocolate-shake",
+      "categoryId": "shakes",
+      "subcategory": "",
+      "name": "Chocolate Shake",
+      "description": "",
+      "emoji": "🥤",
+      "basePrice": 16.9,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    },
+    {
+      "id": "oreo-shake",
+      "categoryId": "shakes",
+      "subcategory": "",
+      "name": "Oreo Shake",
+      "description": "",
+      "emoji": "🥤",
+      "basePrice": 16.9,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    },
+    {
+      "id": "matcha-shake",
+      "categoryId": "shakes",
+      "subcategory": "",
+      "name": "Matcha Shake",
+      "description": "",
+      "emoji": "🥤",
+      "basePrice": 16.9,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    },
+    {
+      "id": "peanut-butter-shake",
+      "categoryId": "shakes",
+      "subcategory": "",
+      "name": "Peanut Butter Shake",
+      "description": "",
+      "emoji": "🥤",
+      "basePrice": 16.9,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    },
+    {
+      "id": "biscoff-shake",
+      "categoryId": "shakes",
+      "subcategory": "",
+      "name": "Biscoff Shake",
+      "description": "",
+      "emoji": "🥤",
+      "basePrice": 16.9,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    },
+    {
+      "id": "strawberry-shake",
+      "categoryId": "shakes",
+      "subcategory": "",
+      "name": "Strawberry Shake",
+      "description": "",
+      "emoji": "🥤",
+      "basePrice": 16.9,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    },
+    {
+      "id": "buttershake",
+      "categoryId": "shakes",
+      "subcategory": "",
+      "name": "Buttershake",
+      "description": "",
+      "emoji": "🥤",
+      "basePrice": 16.9,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    },
+    {
+      "id": "strawberry-matcha-shake",
+      "categoryId": "shakes",
+      "subcategory": "",
+      "name": "Strawberry Matcha Shake",
+      "description": "",
+      "emoji": "🥤",
+      "basePrice": 18.9,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    },
+    {
+      "id": "add-on-ice-cream",
+      "categoryId": "shakes",
+      "subcategory": "",
+      "name": "Add-On Ice Cream",
+      "description": "",
+      "emoji": "🍨",
+      "basePrice": 2,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    },
+    {
+      "id": "mineral-water",
+      "categoryId": "shakes",
+      "subcategory": "",
+      "name": "Mineral Water",
+      "description": "",
+      "emoji": "💧",
+      "basePrice": 3.9,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    },
+    {
+      "id": "salt-cola",
+      "categoryId": "shakes",
+      "subcategory": "",
+      "name": "Salt Cola",
+      "description": "",
+      "emoji": "🥤",
+      "basePrice": 4.5,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    },
+    {
+      "id": "aw-float",
+      "categoryId": "shakes",
+      "subcategory": "",
+      "name": "A & W Float",
+      "description": "",
+      "emoji": "🥤",
+      "basePrice": 7.5,
+      "available": true,
+      "imageUrl": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80",
+      "imageFile": null
+    },
+    {
+      "id": "butter-soda",
+      "categoryId": "shakes",
+      "subcategory": "",
+      "name": "Butter Soda",
+      "description": "",
+      "emoji": "🥤",
+      "basePrice": 7.9,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    },
+    {
+      "id": "chocolate-malt",
+      "categoryId": "shakes",
+      "subcategory": "",
+      "name": "Chocolate Malt",
+      "description": "",
+      "emoji": "🥤",
+      "basePrice": 6.9,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    },
+    {
+      "id": "hausboom",
+      "categoryId": "shakes",
+      "subcategory": "",
+      "name": "Hausboom Bottle",
+      "description": "",
+      "emoji": "🥤",
+      "basePrice": 6.9,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    },
+    {
+      "id": "honey-calamansi",
+      "categoryId": "shakes",
+      "subcategory": "",
+      "name": "Iced Honey Calamansi",
+      "description": "",
+      "emoji": "🍋",
+      "basePrice": 6.9,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    },
+    {
+      "id": "lemonade",
+      "categoryId": "shakes",
+      "subcategory": "",
+      "name": "Lemonade",
+      "description": "",
+      "emoji": "🍋",
+      "basePrice": 6.9,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    },
+    {
+      "id": "upgrade-soft-drink",
+      "categoryId": "upgrades",
+      "subcategory": "",
+      "name": "Soft Drink (L)",
+      "description": "",
+      "emoji": "🥤",
+      "basePrice": 2.9,
+      "available": true,
+      "imageUrl": "https://images.unsplash.com/photo-1543339494-b4cd4f7ba686?auto=format&fit=crop&w=600&q=80",
+      "imageFile": null
+    },
+    {
+      "id": "upgrade-coleslaw",
+      "categoryId": "upgrades",
+      "subcategory": "",
+      "name": "Coleslaw (L)",
+      "description": "",
+      "emoji": "🥗",
+      "basePrice": 7.9,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    },
+    {
+      "id": "upgrade-milkshake",
+      "categoryId": "upgrades",
+      "subcategory": "",
+      "name": "Milkshake",
+      "description": "",
+      "emoji": "🥤",
+      "basePrice": 9.9,
+      "available": true,
+      "imageUrl": "https://images.unsplash.com/photo-1543339494-b4cd4f7ba686?auto=format&fit=crop&w=600&q=80",
+      "imageFile": null
+    },
+    {
+      "id": "upgrade-mac-cheese",
+      "categoryId": "upgrades",
+      "subcategory": "",
+      "name": "Mac & Cheese (L)",
+      "description": "",
+      "emoji": "🧀",
+      "basePrice": 9.9,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    },
+    {
+      "id": "upgrade-mash",
+      "categoryId": "upgrades",
+      "subcategory": "",
+      "name": "Madhen Mash (L)",
+      "description": "",
+      "emoji": "🥔",
+      "basePrice": 9.9,
+      "available": true,
+      "imageUrl": "",
+      "imageFile": null
+    }
+  ]
+}

@@ -99,7 +99,7 @@ function renderMenu() {
             return `
               <div class="menu-card" onclick="${isSoldOut ? '' : `window.handleItemSelect('${item.id}')`}">
                 <div class="menu-card-img">
-                  ${cat.icon}
+                  ${item.emoji || cat.icon}
                 </div>
                 <div class="menu-card-body">
                   <div style="display: flex; align-items: center; justify-content: space-between;">
@@ -157,14 +157,15 @@ function openItemModal(item) {
       <div style="display: flex; flex-direction: column; gap: 6px;">
         ${group.options.map((opt, i) => `
           <label style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: var(--bg-surface-raised); border-radius: var(--radius-sm); cursor: pointer;">
-            <div>
+            <div style="display: flex; align-items: center;">
               <input type="${group.type === 'single' ? 'radio' : 'checkbox'}" 
                      name="cust_mod_${group.id}" 
                      value="${opt.name}" 
                      data-price="${opt.price}"
                      data-group="${group.name}"
-                     ${group.type === 'single' && i === 0 ? 'checked' : ''}>
-              <span style="margin-left: 8px; font-weight: 500;">${opt.name}</span>
+                     ${group.type === 'single' && i === 0 ? 'checked' : ''}
+                     class="mod-input-control">
+              <span style="margin-left: 10px; font-weight: 500;">${opt.name}</span>
             </div>
             ${opt.price > 0 ? `<span class="mono text-gold">+RM ${opt.price.toFixed(2)}</span>` : ''}
           </label>
@@ -173,6 +174,22 @@ function openItemModal(item) {
     </div>
   `).join('');
 
+  function recalcModalPrice() {
+    let extra = 0;
+    body.querySelectorAll('input:checked').forEach(inp => {
+      extra += parseFloat(inp.dataset.price) || 0;
+    });
+    const finalPrice = item.price + extra;
+    price.innerText = `RM ${finalPrice.toFixed(2)}`;
+    const addBtn = document.querySelector('#item-modal .btn-primary');
+    if (addBtn) addBtn.innerText = `Add to Order — RM ${finalPrice.toFixed(2)}`;
+  }
+
+  body.querySelectorAll('.mod-input-control').forEach(inp => {
+    inp.addEventListener('change', recalcModalPrice);
+  });
+
+  recalcModalPrice();
   modal.classList.add('active');
 }
 

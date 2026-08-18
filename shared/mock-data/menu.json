@@ -8,175 +8,2277 @@
     "tax_rate": 0.06
   },
   "categories": [
-    { "id": "burgers", "name": "Gourmet Burgers", "icon": "🍔" },
-    { "id": "smoked", "name": "Smoked Meats & Steaks", "icon": "🥩" },
-    { "id": "chicken", "name": "Crispy Chicken", "icon": "🍗" },
-    { "id": "sides", "name": "Artisan Sides", "icon": "🍟" },
-    { "id": "shakes", "name": "Signature Shakes & Drinks", "icon": "🥤" }
+    {
+      "id": "burgers",
+      "name": "Burgers",
+      "icon": "🍔",
+      "type": "food"
+    },
+    {
+      "id": "smoked",
+      "name": "Smoked Meat Platters",
+      "icon": "🥩",
+      "type": "food"
+    },
+    {
+      "id": "fries",
+      "name": "Fries",
+      "icon": "🍟",
+      "type": "food"
+    },
+    {
+      "id": "chicken",
+      "name": "Fried Chicken & Sando",
+      "icon": "🍗",
+      "type": "food"
+    },
+    {
+      "id": "shakes",
+      "name": "Shakes & Drinks",
+      "icon": "🥤",
+      "type": "drinks"
+    },
+    {
+      "id": "upgrades",
+      "name": "Set Upgrades",
+      "icon": "⬆",
+      "type": "food"
+    }
+  ],
+  "addonLibrary": [
+    {
+      "id": "dill-pickle",
+      "label": "Dill Pickle",
+      "priceDelta": 1
+    },
+    {
+      "id": "cheese",
+      "label": "Cheese",
+      "priceDelta": 2
+    },
+    {
+      "id": "hash-brown",
+      "label": "Hash Brown",
+      "priceDelta": 2.5
+    },
+    {
+      "id": "egg",
+      "label": "Egg",
+      "priceDelta": 2.5
+    },
+    {
+      "id": "mushroom",
+      "label": "Mushroom",
+      "priceDelta": 3
+    },
+    {
+      "id": "chicken-patty",
+      "label": "Chicken Patty",
+      "priceDelta": 7
+    },
+    {
+      "id": "beef-patty",
+      "label": "Beef Patty",
+      "priceDelta": 8
+    },
+    {
+      "id": "platter-bun",
+      "label": "Platter Bun",
+      "priceDelta": 4
+    },
+    {
+      "id": "bbq-sauce",
+      "label": "BBQ Sauce",
+      "priceDelta": 2
+    },
+    {
+      "id": "woodfire-sauce",
+      "label": "Woodfire Sauce",
+      "priceDelta": 2
+    },
+    {
+      "id": "salted-egg-sauce",
+      "label": "Salted Egg Sauce",
+      "priceDelta": 3
+    },
+    {
+      "id": "coney-sauce",
+      "label": "Coney Sauce",
+      "priceDelta": 3
+    },
+    {
+      "id": "cheese-sauce",
+      "label": "Cheese Sauce",
+      "priceDelta": 3
+    },
+    {
+      "id": "chicken-slice",
+      "label": "Chicken Slice",
+      "priceDelta": 2
+    },
+    {
+      "id": "smoked-beef-slice",
+      "label": "Smoked Beef Slice",
+      "priceDelta": 3
+    },
+    {
+      "id": "smoked-brisket-slice",
+      "label": "Smoked Brisket Slice",
+      "priceDelta": 19
+    }
   ],
   "items": [
     {
-      "id": "wf-gourmet-burger",
-      "name": "Woodfire Gourmet Burger",
+      "id": "gourmet-burger",
+      "name": "Gourmet Burger",
       "category": "burgers",
-      "price": 24.90,
-      "description": "Signature smashed beef patty, smoked turkey bacon, melted Monterey Jack, caramelized onions, house barbecue glaze.",
-      "badge": "Signature",
+      "price": 20.9,
+      "description": "Beef or chicken patty, chicken slice, pickles, tomatoes, salted egg sauce",
+      "badge": "Popular",
+      "emoji": "🍔",
       "station": "grill",
-      "dietary": ["halal"],
+      "dietary": [
+        "halal"
+      ],
       "is_sold_out": false,
+      "imageUrl": "/images/gourmet-burger.png",
       "modifiers": [
         {
-          "id": "bun",
-          "name": "Bun Selection",
+          "id": "meat",
+          "name": "Choose your meat",
           "type": "single",
           "required": true,
           "options": [
-            { "name": "Toasted Brioche", "price": 0 },
-            { "name": "Charcoal Sesame", "price": 1.50 },
-            { "name": "Lettuce Wrap (Low Carb)", "price": 0 }
-          ]
-        },
-        {
-          "id": "patty_temp",
-          "name": "Doneness",
-          "type": "single",
-          "required": true,
-          "options": [
-            { "name": "Medium Juicy", "price": 0 },
-            { "name": "Well Done", "price": 0 }
+            {
+              "name": "Beef",
+              "price": 0
+            },
+            {
+              "name": "Chicken",
+              "price": 0
+            }
           ]
         },
         {
           "id": "addons",
-          "name": "Add-ons",
+          "name": "Woodfire Add-ons",
           "type": "multiple",
           "required": false,
           "options": [
-            { "name": "Extra Beef Patty (+120g)", "price": 9.00 },
-            { "name": "Extra Smoked Cheddar", "price": 3.00 },
-            { "name": "Truffle Mayo Dip", "price": 4.00 }
+            {
+              "name": "Dill Pickle",
+              "price": 1
+            },
+            {
+              "name": "Cheese",
+              "price": 2
+            },
+            {
+              "name": "Hash Brown",
+              "price": 2.5
+            },
+            {
+              "name": "Egg",
+              "price": 2.5
+            },
+            {
+              "name": "Mushroom",
+              "price": 3
+            },
+            {
+              "name": "Chicken Patty",
+              "price": 7
+            },
+            {
+              "name": "Beef Patty",
+              "price": 8
+            },
+            {
+              "name": "Platter Bun",
+              "price": 4
+            },
+            {
+              "name": "BBQ Sauce",
+              "price": 2
+            },
+            {
+              "name": "Woodfire Sauce",
+              "price": 2
+            },
+            {
+              "name": "Salted Egg Sauce",
+              "price": 3
+            },
+            {
+              "name": "Coney Sauce",
+              "price": 3
+            },
+            {
+              "name": "Cheese Sauce",
+              "price": 3
+            },
+            {
+              "name": "Chicken Slice",
+              "price": 2
+            },
+            {
+              "name": "Smoked Beef Slice",
+              "price": 3
+            },
+            {
+              "name": "Smoked Brisket Slice",
+              "price": 19
+            }
           ]
         }
       ]
     },
     {
-      "id": "wf-brisket-burger",
-      "name": "Smoked Brisket Burger",
+      "id": "stuffed-cheese",
+      "name": "Stuffed Cheese",
       "category": "burgers",
-      "price": 29.90,
-      "description": "12-hour oak-smoked shredded beef brisket, aged cheddar cheese, crunchy dill pickles, brioche bun.",
-      "badge": "Popular",
+      "price": 20.9,
+      "description": "Beef or chicken patty, chicken slice, cheese, grilled onions, beef coney sauce",
+      "badge": "",
+      "emoji": "🧀",
       "station": "grill",
-      "dietary": ["halal"],
+      "dietary": [
+        "halal"
+      ],
       "is_sold_out": false,
+      "imageUrl": "/images/stuffed-cheese.png",
       "modifiers": [
         {
-          "id": "spice",
-          "name": "Spice Level",
+          "id": "meat",
+          "name": "Choose your meat",
           "type": "single",
           "required": true,
           "options": [
-            { "name": "Classic Mild BBQ", "price": 0 },
-            { "name": "Spicy Chipotle", "price": 0 }
+            {
+              "name": "Beef",
+              "price": 0
+            },
+            {
+              "name": "Chicken",
+              "price": 0
+            }
+          ]
+        },
+        {
+          "id": "addons",
+          "name": "Woodfire Add-ons",
+          "type": "multiple",
+          "required": false,
+          "options": [
+            {
+              "name": "Dill Pickle",
+              "price": 1
+            },
+            {
+              "name": "Cheese",
+              "price": 2
+            },
+            {
+              "name": "Hash Brown",
+              "price": 2.5
+            },
+            {
+              "name": "Egg",
+              "price": 2.5
+            },
+            {
+              "name": "Mushroom",
+              "price": 3
+            },
+            {
+              "name": "Chicken Patty",
+              "price": 7
+            },
+            {
+              "name": "Beef Patty",
+              "price": 8
+            },
+            {
+              "name": "Platter Bun",
+              "price": 4
+            },
+            {
+              "name": "BBQ Sauce",
+              "price": 2
+            },
+            {
+              "name": "Woodfire Sauce",
+              "price": 2
+            },
+            {
+              "name": "Salted Egg Sauce",
+              "price": 3
+            },
+            {
+              "name": "Coney Sauce",
+              "price": 3
+            },
+            {
+              "name": "Cheese Sauce",
+              "price": 3
+            },
+            {
+              "name": "Chicken Slice",
+              "price": 2
+            },
+            {
+              "name": "Smoked Beef Slice",
+              "price": 3
+            },
+            {
+              "name": "Smoked Brisket Slice",
+              "price": 19
+            }
           ]
         }
       ]
     },
     {
-      "id": "wf-mushroom-burger",
-      "name": "Wild Mushroom Truffle Burger",
+      "id": "bbq-burger",
+      "name": "BBQ Burger",
       "category": "burgers",
-      "price": 26.50,
-      "description": "Grilled Angus patty smothered in sautéed Portobello mushrooms, Swiss cheese, white truffle emulsion.",
-      "badge": "Chef Pick",
+      "price": 21.9,
+      "description": "Beef or chicken patty, egg, cheese, fried onions, pickles, BBQ sauce",
+      "badge": "",
+      "emoji": "🍔",
       "station": "grill",
-      "dietary": ["halal"],
+      "dietary": [
+        "halal"
+      ],
       "is_sold_out": false,
-      "modifiers": []
+      "imageUrl": "/images/bbq-burger.png",
+      "modifiers": [
+        {
+          "id": "meat",
+          "name": "Choose your meat",
+          "type": "single",
+          "required": true,
+          "options": [
+            {
+              "name": "Beef",
+              "price": 0
+            },
+            {
+              "name": "Chicken",
+              "price": 0
+            }
+          ]
+        },
+        {
+          "id": "addons",
+          "name": "Woodfire Add-ons",
+          "type": "multiple",
+          "required": false,
+          "options": [
+            {
+              "name": "Dill Pickle",
+              "price": 1
+            },
+            {
+              "name": "Cheese",
+              "price": 2
+            },
+            {
+              "name": "Hash Brown",
+              "price": 2.5
+            },
+            {
+              "name": "Egg",
+              "price": 2.5
+            },
+            {
+              "name": "Mushroom",
+              "price": 3
+            },
+            {
+              "name": "Chicken Patty",
+              "price": 7
+            },
+            {
+              "name": "Beef Patty",
+              "price": 8
+            },
+            {
+              "name": "Platter Bun",
+              "price": 4
+            },
+            {
+              "name": "BBQ Sauce",
+              "price": 2
+            },
+            {
+              "name": "Woodfire Sauce",
+              "price": 2
+            },
+            {
+              "name": "Salted Egg Sauce",
+              "price": 3
+            },
+            {
+              "name": "Coney Sauce",
+              "price": 3
+            },
+            {
+              "name": "Cheese Sauce",
+              "price": 3
+            },
+            {
+              "name": "Chicken Slice",
+              "price": 2
+            },
+            {
+              "name": "Smoked Beef Slice",
+              "price": 3
+            },
+            {
+              "name": "Smoked Brisket Slice",
+              "price": 19
+            }
+          ]
+        }
+      ]
     },
     {
-      "id": "wf-smoked-platter",
-      "name": "Texas Smoked Brisket Platter",
+      "id": "mushroom-burger",
+      "name": "Mushroom Burger",
+      "category": "burgers",
+      "price": 23.9,
+      "description": "Beef or chicken patty, shiitake mushrooms, potato hash brown, Woodfire sauce",
+      "badge": "",
+      "emoji": "🍄",
+      "station": "grill",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/mushroom-burger.png",
+      "modifiers": [
+        {
+          "id": "meat",
+          "name": "Choose your meat",
+          "type": "single",
+          "required": true,
+          "options": [
+            {
+              "name": "Beef",
+              "price": 0
+            },
+            {
+              "name": "Chicken",
+              "price": 0
+            }
+          ]
+        },
+        {
+          "id": "addons",
+          "name": "Woodfire Add-ons",
+          "type": "multiple",
+          "required": false,
+          "options": [
+            {
+              "name": "Dill Pickle",
+              "price": 1
+            },
+            {
+              "name": "Cheese",
+              "price": 2
+            },
+            {
+              "name": "Hash Brown",
+              "price": 2.5
+            },
+            {
+              "name": "Egg",
+              "price": 2.5
+            },
+            {
+              "name": "Mushroom",
+              "price": 3
+            },
+            {
+              "name": "Chicken Patty",
+              "price": 7
+            },
+            {
+              "name": "Beef Patty",
+              "price": 8
+            },
+            {
+              "name": "Platter Bun",
+              "price": 4
+            },
+            {
+              "name": "BBQ Sauce",
+              "price": 2
+            },
+            {
+              "name": "Woodfire Sauce",
+              "price": 2
+            },
+            {
+              "name": "Salted Egg Sauce",
+              "price": 3
+            },
+            {
+              "name": "Coney Sauce",
+              "price": 3
+            },
+            {
+              "name": "Cheese Sauce",
+              "price": 3
+            },
+            {
+              "name": "Chicken Slice",
+              "price": 2
+            },
+            {
+              "name": "Smoked Beef Slice",
+              "price": 3
+            },
+            {
+              "name": "Smoked Brisket Slice",
+              "price": 19
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "smoked-burger",
+      "name": "Smoked Burger",
+      "category": "burgers",
+      "price": 24.9,
+      "description": "Beef or chicken patty, cheese, fried onions, pickles, beef bacon, BBQ sauce",
+      "badge": "",
+      "emoji": "🍔",
+      "station": "grill",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/smoked-burger.png",
+      "modifiers": [
+        {
+          "id": "meat",
+          "name": "Choose your meat",
+          "type": "single",
+          "required": true,
+          "options": [
+            {
+              "name": "Beef",
+              "price": 0
+            },
+            {
+              "name": "Chicken",
+              "price": 0
+            }
+          ]
+        },
+        {
+          "id": "addons",
+          "name": "Woodfire Add-ons",
+          "type": "multiple",
+          "required": false,
+          "options": [
+            {
+              "name": "Dill Pickle",
+              "price": 1
+            },
+            {
+              "name": "Cheese",
+              "price": 2
+            },
+            {
+              "name": "Hash Brown",
+              "price": 2.5
+            },
+            {
+              "name": "Egg",
+              "price": 2.5
+            },
+            {
+              "name": "Mushroom",
+              "price": 3
+            },
+            {
+              "name": "Chicken Patty",
+              "price": 7
+            },
+            {
+              "name": "Beef Patty",
+              "price": 8
+            },
+            {
+              "name": "Platter Bun",
+              "price": 4
+            },
+            {
+              "name": "BBQ Sauce",
+              "price": 2
+            },
+            {
+              "name": "Woodfire Sauce",
+              "price": 2
+            },
+            {
+              "name": "Salted Egg Sauce",
+              "price": 3
+            },
+            {
+              "name": "Coney Sauce",
+              "price": 3
+            },
+            {
+              "name": "Cheese Sauce",
+              "price": 3
+            },
+            {
+              "name": "Chicken Slice",
+              "price": 2
+            },
+            {
+              "name": "Smoked Beef Slice",
+              "price": 3
+            },
+            {
+              "name": "Smoked Brisket Slice",
+              "price": 19
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "double-patty",
+      "name": "Double Patty",
+      "category": "burgers",
+      "price": 29.9,
+      "description": "2x beef or chicken patty, chicken slice, pickles, tomatoes, salted egg sauce",
+      "badge": "",
+      "emoji": "🍔",
+      "station": "grill",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/double-patty.png",
+      "modifiers": [
+        {
+          "id": "meat",
+          "name": "Choose your meat",
+          "type": "single",
+          "required": true,
+          "options": [
+            {
+              "name": "Beef",
+              "price": 0
+            },
+            {
+              "name": "Chicken",
+              "price": 0
+            },
+            {
+              "name": "Mix",
+              "price": 0
+            }
+          ]
+        },
+        {
+          "id": "addons",
+          "name": "Woodfire Add-ons",
+          "type": "multiple",
+          "required": false,
+          "options": [
+            {
+              "name": "Dill Pickle",
+              "price": 1
+            },
+            {
+              "name": "Cheese",
+              "price": 2
+            },
+            {
+              "name": "Hash Brown",
+              "price": 2.5
+            },
+            {
+              "name": "Egg",
+              "price": 2.5
+            },
+            {
+              "name": "Mushroom",
+              "price": 3
+            },
+            {
+              "name": "Chicken Patty",
+              "price": 7
+            },
+            {
+              "name": "Beef Patty",
+              "price": 8
+            },
+            {
+              "name": "Platter Bun",
+              "price": 4
+            },
+            {
+              "name": "BBQ Sauce",
+              "price": 2
+            },
+            {
+              "name": "Woodfire Sauce",
+              "price": 2
+            },
+            {
+              "name": "Salted Egg Sauce",
+              "price": 3
+            },
+            {
+              "name": "Coney Sauce",
+              "price": 3
+            },
+            {
+              "name": "Cheese Sauce",
+              "price": 3
+            },
+            {
+              "name": "Chicken Slice",
+              "price": 2
+            },
+            {
+              "name": "Smoked Beef Slice",
+              "price": 3
+            },
+            {
+              "name": "Smoked Brisket Slice",
+              "price": 19
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "brisket-burger",
+      "name": "Brisket Burger",
+      "category": "burgers",
+      "price": 39.9,
+      "description": "Beef or chicken patty, smoked beef brisket, cheese, fried onions, pickles, streaky beef, BBQ sauce",
+      "badge": "Signature",
+      "emoji": "🍔",
+      "station": "grill",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/brisket-burger.png",
+      "modifiers": [
+        {
+          "id": "meat",
+          "name": "Choose your meat",
+          "type": "single",
+          "required": true,
+          "options": [
+            {
+              "name": "Beef",
+              "price": 0
+            },
+            {
+              "name": "Chicken",
+              "price": 0
+            }
+          ]
+        },
+        {
+          "id": "addons",
+          "name": "Woodfire Add-ons",
+          "type": "multiple",
+          "required": false,
+          "options": [
+            {
+              "name": "Dill Pickle",
+              "price": 1
+            },
+            {
+              "name": "Cheese",
+              "price": 2
+            },
+            {
+              "name": "Hash Brown",
+              "price": 2.5
+            },
+            {
+              "name": "Egg",
+              "price": 2.5
+            },
+            {
+              "name": "Mushroom",
+              "price": 3
+            },
+            {
+              "name": "Chicken Patty",
+              "price": 7
+            },
+            {
+              "name": "Beef Patty",
+              "price": 8
+            },
+            {
+              "name": "Platter Bun",
+              "price": 4
+            },
+            {
+              "name": "BBQ Sauce",
+              "price": 2
+            },
+            {
+              "name": "Woodfire Sauce",
+              "price": 2
+            },
+            {
+              "name": "Salted Egg Sauce",
+              "price": 3
+            },
+            {
+              "name": "Coney Sauce",
+              "price": 3
+            },
+            {
+              "name": "Cheese Sauce",
+              "price": 3
+            },
+            {
+              "name": "Chicken Slice",
+              "price": 2
+            },
+            {
+              "name": "Smoked Beef Slice",
+              "price": 3
+            },
+            {
+              "name": "Smoked Brisket Slice",
+              "price": 19
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cheesesteak",
+      "name": "Cheesesteak 2.0 (Beef)",
+      "category": "burgers",
+      "price": 19.9,
+      "description": "Sliced beef, cheese sauce, grilled onions, BBQ sauce",
+      "badge": "",
+      "emoji": "🧀",
+      "station": "grill",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/cheesesteak.png",
+      "modifiers": [
+        {
+          "id": "addons",
+          "name": "Woodfire Add-ons",
+          "type": "multiple",
+          "required": false,
+          "options": [
+            {
+              "name": "Dill Pickle",
+              "price": 1
+            },
+            {
+              "name": "Cheese",
+              "price": 2
+            },
+            {
+              "name": "Hash Brown",
+              "price": 2.5
+            },
+            {
+              "name": "Egg",
+              "price": 2.5
+            },
+            {
+              "name": "Mushroom",
+              "price": 3
+            },
+            {
+              "name": "Chicken Patty",
+              "price": 7
+            },
+            {
+              "name": "Beef Patty",
+              "price": 8
+            },
+            {
+              "name": "Platter Bun",
+              "price": 4
+            },
+            {
+              "name": "BBQ Sauce",
+              "price": 2
+            },
+            {
+              "name": "Woodfire Sauce",
+              "price": 2
+            },
+            {
+              "name": "Salted Egg Sauce",
+              "price": 3
+            },
+            {
+              "name": "Coney Sauce",
+              "price": 3
+            },
+            {
+              "name": "Cheese Sauce",
+              "price": 3
+            },
+            {
+              "name": "Chicken Slice",
+              "price": 2
+            },
+            {
+              "name": "Smoked Beef Slice",
+              "price": 3
+            },
+            {
+              "name": "Smoked Brisket Slice",
+              "price": 19
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "brisket-cheesesteak",
+      "name": "Brisket Cheesesteak",
+      "category": "burgers",
+      "price": 39.9,
+      "description": "Brisket slice, sliced beef, cheese sauce, grilled onions, BBQ sauce",
+      "badge": "",
+      "emoji": "🧀",
+      "station": "grill",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/brisket-cheesesteak.png",
+      "modifiers": [
+        {
+          "id": "addons",
+          "name": "Woodfire Add-ons",
+          "type": "multiple",
+          "required": false,
+          "options": [
+            {
+              "name": "Dill Pickle",
+              "price": 1
+            },
+            {
+              "name": "Cheese",
+              "price": 2
+            },
+            {
+              "name": "Hash Brown",
+              "price": 2.5
+            },
+            {
+              "name": "Egg",
+              "price": 2.5
+            },
+            {
+              "name": "Mushroom",
+              "price": 3
+            },
+            {
+              "name": "Chicken Patty",
+              "price": 7
+            },
+            {
+              "name": "Beef Patty",
+              "price": 8
+            },
+            {
+              "name": "Platter Bun",
+              "price": 4
+            },
+            {
+              "name": "BBQ Sauce",
+              "price": 2
+            },
+            {
+              "name": "Woodfire Sauce",
+              "price": 2
+            },
+            {
+              "name": "Salted Egg Sauce",
+              "price": 3
+            },
+            {
+              "name": "Coney Sauce",
+              "price": 3
+            },
+            {
+              "name": "Cheese Sauce",
+              "price": 3
+            },
+            {
+              "name": "Chicken Slice",
+              "price": 2
+            },
+            {
+              "name": "Smoked Beef Slice",
+              "price": 3
+            },
+            {
+              "name": "Smoked Brisket Slice",
+              "price": 19
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "smoked-chicken-quarter",
+      "name": "Smoked Chicken (Quarter)",
       "category": "smoked",
-      "price": 48.00,
-      "description": "250g thick-cut USDA smoked brisket, served with house slaw, Texas toast, buttered sweet corn, pickled jalapeños.",
-      "badge": "Signature",
+      "price": 23,
+      "description": "Smoked chicken thigh. Served with curly fries or toasted bread and sauces.",
+      "badge": "",
+      "emoji": "🍗",
       "station": "grill",
-      "dietary": ["halal", "keto"],
+      "dietary": [
+        "halal"
+      ],
       "is_sold_out": false,
-      "modifiers": []
-    },
-    {
-      "id": "wf-fried-chicken",
-      "name": "Crispy Buttermilk Chicken (3 Pcs)",
-      "category": "chicken",
-      "price": 19.90,
-      "description": "24-hour spiced buttermilk marinated chicken dredged in secret seasoning, served piping hot and golden.",
-      "badge": "Popular",
-      "station": "fry",
-      "dietary": ["halal"],
-      "is_sold_out": false,
+      "imageUrl": "",
       "modifiers": [
         {
-          "id": "flavor",
-          "name": "Glaze Flavor",
-          "type": "single",
-          "required": true,
+          "id": "addons",
+          "name": "Woodfire Add-ons",
+          "type": "multiple",
+          "required": false,
           "options": [
-            { "name": "Honey Butter Garlic", "price": 0 },
-            { "name": "Nashville Hot Ghost Chili", "price": 2.00 },
-            { "name": "Original Crispy (No Glaze)", "price": 0 }
+            {
+              "name": "Dill Pickle",
+              "price": 1
+            },
+            {
+              "name": "Cheese",
+              "price": 2
+            },
+            {
+              "name": "Hash Brown",
+              "price": 2.5
+            },
+            {
+              "name": "Egg",
+              "price": 2.5
+            },
+            {
+              "name": "Mushroom",
+              "price": 3
+            },
+            {
+              "name": "Chicken Patty",
+              "price": 7
+            },
+            {
+              "name": "Beef Patty",
+              "price": 8
+            },
+            {
+              "name": "Platter Bun",
+              "price": 4
+            },
+            {
+              "name": "BBQ Sauce",
+              "price": 2
+            },
+            {
+              "name": "Woodfire Sauce",
+              "price": 2
+            },
+            {
+              "name": "Salted Egg Sauce",
+              "price": 3
+            },
+            {
+              "name": "Coney Sauce",
+              "price": 3
+            },
+            {
+              "name": "Cheese Sauce",
+              "price": 3
+            },
+            {
+              "name": "Chicken Slice",
+              "price": 2
+            },
+            {
+              "name": "Smoked Beef Slice",
+              "price": 3
+            },
+            {
+              "name": "Smoked Brisket Slice",
+              "price": 19
+            }
           ]
         }
       ]
     },
     {
-      "id": "wf-curly-fries",
-      "name": "Seasoned Curly Fries",
-      "category": "sides",
-      "price": 9.50,
-      "description": "Spiral-cut seasoned crispy potatoes served with Woodfire cheese sauce.",
+      "id": "smoked-brisket-200g",
+      "name": "Smoked Brisket (200g)",
+      "category": "smoked",
+      "price": 46,
+      "description": "Smoked beef brisket. Served with curly fries or toasted bread and sauces.",
+      "badge": "Chef pick",
+      "emoji": "🥩",
+      "station": "grill",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80",
+      "modifiers": [
+        {
+          "id": "addons",
+          "name": "Woodfire Add-ons",
+          "type": "multiple",
+          "required": false,
+          "options": [
+            {
+              "name": "Dill Pickle",
+              "price": 1
+            },
+            {
+              "name": "Cheese",
+              "price": 2
+            },
+            {
+              "name": "Hash Brown",
+              "price": 2.5
+            },
+            {
+              "name": "Egg",
+              "price": 2.5
+            },
+            {
+              "name": "Mushroom",
+              "price": 3
+            },
+            {
+              "name": "Chicken Patty",
+              "price": 7
+            },
+            {
+              "name": "Beef Patty",
+              "price": 8
+            },
+            {
+              "name": "Platter Bun",
+              "price": 4
+            },
+            {
+              "name": "BBQ Sauce",
+              "price": 2
+            },
+            {
+              "name": "Woodfire Sauce",
+              "price": 2
+            },
+            {
+              "name": "Salted Egg Sauce",
+              "price": 3
+            },
+            {
+              "name": "Coney Sauce",
+              "price": 3
+            },
+            {
+              "name": "Cheese Sauce",
+              "price": 3
+            },
+            {
+              "name": "Chicken Slice",
+              "price": 2
+            },
+            {
+              "name": "Smoked Beef Slice",
+              "price": 3
+            },
+            {
+              "name": "Smoked Brisket Slice",
+              "price": 19
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "smoked-lamb-rib",
+      "name": "Smoked Lamb Rib",
+      "category": "smoked",
+      "price": 50,
+      "description": "Smoked lamb rib. Price may vary; contact outlet.",
       "badge": "",
-      "station": "fry",
-      "dietary": ["halal", "vegetarian"],
+      "emoji": "🍖",
+      "station": "grill",
+      "dietary": [
+        "halal"
+      ],
       "is_sold_out": false,
-      "modifiers": []
+      "imageUrl": "",
+      "modifiers": [
+        {
+          "id": "addons",
+          "name": "Woodfire Add-ons",
+          "type": "multiple",
+          "required": false,
+          "options": [
+            {
+              "name": "Dill Pickle",
+              "price": 1
+            },
+            {
+              "name": "Cheese",
+              "price": 2
+            },
+            {
+              "name": "Hash Brown",
+              "price": 2.5
+            },
+            {
+              "name": "Egg",
+              "price": 2.5
+            },
+            {
+              "name": "Mushroom",
+              "price": 3
+            },
+            {
+              "name": "Chicken Patty",
+              "price": 7
+            },
+            {
+              "name": "Beef Patty",
+              "price": 8
+            },
+            {
+              "name": "Platter Bun",
+              "price": 4
+            },
+            {
+              "name": "BBQ Sauce",
+              "price": 2
+            },
+            {
+              "name": "Woodfire Sauce",
+              "price": 2
+            },
+            {
+              "name": "Salted Egg Sauce",
+              "price": 3
+            },
+            {
+              "name": "Coney Sauce",
+              "price": 3
+            },
+            {
+              "name": "Cheese Sauce",
+              "price": 3
+            },
+            {
+              "name": "Chicken Slice",
+              "price": 2
+            },
+            {
+              "name": "Smoked Beef Slice",
+              "price": 3
+            },
+            {
+              "name": "Smoked Brisket Slice",
+              "price": 19
+            }
+          ]
+        }
+      ]
     },
     {
-      "id": "wf-truffle-fries",
-      "name": "Parmesan Truffle Fries",
-      "category": "sides",
-      "price": 14.00,
-      "description": "Shoestring fries tossed in white truffle oil, fresh rosemary, and grated aged Grana Padano.",
-      "badge": "Chef Pick",
-      "station": "fry",
-      "dietary": ["halal", "vegetarian"],
-      "is_sold_out": false,
-      "modifiers": []
-    },
-    {
-      "id": "wf-shake-salted-caramel",
-      "name": "Artisanal Salted Caramel Shake",
-      "category": "shakes",
-      "price": 16.00,
-      "description": "Creamy Madagascar vanilla bean gelato, homemade salted caramel swirl, whipped cream, pretzel crumble.",
-      "badge": "Signature",
-      "station": "bar",
-      "dietary": ["halal", "vegetarian"],
-      "is_sold_out": false,
-      "modifiers": []
-    },
-    {
-      "id": "wf-iced-lemon-tea",
-      "name": "Hand-Brewed Peach Lemon Tea",
-      "category": "shakes",
-      "price": 7.50,
-      "description": "Slow-brewed Ceylon black tea infused with fresh lemon and white peach nectar.",
+      "id": "smoked-beef-rib",
+      "name": "Smoked Beef Rib",
+      "category": "smoked",
+      "price": 90,
+      "description": "Smoked beef rib. Price may vary; contact outlet.",
       "badge": "",
-      "station": "bar",
-      "dietary": ["halal", "vegan"],
+      "emoji": "🥩",
+      "station": "grill",
+      "dietary": [
+        "halal"
+      ],
       "is_sold_out": false,
+      "imageUrl": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=900&q=80",
+      "modifiers": [
+        {
+          "id": "addons",
+          "name": "Woodfire Add-ons",
+          "type": "multiple",
+          "required": false,
+          "options": [
+            {
+              "name": "Dill Pickle",
+              "price": 1
+            },
+            {
+              "name": "Cheese",
+              "price": 2
+            },
+            {
+              "name": "Hash Brown",
+              "price": 2.5
+            },
+            {
+              "name": "Egg",
+              "price": 2.5
+            },
+            {
+              "name": "Mushroom",
+              "price": 3
+            },
+            {
+              "name": "Chicken Patty",
+              "price": 7
+            },
+            {
+              "name": "Beef Patty",
+              "price": 8
+            },
+            {
+              "name": "Platter Bun",
+              "price": 4
+            },
+            {
+              "name": "BBQ Sauce",
+              "price": 2
+            },
+            {
+              "name": "Woodfire Sauce",
+              "price": 2
+            },
+            {
+              "name": "Salted Egg Sauce",
+              "price": 3
+            },
+            {
+              "name": "Coney Sauce",
+              "price": 3
+            },
+            {
+              "name": "Cheese Sauce",
+              "price": 3
+            },
+            {
+              "name": "Chicken Slice",
+              "price": 2
+            },
+            {
+              "name": "Smoked Beef Slice",
+              "price": 3
+            },
+            {
+              "name": "Smoked Brisket Slice",
+              "price": 19
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "curly-fries",
+      "name": "Curly Fries",
+      "category": "fries",
+      "price": 6.9,
+      "description": "Curly fries & spice",
+      "badge": "",
+      "emoji": "🍟",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "https://images.unsplash.com/photo-1585109649139-366815a0d713?auto=format&fit=crop&w=600&q=80",
+      "modifiers": []
+    },
+    {
+      "id": "cheese-fries",
+      "name": "Cheese Fries",
+      "category": "fries",
+      "price": 12.9,
+      "description": "Curly fries & cheese sauce",
+      "badge": "",
+      "emoji": "🍟",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "",
+      "modifiers": []
+    },
+    {
+      "id": "coney-fries",
+      "name": "Coney Fries",
+      "category": "fries",
+      "price": 13.9,
+      "description": "Curly fries, cheese & coney sauce",
+      "badge": "",
+      "emoji": "🍟",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "https://images.unsplash.com/photo-1585109649139-366815a0d713?auto=format&fit=crop&w=600&q=80",
+      "modifiers": []
+    },
+    {
+      "id": "beef-cheese-fries",
+      "name": "Beef & Cheese Fries",
+      "category": "fries",
+      "price": 16.9,
+      "description": "Curly fries, cheese sauce & meat slice",
+      "badge": "",
+      "emoji": "🍟",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "",
+      "modifiers": []
+    },
+    {
+      "id": "chicken-cheese-fries",
+      "name": "Chicken & Cheese Fries",
+      "category": "fries",
+      "price": 17.9,
+      "description": "Curly fries, cheese sauce & chicken slice",
+      "badge": "",
+      "emoji": "🍟",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "",
+      "modifiers": []
+    },
+    {
+      "id": "bone-in-kids",
+      "name": "Bone-In Ala Carte (No Heat / Kids)",
+      "category": "chicken",
+      "price": 8,
+      "description": "1 piece",
+      "badge": "",
+      "emoji": "🍗",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/fried-chicken-1pc.png",
+      "modifiers": []
+    },
+    {
+      "id": "bone-in-light",
+      "name": "Bone-In Ala Carte (Level 1-3 / Glazed)",
+      "category": "chicken",
+      "price": 9.5,
+      "description": "1 piece",
+      "badge": "",
+      "emoji": "🍗",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/fried-chicken-1pc.png",
+      "modifiers": []
+    },
+    {
+      "id": "bone-in-hot",
+      "name": "Bone-In Ala Carte (Level 4)",
+      "category": "chicken",
+      "price": 11.5,
+      "description": "1 piece",
+      "badge": "",
+      "emoji": "🍗",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/fried-chicken-1pc.png",
+      "modifiers": []
+    },
+    {
+      "id": "set-a-kids",
+      "name": "Set A Firestarter (No Heat / Kids)",
+      "category": "chicken",
+      "price": 24.9,
+      "description": "2 pcs chicken, 1 fries, 1 sauce, 1 soft drink",
+      "badge": "",
+      "emoji": "🍗",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/fried-chicken-2pc-combo.png",
+      "modifiers": []
+    },
+    {
+      "id": "set-a-light",
+      "name": "Set A Firestarter (Level 1-3 / Glazed)",
+      "category": "chicken",
+      "price": 26.9,
+      "description": "2 pcs chicken, 1 fries, 1 sauce, 1 soft drink",
+      "badge": "",
+      "emoji": "🍗",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/fried-chicken-2pc-combo.png",
+      "modifiers": []
+    },
+    {
+      "id": "set-a-hot",
+      "name": "Set A Firestarter (Level 4)",
+      "category": "chicken",
+      "price": 28.9,
+      "description": "2 pcs chicken, 1 fries, 1 sauce, 1 soft drink",
+      "badge": "",
+      "emoji": "🍗",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/fried-chicken-2pc-combo.png",
+      "modifiers": []
+    },
+    {
+      "id": "set-b-kids",
+      "name": "Set B MVP (No Heat / Kids)",
+      "category": "chicken",
+      "price": 31.9,
+      "description": "2 pcs chicken, 1 fries, 1 sauce, 1 soft drink, 1 coleslaw, 1 side",
+      "badge": "",
+      "emoji": "🍗",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/fried-chicken-2pc-deluxe-combo.png",
+      "modifiers": []
+    },
+    {
+      "id": "set-b-light",
+      "name": "Set B MVP (Level 1-3 / Glazed)",
+      "category": "chicken",
+      "price": 33.9,
+      "description": "2 pcs chicken, 1 fries, 1 sauce, 1 soft drink, 1 coleslaw, 1 side",
+      "badge": "",
+      "emoji": "🍗",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/fried-chicken-2pc-deluxe-combo.png",
+      "modifiers": []
+    },
+    {
+      "id": "set-b-hot",
+      "name": "Set B MVP (Level 4)",
+      "category": "chicken",
+      "price": 35.9,
+      "description": "2 pcs chicken, 1 fries, 1 sauce, 1 soft drink, 1 coleslaw, 1 side",
+      "badge": "",
+      "emoji": "🍗",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/fried-chicken-2pc-deluxe-combo.png",
+      "modifiers": []
+    },
+    {
+      "id": "boneless-kids",
+      "name": "Boneless Ala Carte (No Heat / Kids)",
+      "category": "chicken",
+      "price": 5.9,
+      "description": "1 piece",
+      "badge": "",
+      "emoji": "🍗",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/chicken-tenders-3pc.png",
+      "modifiers": []
+    },
+    {
+      "id": "boneless-light",
+      "name": "Boneless Ala Carte (Level 1-3 / Glazed)",
+      "category": "chicken",
+      "price": 6.9,
+      "description": "1 piece",
+      "badge": "",
+      "emoji": "🍗",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/chicken-tenders-3pc.png",
+      "modifiers": []
+    },
+    {
+      "id": "boneless-hot",
+      "name": "Boneless Ala Carte (Level 4)",
+      "category": "chicken",
+      "price": 8.9,
+      "description": "1 piece",
+      "badge": "",
+      "emoji": "🍗",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/chicken-tenders-3pc.png",
+      "modifiers": []
+    },
+    {
+      "id": "set-c-kids",
+      "name": "Set C Firestarter (No Heat / Kids)",
+      "category": "chicken",
+      "price": 23.9,
+      "description": "2 pcs boneless, 1 fries, 1 sauce, 1 soft drink",
+      "badge": "",
+      "emoji": "🍗",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/chicken-tenders-3pc-combo.png",
+      "modifiers": []
+    },
+    {
+      "id": "set-c-light",
+      "name": "Set C Firestarter (Level 1-3 / Glazed)",
+      "category": "chicken",
+      "price": 25.9,
+      "description": "2 pcs boneless, 1 fries, 1 sauce, 1 soft drink",
+      "badge": "",
+      "emoji": "🍗",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/chicken-tenders-3pc-combo.png",
+      "modifiers": []
+    },
+    {
+      "id": "set-c-hot",
+      "name": "Set C Firestarter (Level 4)",
+      "category": "chicken",
+      "price": 27.9,
+      "description": "2 pcs boneless, 1 fries, 1 sauce, 1 soft drink",
+      "badge": "",
+      "emoji": "🍗",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/chicken-tenders-3pc-combo.png",
+      "modifiers": []
+    },
+    {
+      "id": "set-d-kids",
+      "name": "Set D MVP (No Heat / Kids)",
+      "category": "chicken",
+      "price": 29.9,
+      "description": "2 pcs boneless, 1 fries, 1 sauce, 1 soft drink, 1 coleslaw, 1 side",
+      "badge": "",
+      "emoji": "🍗",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/chicken-tenders-3pc-deluxe-combo.png",
+      "modifiers": []
+    },
+    {
+      "id": "set-d-light",
+      "name": "Set D MVP (Level 1-3 / Glazed)",
+      "category": "chicken",
+      "price": 31.9,
+      "description": "2 pcs boneless, 1 fries, 1 sauce, 1 soft drink, 1 coleslaw, 1 side",
+      "badge": "",
+      "emoji": "🍗",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/chicken-tenders-3pc-deluxe-combo.png",
+      "modifiers": []
+    },
+    {
+      "id": "set-d-hot",
+      "name": "Set D MVP (Level 4)",
+      "category": "chicken",
+      "price": 33.9,
+      "description": "2 pcs boneless, 1 fries, 1 sauce, 1 soft drink, 1 coleslaw, 1 side",
+      "badge": "",
+      "emoji": "🍗",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/chicken-tenders-3pc-deluxe-combo.png",
+      "modifiers": []
+    },
+    {
+      "id": "sando-kids",
+      "name": "Sando Ala Carte (No Heat / Kids)",
+      "category": "chicken",
+      "price": 12.9,
+      "description": "Chicken sandwich, 1 piece",
+      "badge": "",
+      "emoji": "🥪",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/chicken-sandwich.png",
+      "modifiers": []
+    },
+    {
+      "id": "sando-light",
+      "name": "Sando Ala Carte (Level 1-3 / Glazed)",
+      "category": "chicken",
+      "price": 14.9,
+      "description": "Chicken sandwich, 1 piece",
+      "badge": "",
+      "emoji": "🥪",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/chicken-sandwich.png",
+      "modifiers": []
+    },
+    {
+      "id": "sando-hot",
+      "name": "Sando Ala Carte (Level 4)",
+      "category": "chicken",
+      "price": 16.9,
+      "description": "Chicken sandwich, 1 piece",
+      "badge": "",
+      "emoji": "🥪",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/chicken-sandwich.png",
+      "modifiers": []
+    },
+    {
+      "id": "set-e-kids",
+      "name": "Set E Firestarter (No Heat / Kids)",
+      "category": "chicken",
+      "price": 24.9,
+      "description": "1 pc sando, 1 fries, 1 sauce, 1 soft drink",
+      "badge": "",
+      "emoji": "🥪",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/chicken-sandwich-combo.png",
+      "modifiers": []
+    },
+    {
+      "id": "set-e-light",
+      "name": "Set E Firestarter (Level 1-3 / Glazed)",
+      "category": "chicken",
+      "price": 26.9,
+      "description": "1 pc sando, 1 fries, 1 sauce, 1 soft drink",
+      "badge": "",
+      "emoji": "🥪",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/chicken-sandwich-combo.png",
+      "modifiers": []
+    },
+    {
+      "id": "set-e-hot",
+      "name": "Set E Firestarter (Level 4)",
+      "category": "chicken",
+      "price": 28.9,
+      "description": "1 pc sando, 1 fries, 1 sauce, 1 soft drink",
+      "badge": "",
+      "emoji": "🥪",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/chicken-sandwich-combo.png",
+      "modifiers": []
+    },
+    {
+      "id": "set-f-kids",
+      "name": "Set F MVP (No Heat / Kids)",
+      "category": "chicken",
+      "price": 31.9,
+      "description": "2 pcs sando, 1 fries, 1 sauce, 1 soft drink, 1 coleslaw, 1 side",
+      "badge": "",
+      "emoji": "🥪",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/chicken-sandwich-deluxe-combo.png",
+      "modifiers": []
+    },
+    {
+      "id": "set-f-light",
+      "name": "Set F MVP (Level 1-3 / Glazed)",
+      "category": "chicken",
+      "price": 33.9,
+      "description": "2 pcs sando, 1 fries, 1 sauce, 1 soft drink, 1 coleslaw, 1 side",
+      "badge": "",
+      "emoji": "🥪",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/chicken-sandwich-deluxe-combo.png",
+      "modifiers": []
+    },
+    {
+      "id": "set-f-hot",
+      "name": "Set F MVP (Level 4)",
+      "category": "chicken",
+      "price": 35.9,
+      "description": "2 pcs sando, 1 fries, 1 sauce, 1 soft drink, 1 coleslaw, 1 side",
+      "badge": "",
+      "emoji": "🥪",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "/images/chicken-sandwich-deluxe-combo.png",
+      "modifiers": []
+    },
+    {
+      "id": "vanilla-shake",
+      "name": "Vanilla Shake",
+      "category": "shakes",
+      "price": 16.9,
+      "description": "",
+      "badge": "",
+      "emoji": "🥤",
+      "station": "bar",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80",
+      "modifiers": []
+    },
+    {
+      "id": "chocolate-shake",
+      "name": "Chocolate Shake",
+      "category": "shakes",
+      "price": 16.9,
+      "description": "",
+      "badge": "",
+      "emoji": "🥤",
+      "station": "bar",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "",
+      "modifiers": []
+    },
+    {
+      "id": "oreo-shake",
+      "name": "Oreo Shake",
+      "category": "shakes",
+      "price": 16.9,
+      "description": "",
+      "badge": "",
+      "emoji": "🥤",
+      "station": "bar",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "",
+      "modifiers": []
+    },
+    {
+      "id": "matcha-shake",
+      "name": "Matcha Shake",
+      "category": "shakes",
+      "price": 16.9,
+      "description": "",
+      "badge": "",
+      "emoji": "🥤",
+      "station": "bar",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "",
+      "modifiers": []
+    },
+    {
+      "id": "peanut-butter-shake",
+      "name": "Peanut Butter Shake",
+      "category": "shakes",
+      "price": 16.9,
+      "description": "",
+      "badge": "",
+      "emoji": "🥤",
+      "station": "bar",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "",
+      "modifiers": []
+    },
+    {
+      "id": "biscoff-shake",
+      "name": "Biscoff Shake",
+      "category": "shakes",
+      "price": 16.9,
+      "description": "",
+      "badge": "",
+      "emoji": "🥤",
+      "station": "bar",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "",
+      "modifiers": []
+    },
+    {
+      "id": "strawberry-shake",
+      "name": "Strawberry Shake",
+      "category": "shakes",
+      "price": 16.9,
+      "description": "",
+      "badge": "",
+      "emoji": "🥤",
+      "station": "bar",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "",
+      "modifiers": []
+    },
+    {
+      "id": "buttershake",
+      "name": "Buttershake",
+      "category": "shakes",
+      "price": 16.9,
+      "description": "",
+      "badge": "",
+      "emoji": "🥤",
+      "station": "bar",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "",
+      "modifiers": []
+    },
+    {
+      "id": "strawberry-matcha-shake",
+      "name": "Strawberry Matcha Shake",
+      "category": "shakes",
+      "price": 18.9,
+      "description": "",
+      "badge": "",
+      "emoji": "🥤",
+      "station": "bar",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "",
+      "modifiers": []
+    },
+    {
+      "id": "add-on-ice-cream",
+      "name": "Add-On Ice Cream",
+      "category": "shakes",
+      "price": 2,
+      "description": "",
+      "badge": "",
+      "emoji": "🍨",
+      "station": "bar",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "",
+      "modifiers": []
+    },
+    {
+      "id": "mineral-water",
+      "name": "Mineral Water",
+      "category": "shakes",
+      "price": 3.9,
+      "description": "",
+      "badge": "",
+      "emoji": "💧",
+      "station": "bar",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "",
+      "modifiers": []
+    },
+    {
+      "id": "salt-cola",
+      "name": "Salt Cola",
+      "category": "shakes",
+      "price": 4.5,
+      "description": "",
+      "badge": "",
+      "emoji": "🥤",
+      "station": "bar",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "",
+      "modifiers": []
+    },
+    {
+      "id": "aw-float",
+      "name": "A & W Float",
+      "category": "shakes",
+      "price": 7.5,
+      "description": "",
+      "badge": "",
+      "emoji": "🥤",
+      "station": "bar",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80",
+      "modifiers": []
+    },
+    {
+      "id": "butter-soda",
+      "name": "Butter Soda",
+      "category": "shakes",
+      "price": 7.9,
+      "description": "",
+      "badge": "",
+      "emoji": "🥤",
+      "station": "bar",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "",
+      "modifiers": []
+    },
+    {
+      "id": "chocolate-malt",
+      "name": "Chocolate Malt",
+      "category": "shakes",
+      "price": 6.9,
+      "description": "",
+      "badge": "",
+      "emoji": "🥤",
+      "station": "bar",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "",
+      "modifiers": []
+    },
+    {
+      "id": "hausboom",
+      "name": "Hausboom Bottle",
+      "category": "shakes",
+      "price": 6.9,
+      "description": "",
+      "badge": "",
+      "emoji": "🥤",
+      "station": "bar",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "",
+      "modifiers": []
+    },
+    {
+      "id": "honey-calamansi",
+      "name": "Iced Honey Calamansi",
+      "category": "shakes",
+      "price": 6.9,
+      "description": "",
+      "badge": "",
+      "emoji": "🍋",
+      "station": "bar",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "",
+      "modifiers": []
+    },
+    {
+      "id": "lemonade",
+      "name": "Lemonade",
+      "category": "shakes",
+      "price": 6.9,
+      "description": "",
+      "badge": "",
+      "emoji": "🍋",
+      "station": "bar",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "",
+      "modifiers": []
+    },
+    {
+      "id": "upgrade-soft-drink",
+      "name": "Soft Drink (L)",
+      "category": "upgrades",
+      "price": 2.9,
+      "description": "",
+      "badge": "",
+      "emoji": "🥤",
+      "station": "bar",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "https://images.unsplash.com/photo-1543339494-b4cd4f7ba686?auto=format&fit=crop&w=600&q=80",
+      "modifiers": []
+    },
+    {
+      "id": "upgrade-coleslaw",
+      "name": "Coleslaw (L)",
+      "category": "upgrades",
+      "price": 7.9,
+      "description": "",
+      "badge": "",
+      "emoji": "🥗",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "",
+      "modifiers": []
+    },
+    {
+      "id": "upgrade-milkshake",
+      "name": "Milkshake",
+      "category": "upgrades",
+      "price": 9.9,
+      "description": "",
+      "badge": "",
+      "emoji": "🥤",
+      "station": "bar",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "https://images.unsplash.com/photo-1543339494-b4cd4f7ba686?auto=format&fit=crop&w=600&q=80",
+      "modifiers": []
+    },
+    {
+      "id": "upgrade-mac-cheese",
+      "name": "Mac & Cheese (L)",
+      "category": "upgrades",
+      "price": 9.9,
+      "description": "",
+      "badge": "",
+      "emoji": "🧀",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "",
+      "modifiers": []
+    },
+    {
+      "id": "upgrade-mash",
+      "name": "Madhen Mash (L)",
+      "category": "upgrades",
+      "price": 9.9,
+      "description": "",
+      "badge": "",
+      "emoji": "🥔",
+      "station": "fry",
+      "dietary": [
+        "halal"
+      ],
+      "is_sold_out": false,
+      "imageUrl": "",
       "modifiers": []
     }
   ]
