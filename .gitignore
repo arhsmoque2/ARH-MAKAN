@@ -28,4 +28,6 @@ evidence/recordings/page@*.webm
 !.claude/skills/flow-of-events-first/
 !.claude/skills/fnb-taste-palette-design/
 !.claude/skills/session-intelligence-harvester/
+!.claude/hooks/
+!.claude/hooks/*
 !.claude/settings.json

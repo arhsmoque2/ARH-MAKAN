@@ -33,6 +33,8 @@ run('node scripts/test-worker-runtime.mjs', '9. Cloudflare Worker Runtime & Edge
 run('node scripts/check-design-tokens.mjs', '10. Design Token & Theme Consistency Linter');
 run('node scripts/check-ui-integrity.mjs', '11. Multi-Viewport UI Integrity & Layout Overflow Gate');
 run('node scripts/test-visual-regression.mjs', '12. Visual Regression Baseline Snapshot Gate');
+run('node scripts/test-e2e-smoke.mjs', '13. E2E Interactive Runtime Smoke & Exception Gate');
+run('node scripts/check-docs-freshness.mjs', '14. Docs Freshness & Living Knowledge Triad Linter');
 
-console.log('\n🎉 🩺 CI Doctor completed all 12 validation gates successfully!');
+console.log('\n🎉 🩺 CI Doctor completed all 14 validation gates successfully!');
 
