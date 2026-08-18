@@ -6,7 +6,11 @@
   "scripts": {
     "test": "node scripts/arh-ci-doctor.mjs",
     "doctor": "node scripts/arh-ci-doctor.mjs",
+    "test:record": "node scripts/record-simulation-video.mjs",
     "dev": "npx serve -p 8080 .",
     "precommit": "node scripts/arh-ci-doctor.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.62.1"
   }
 }

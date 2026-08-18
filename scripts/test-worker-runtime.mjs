@@ -96,6 +96,28 @@ const mockAssets = {
   assert(res.headers.get('Content-Type') === 'application/json', 'Content-Type preserved correctly');
 }
 
+// 5. Test Cloudflare Zero Trust Access Gating
+{
+  console.log('\n5. Testing Cloudflare Zero Trust Access Gating:');
+  const envProtected = {
+    ZERO_TRUST_ENFORCED: 'true',
+    ALLOWED_TEST_EMAILS: 'arhsmoque@gmail.com,tester@woodfire.my',
+    ASSETS: mockAssets
+  };
+
+  // Case A: Unauthenticated request should get 403 Forbidden
+  const unauthReq = new Request('https://makan.woodfire.my/index.html');
+  const unauthRes = await worker.fetch(unauthReq, envProtected);
+  assert(unauthRes.status === 403, 'Unauthenticated edge request rejected with 403 Forbidden');
+
+  // Case B: Authenticated allowed user gets 200 OK
+  const authReq = new Request('https://makan.woodfire.my/index.html', {
+    headers: { 'cf-access-authenticated-user-email': 'arhsmoque@gmail.com' }
+  });
+  const authRes = await worker.fetch(authReq, envProtected);
+  assert(authRes.status === 200, 'Authenticated allowed test email passes with 200 OK');
+}
+
 console.log('\n========================================');
 console.log(`Worker Runtime Test Results: ${passed} passed, ${failed} failed.`);
 
