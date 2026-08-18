@@ -2,6 +2,18 @@
 
 All notable changes to the ARH-MAKAN repository are documented in this file.
 
+## [2.5.0] - 2026-08-18
+### Added
+- **Static Design Token & Consistency Linter (`scripts/check-design-tokens.mjs` — Gate 10)**: Automated AST/regex validator enforcing canonical CSS tokens (`var(--gold-*)`, `var(--bg-*)`, `var(--text-*)`, `var(--font-*)`) and banning forbidden tropes (purple-on-dark, neon outlines, untracked typography).
+- **Multi-Viewport UI Integrity & Layout Overflow Scanner (`scripts/check-ui-integrity.mjs` — Gate 11)**: Automated Playwright scanner testing Mobile (390px), Tablet (768px), and Desktop (1280px) for horizontal page scrollbar overflow (`[page-overflow-x]`), broken assets, and console errors.
+- **Visual Regression Testing & Baseline Diff Engine (`scripts/test-visual-regression.mjs` — Gate 12)**: Playwright pixel-perfect snapshot engine verifying 6 core surfaces against committed golden baselines (`evidence/visual-baselines/`).
+- **12-Gate CI Doctor Suite (`scripts/arh-ci-doctor.mjs`)**: Upgraded central quality harness with all 12 validation gates.
+- **ADR-0010**: Documented architecture decisions in `docs/decisions/0010-design-token-linters-layout-integrity-and-visual-regression-gates.md`.
+
+### Fixed
+- Replaced untracked `font-family: monospace;` with `var(--font-mono)` in `pos/pos.css`.
+- Fixed mobile and tablet horizontal page overflow in `kds/kds.css` and `pos/pos.css`.
+
 ## [2.4.0] - 2026-08-18
 ### Added
 - **Developer Console (DevCon) Surface (`/devcon/`)**: Dedicated operator & telemetry HUD with permanent In-App Sales & Velocity Analytics, Beacon-style Error Telemetry, 3-Tier State Engine Inspector, and synthetic Scenario Lab.
