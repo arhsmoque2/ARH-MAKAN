@@ -17,6 +17,10 @@ playwright-report/
 blob-report/
 .coverage/
 
+# Raw playwright recordings before rename to the canonical evidence artifact
+# (see scripts/record-simulation-video.mjs) should never be committed.
+evidence/recordings/page@*.webm
+
 # Dotfiles wholesale ignore with vendored skills carve-out (ARH-URUS pattern)
 .claude/*
 !.claude/skills/
