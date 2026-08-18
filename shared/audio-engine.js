@@ -48,6 +48,30 @@ class FnbAudioEngine {
   }
 
   /**
+   * Distinct station audio chimes for kitchen routing (URY / BiteBase pattern)
+   */
+  playStationChime(station = 'grill') {
+    if (!this.init()) return;
+    const now = this.ctx.currentTime;
+
+    if (station === 'grill') {
+      // Deep warm wood-smoke chime (440Hz -> 330Hz)
+      this._playTone(440.00, now, 0.35, 'triangle', 0.25);
+      this._playTone(329.63, now + 0.1, 0.45, 'sine', 0.25);
+    } else if (station === 'fry') {
+      // Crisp quick snap (659.25Hz -> 880Hz)
+      this._playTone(659.25, now, 0.2, 'sine', 0.2);
+      this._playTone(880.00, now + 0.08, 0.3, 'triangle', 0.22);
+    } else if (station === 'bar') {
+      // High bright crystal glass chime (880Hz -> 1174.66Hz)
+      this._playTone(880.00, now, 0.25, 'sine', 0.18);
+      this._playTone(1174.66, now + 0.1, 0.5, 'sine', 0.22);
+    } else {
+      this.playNewOrderChime();
+    }
+  }
+
+  /**
    * Quick pleasant pop for item completion / bump
    */
   playBumpChime() {

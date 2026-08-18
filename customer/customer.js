@@ -7,6 +7,50 @@ let activeDietary = 'all';
 let cart = [];
 let pendingModifierItem = null;
 let activePlacedOrder = null;
+let currentLang = localStorage.getItem('arh_lang') || 'en';
+let selectedRating = 5;
+let selectedReviewTags = [];
+
+const translations = {
+  en: {
+    heroSub: 'Oak-Smoked Meats, Hand-Pressed Angus Burgers & Shakes',
+    toggleBtn: '🇬🇧 EN',
+    splitBtn: 'Split Bill 🧮',
+    rateBtn: '⭐ Rate Dining',
+    trackerTitle: 'Live Kitchen Tracker',
+    step1: 'Placed',
+    step2: 'Cooking',
+    step3: 'Ready',
+    step4: 'Served',
+    emptyCart: 'Your cart is empty.',
+    sendOrder: '🔥 Send Order to Kitchen'
+  },
+  bm: {
+    heroSub: 'Daging Salai Kayu Oak, Burger Daging Angus & Minuman Shake',
+    toggleBtn: '🇲🇾 BM',
+    splitBtn: 'Kongsi Bil 🧮',
+    rateBtn: '⭐ Nilaikan Kami',
+    trackerTitle: 'Penjejak Dapur Langsung',
+    step1: 'Dihantar',
+    step2: 'Dimasak',
+    step3: 'Sedia',
+    step4: 'Dihidang',
+    emptyCart: 'Troli anda kosong.',
+    sendOrder: '🔥 Hantar Pesanan ke Dapur'
+  }
+};
+
+window.toggleLanguage = () => {
+  currentLang = currentLang === 'en' ? 'bm' : 'en';
+  localStorage.setItem('arh_lang', currentLang);
+  const btn = document.getElementById('lang-toggle-btn');
+  if (btn) btn.innerText = translations[currentLang].toggleBtn;
+  const heroSub = document.querySelector('.cust-hero-sub');
+  if (heroSub) heroSub.innerText = translations[currentLang].heroSub;
+  renderDietaryPills();
+  renderMenu();
+  if (activePlacedOrder) renderTrackerHUD(activePlacedOrder);
+};
 
 // Initialize Table Session from URL or Storage
 function initTableSession() {
@@ -21,6 +65,9 @@ function initTableSession() {
 
   const badge = document.getElementById('table-indicator');
   if (badge) badge.innerText = `TABLE ${currentTable} · DINE-IN`;
+
+  const langBtn = document.getElementById('lang-toggle-btn');
+  if (langBtn) langBtn.innerText = translations[currentLang].toggleBtn;
 }
 
 // Load Menu
@@ -43,7 +90,13 @@ function renderDietaryPills() {
   const container = document.getElementById('dietary-filter-scroll');
   if (!container) return;
 
-  const filters = [
+  const filters = currentLang === 'bm' ? [
+    { id: 'all', name: '🔥 Semua Pilihan' },
+    { id: 'halal', name: '✅ 100% Halal' },
+    { id: 'chef', name: '⭐ Pilihan Chef' },
+    { id: 'keto', name: '🥑 Rendah Karbo' },
+    { id: 'vegetarian', name: '🌱 Vegetarian' }
+  ] : [
     { id: 'all', name: '🔥 All Favorites' },
     { id: 'halal', name: '✅ 100% Halal' },
     { id: 'chef', name: '⭐ Chef Picks' },
@@ -373,15 +426,83 @@ function renderTrackerHUD(order) {
   const step3 = document.getElementById('step-ready');
   const step4 = document.getElementById('step-served');
 
+  const t = translations[currentLang] || translations.en;
+  if (step1.querySelector('span')) step1.querySelector('span').innerText = t.step1;
+  if (step2.querySelector('span')) step2.querySelector('span').innerText = t.step2;
+  if (step3.querySelector('span')) step3.querySelector('span').innerText = t.step3;
+  if (step4.querySelector('span')) step4.querySelector('span').innerText = t.step4;
+
+  const isCooking = order.status === 'preparing' || order.status === 'ready' || order.status === 'served' || (order.items && order.items.some(it => it.is_bumped));
+  const isReady = order.status === 'ready' || order.status === 'served' || (order.items && order.items.every(it => it.is_bumped));
+  const isServed = order.status === 'served' || order.status === 'paid';
+
   step1.classList.add('active');
-  step2.classList.toggle('active', order.status === 'preparing' || order.status === 'ready' || order.status === 'served');
-  step3.classList.toggle('active', order.status === 'ready' || order.status === 'served');
-  step4.classList.toggle('active', order.status === 'served');
+  step2.classList.toggle('active', isCooking);
+  step3.classList.toggle('active', isReady);
+  step4.classList.toggle('active', isServed);
+
+  // If order is ready or served, show review prompt option
+  if (isReady || isServed) {
+    const splitBtn = hud.querySelector('button');
+    if (splitBtn && !document.getElementById('rate-dining-btn')) {
+      const rateBtn = document.createElement('button');
+      rateBtn.id = 'rate-dining-btn';
+      rateBtn.className = 'btn btn-sm btn-primary';
+      rateBtn.style.marginLeft = '8px';
+      rateBtn.innerText = t.rateBtn;
+      rateBtn.onclick = () => window.openReviewModal();
+      splitBtn.parentNode.appendChild(rateBtn);
+    }
+  }
 }
 
 function openTrackerModal(order) {
   renderTrackerHUD(order);
 }
+
+// 5-Star Customer Feedback & Rating Logic (QR-Menu pattern)
+window.openReviewModal = () => {
+  const modal = document.getElementById('review-modal');
+  if (modal) modal.classList.add('active');
+};
+
+window.closeReviewModal = () => {
+  const modal = document.getElementById('review-modal');
+  if (modal) modal.classList.remove('active');
+};
+
+window.setRating = (num) => {
+  selectedRating = num;
+  const stars = document.querySelectorAll('#star-rating-row .star-node');
+  stars.forEach((s, idx) => {
+    s.style.opacity = (idx < num) ? '1' : '0.3';
+    s.style.transform = (idx < num) ? 'scale(1.15)' : 'scale(1)';
+  });
+  sound.playGentlePing();
+};
+
+window.toggleReviewTag = (btn, tag) => {
+  if (selectedReviewTags.includes(tag)) {
+    selectedReviewTags = selectedReviewTags.filter(t => t !== tag);
+    btn.classList.remove('btn-primary');
+    btn.classList.add('btn-secondary');
+  } else {
+    selectedReviewTags.push(tag);
+    btn.classList.remove('btn-secondary');
+    btn.classList.add('btn-primary');
+  }
+  sound.playGentlePing();
+};
+
+window.submitReviewFeedback = () => {
+  const comment = document.getElementById('review-comment')?.value || '';
+  const orderId = activePlacedOrder?.order_id || 'ORD-DIRECT';
+
+  hub.submitCustomerReview(orderId, currentTable, selectedRating, selectedReviewTags, comment);
+  sound.playGentlePing();
+  closeReviewModal();
+  alert('⭐ Terima kasih! Thank you for rating Woodfire Kulim. Your feedback helps us smoke perfection!');
+};
 
 // Split Bill Calculator
 window.openSplitBillModal = () => {

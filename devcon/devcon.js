@@ -116,6 +116,41 @@ function renderSalesAnalytics() {
 
   // Calculate Hourly Distribution
   renderHourlyHeatmap(orders);
+
+  // Render Customer Sentiment & Reviews
+  renderCustomerReviewsList();
+}
+
+function renderCustomerReviewsList() {
+  const container = document.getElementById('devcon-reviews-list');
+  const badge = document.getElementById('sentiment-score-badge');
+  if (!container) return;
+
+  const reviews = hub.getCustomerReviews();
+  if (reviews.length === 0) {
+    container.innerHTML = '<div class="text-muted text-xs py-4 text-center" style="grid-column: 1 / -1;">No customer reviews submitted yet. Submit a rating on the Customer screen to preview live telemetry.</div>';
+    if (badge) badge.innerText = 'Avg: 5.0 / 5.0 ⭐ (0 Reviews)';
+    return;
+  }
+
+  const avgRating = (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1);
+  if (badge) badge.innerText = `Avg: ${avgRating} / 5.0 ⭐ (${reviews.length} Reviews)`;
+
+  container.innerHTML = reviews.slice(0, 6).map(r => `
+    <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 10px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+        <span style="font-weight: 700; color: var(--gold-light);">Table ${r.table_id}</span>
+        <span style="font-size: 0.9rem;">${'⭐'.repeat(r.rating)}</span>
+      </div>
+      ${r.tags && r.tags.length ? `
+        <div style="display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0;">
+          ${r.tags.map(t => `<span class="badge" style="font-size: 0.68rem; padding: 2px 6px;">${t}</span>`).join('')}
+        </div>
+      ` : ''}
+      ${r.comment ? `<p style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px; font-style: italic;">"${r.comment}"</p>` : ''}
+      <div style="font-size: 0.68rem; color: var(--text-muted); margin-top: 6px; text-align: right;">${new Date(r.created_at).toLocaleTimeString()}</div>
+    </div>
+  `).join('');
 }
 
 function renderHourlyHeatmap(orders) {

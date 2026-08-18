@@ -104,10 +104,11 @@
       <!-- Payment Method Selection -->
       <div style="margin-bottom: 16px;">
         <div style="font-weight: 600; margin-bottom: 8px;">Tender Selection:</div>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
           <button class="btn btn-secondary" onclick="window.completePayment('cash')">💵 Cash</button>
-          <button class="btn btn-secondary" onclick="window.completePayment('duitnow_qr')">📱 DuitNow QR</button>
-          <button class="btn btn-secondary" onclick="window.completePayment('card')">💳 Credit Card</button>
+          <button class="btn btn-secondary" onclick="window.completePayment('duitnow_qr')">📱 DuitNow</button>
+          <button class="btn btn-secondary" onclick="window.completePayment('card')">💳 Card</button>
+          <button class="btn btn-secondary" onclick="window.completeSplitTender()">🌓 Split</button>
         </div>
       </div>
 
@@ -193,8 +194,9 @@
         <div id="float-diff-display" style="font-size: 0.82rem; margin-top: 6px; font-weight: 600;"></div>
       </div>
 
-      <div style="display: flex; gap: 10px; justify-content: flex-end;">
+      <div style="display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap;">
         <button class="btn btn-secondary" onclick="window.closeCashFloatModal()">Close</button>
+        <button class="btn btn-secondary" onclick="window.printShiftZReport()">🖨️ Print Z-Report</button>
         <button class="btn btn-primary" onclick="window.saveCashFloat()">💾 Save Shift Settlement</button>
       </div>
     </div>

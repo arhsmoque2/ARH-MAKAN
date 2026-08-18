@@ -20,6 +20,10 @@ class RealtimeHub {
     this.cloudRoot = 'woodfire_kulim';
     this.sseConnections = [];
 
+    // Idempotent Outbox Queue for offline resilience (POS S360T pattern)
+    this.outboxQueue = this._loadOutboxQueue();
+    this.isFlushingOutbox = false;
+
     // BroadcastChannel init
     if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
       this.bc = new BroadcastChannel(this.channelName);
@@ -33,6 +37,11 @@ class RealtimeHub {
           this._notifyAll();
         }
       });
+
+      // Online event listener to auto-flush queued offline mutations
+      window.addEventListener('online', () => {
+        this.flushOutboxQueue();
+      });
     }
 
     // Seed initial mock orders if completely empty
@@ -40,6 +49,106 @@ class RealtimeHub {
 
     // Auto-detect and connect Cloud Tier 3 if configured
     this._initCloudTier();
+  }
+
+  // --- Idempotent Outbox Queue Engine ---
+
+  _loadOutboxQueue() {
+    try {
+      const raw = this._storageGet('outbox_queue');
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  _saveOutboxQueue() {
+    try {
+      this._storageSet('outbox_queue', JSON.stringify(this.outboxQueue));
+    } catch (e) {}
+  }
+
+  enqueueMutation(type, payload) {
+    const mutation = {
+      idempotency_key: 'mut_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+      type,
+      payload,
+      timestamp: new Date().toISOString(),
+      retry_count: 0
+    };
+    this.outboxQueue.push(mutation);
+    this._saveOutboxQueue();
+
+    if (navigator.onLine && this.cloudActive) {
+      this.flushOutboxQueue();
+    }
+    return mutation.idempotency_key;
+  }
+
+  async flushOutboxQueue() {
+    if (this.isFlushingOutbox || this.outboxQueue.length === 0) return;
+    this.isFlushingOutbox = true;
+
+    try {
+      while (this.outboxQueue.length > 0) {
+        const item = this.outboxQueue[0];
+        // Process remote push if cloud tier is active
+        if (this.cloudDbUrl && this.cloudActive) {
+          try {
+            await fetch(`${this.cloudDbUrl}/${this.cloudRoot}/mutations/${item.idempotency_key}.json`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(item)
+            });
+          } catch (netErr) {
+            item.retry_count++;
+            console.warn('Outbox flush paused due to network error:', netErr);
+            break;
+          }
+        }
+        this.outboxQueue.shift();
+        this._saveOutboxQueue();
+      }
+    } finally {
+      this.isFlushingOutbox = false;
+    }
+  }
+
+  getOutboxStatus() {
+    return {
+      pendingMutations: this.outboxQueue.length,
+      isFlushing: this.isFlushingOutbox
+    };
+  }
+
+  // --- Customer Post-Dining Feedback & Rating (QR-Menu pattern) ---
+
+  submitCustomerReview(orderId, tableId, rating, tags = [], comment = '') {
+    const reviews = this.getCustomerReviews();
+    const newReview = {
+      review_id: 'REV-' + Date.now(),
+      order_id: orderId,
+      table_id: tableId,
+      rating: Math.max(1, Math.min(5, Number(rating) || 5)),
+      tags: Array.isArray(tags) ? tags : [],
+      comment: String(comment || '').trim(),
+      created_at: new Date().toISOString()
+    };
+
+    reviews.unshift(newReview);
+    this._storageSet('customer_reviews', JSON.stringify(reviews));
+    this.enqueueMutation('CUSTOMER_REVIEW', newReview);
+    this._broadcast({ type: 'NEW_CUSTOMER_REVIEW', payload: newReview });
+    return newReview;
+  }
+
+  getCustomerReviews() {
+    try {
+      const raw = this._storageGet('customer_reviews');
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
   }
 
   // --- Tier 3: Zero-Dependency Native Cross-Origin Cloud Engine ---
@@ -318,6 +427,7 @@ class RealtimeHub {
 
     orders.unshift(newOrder);
     this.saveOrders(orders);
+    this.enqueueMutation('CREATE_ORDER', newOrder);
 
     if (this.cloudActive && this.cloudDbUrl) {
       fetch(`${this.cloudDbUrl}/${this.cloudRoot}/orders/${orderId}.json`, {
@@ -339,6 +449,7 @@ class RealtimeHub {
         order.paid_at = new Date().toISOString();
       }
       this.saveOrders(orders);
+      this.enqueueMutation('UPDATE_STATUS', { order_id: orderId, status: newStatus, paid_at: order.paid_at });
 
       if (this.cloudActive && this.cloudDbUrl) {
         fetch(`${this.cloudDbUrl}/${this.cloudRoot}/orders/${orderId}.json`, {
@@ -365,13 +476,14 @@ class RealtimeHub {
         order.status = 'ready';
       }
       this.saveOrders(orders);
+      this.enqueueMutation('BUMP_ITEM', { order_id: orderId, line_id: lineId, is_bumped: item?.is_bumped, status: order.status });
 
       if (this.cloudActive && this.cloudDbUrl) {
         fetch(`${this.cloudDbUrl}/${this.cloudRoot}/orders/${orderId}.json`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ items: order.items, status: order.status })
-        }).catch(e => console.warn('Cloud item bump failed:', e));
+          body: JSON.stringify(order)
+        }).catch(e => console.warn('Cloud bump sync failed:', e));
       }
     }
     return order;

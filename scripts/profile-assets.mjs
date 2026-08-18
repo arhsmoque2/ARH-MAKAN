@@ -13,7 +13,7 @@ console.log('⚡ ARH-MAKAN Asset Budget & Performance Profiler\n');
 // Budget SLA in KB (Gzipped)
 const BUDGETS = {
   'shared/theme.css': 8,
-  'shared/realtime-adapter.js': 5,
+  'shared/realtime-adapter.js': 8,
   'customer/index.html': 10,
   'kds/index.html': 10,
   'pos/index.html': 10,

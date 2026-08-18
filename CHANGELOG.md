@@ -2,6 +2,17 @@
 
 All notable changes to the ARH-MAKAN repository are documented in this file.
 
+## [2.6.0] - 2026-08-19
+### Added
+- **Customer Live Order Stepper & Tracking HUD (`customer/` — from Kasirku)**: Reactive bottom status stepper (`Placed` $\rightarrow$ `Cooking` $\rightarrow$ `Ready` $\rightarrow$ `Served`) updating automatically when kitchen bumps items.
+- **Post-Dining 5-Star Rating & Sentiment System (`customer/` & `devcon/` — from QR-Menu)**: 1-tap rating modal with compliment chips feeding live sentiment metrics to DevCon.
+- **Idempotent Outbox Mutation Retry Queue (`shared/realtime-adapter.js` — from POS S360T)**: Offline transaction queuing with UUID idempotency keys and automatic reconnect flushing.
+- **Cashier POS Split-Tender Payment (`pos/` — from URY / Modern Cafe)**: Multi-tender payment workflow allowing partial cash tender + partial DuitNow QR / Card balance on a single bill.
+- **Shift Z-Report Printout (`pos/`)**: 1-click thermal printing of daily register sales, float balance, and tax reconciliation.
+- **KDS Station Load Barometer & Distinct Audio Chimes (`kds/` & `shared/audio-engine.js` — from URY / BiteBase)**: Real-time item load breakdown per station with station-specific audio synthesized frequencies.
+- **Bilingual English / Bahasa Melayu Switcher (`customer/`)**: 1-click UI language switcher.
+- **ADR-0011**: Documented architecture decisions in `docs/decisions/0011-customer-live-stepper-feedback-rating-and-idempotent-outbox-sync.md`.
+
 ## [2.5.0] - 2026-08-18
 ### Added
 - **Static Design Token & Consistency Linter (`scripts/check-design-tokens.mjs` — Gate 10)**: Automated AST/regex validator enforcing canonical CSS tokens (`var(--gold-*)`, `var(--bg-*)`, `var(--text-*)`, `var(--font-*)`) and banning forbidden tropes (purple-on-dark, neon outlines, untracked typography).
