@@ -2,6 +2,16 @@
 
 All notable changes to the ARH-MAKAN repository are documented in this file.
 
+## [2.7.0] - 2026-08-19
+### Added
+- **2-Way Malaysian DuitNow QR & Real-Time Cashier Verification Handshake (`shared/realtime-adapter.js`, `customer/`, `pos/`, `admin/`, `devcon/`)**:
+  - **Merchant Payment Profile Configurator (`admin/` & `devcon/`)**: Store owner can configure Bank Name, Account Holder Name, Account Number/DuitNow ID, WhatsApp Number, and upload custom laminated DuitNow QR standee image.
+  - **Client-Side High-Speed Canvas Image Compressor (`shared/image-compressor.js` — from digital-menu & shutterorder)**: Compresses smartphone camera photos & screenshots down to ~60–80KB WebP/JPEG in <30ms before saving to local state.
+  - **Customer DuitNow Checkout Modal (`customer/`)**: Displays store DuitNow QR, payable amount with 1-tap copy, reference ID with 1-tap copy, receipt screenshot uploader, and 1-tap WhatsApp proof fallback button (`wa.me/?text=...` from lineweb).
+  - **Cashier POS Real-Time Verification Drawer (`pos/`)**: Glowing topbar verification badge with notification chime, receipt thumbnail viewer with zoom, 1-tap `✅ Verify & Fire to KDS`, and auto-print thermal receipt.
+  - **KDS Kitchen Order Gating (`kds/`)**: Automatically gates unverified DuitNow orders until cashier confirmation.
+- **ADR-0012**: Authored architecture decision record for DuitNow QR proof & verification handshake.
+
 ## [2.6.0] - 2026-08-19
 ### Added
 - **Customer Live Order Stepper & Tracking HUD (`customer/` — from Kasirku)**: Reactive bottom status stepper (`Placed` $\rightarrow$ `Cooking` $\rightarrow$ `Ready` $\rightarrow$ `Served`) updating automatically when kitchen bumps items.

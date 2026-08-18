@@ -151,6 +151,38 @@ class RealtimeHub {
     }
   }
 
+  // --- Merchant Static DuitNow QR & Bank Account Configuration ---
+
+  getMerchantPaymentConfig() {
+    try {
+      const raw = this._storageGet('merchant_payment_config');
+      if (raw) return JSON.parse(raw);
+    } catch (e) {}
+
+    return {
+      bank_name: 'Maybank Berhad',
+      account_name: 'WOODFIRE KULIM VENTURES',
+      account_number: '5521 8832 9910',
+      whatsapp_phone: '+60123456789',
+      qr_image_url: ''
+    };
+  }
+
+  saveMerchantPaymentConfig(config) {
+    const safeConfig = {
+      bank_name: config.bank_name || 'Maybank Berhad',
+      account_name: config.account_name || 'WOODFIRE KULIM VENTURES',
+      account_number: config.account_number || '5521 8832 9910',
+      whatsapp_phone: config.whatsapp_phone || '+60123456789',
+      qr_image_url: config.qr_image_url || ''
+    };
+
+    this._storageSet('merchant_payment_config', JSON.stringify(safeConfig));
+    this.enqueueMutation('MERCHANT_PAYMENT_CONFIG', safeConfig);
+    this._broadcast({ type: 'MERCHANT_PAYMENT_CONFIG_UPDATED', payload: safeConfig });
+    return safeConfig;
+  }
+
   // --- Tier 3: Zero-Dependency Native Cross-Origin Cloud Engine ---
 
   _initCloudTier() {
@@ -411,6 +443,9 @@ class RealtimeHub {
       table_id: orderPayload.table_id || 'TAKEAWAY',
       type: orderPayload.type || 'dine_in',
       status: orderPayload.status || 'pending',
+      verification_status: orderPayload.verification_status || (orderPayload.status === 'awaiting_verification' ? 'pending' : 'verified'),
+      receipt_image_data: orderPayload.receipt_image_data || null,
+      payment_ref: orderPayload.payment_ref || null,
       items: (orderPayload.items || []).map((item, i) => ({
         ...item,
         is_bumped: Boolean(item.is_bumped),
@@ -438,6 +473,38 @@ class RealtimeHub {
     }
 
     return newOrder;
+  }
+
+  verifyDuitNowPayment(orderId, isApproved, rejectReason = '') {
+    const orders = this.getOrders();
+    const order = orders.find(o => o.order_id === orderId);
+    if (order) {
+      if (isApproved) {
+        order.verification_status = 'verified';
+        order.status = 'pending';
+        order.paid_at = new Date().toISOString();
+        order.payment_method = 'duitnow_qr';
+        this.saveOrders(orders);
+        this.enqueueMutation('VERIFY_PAYMENT', { order_id: orderId, isApproved: true });
+        this._broadcast({ type: 'PAYMENT_VERIFIED', payload: { order_id: orderId, table_id: order.table_id } });
+      } else {
+        order.verification_status = 'rejected';
+        order.status = 'payment_rejected';
+        order.notes = (order.notes ? order.notes + ' | ' : '') + 'Rejected: ' + (rejectReason || 'Payment not detected');
+        this.saveOrders(orders);
+        this.enqueueMutation('VERIFY_PAYMENT', { order_id: orderId, isApproved: false, reason: rejectReason });
+        this._broadcast({ type: 'PAYMENT_REJECTED', payload: { order_id: orderId, table_id: order.table_id, reason: rejectReason } });
+      }
+
+      if (this.cloudActive && this.cloudDbUrl) {
+        fetch(`${this.cloudDbUrl}/${this.cloudRoot}/orders/${orderId}.json`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(order)
+        }).catch(e => console.warn('Cloud verification write failed:', e));
+      }
+    }
+    return order;
   }
 
   updateOrderStatus(orderId, newStatus) {

@@ -523,3 +523,6 @@ export const QRCode = {
     return canvas.toDataURL('image/png');
   }
 };
+
+export const qr = QRCode;
+export default QRCode;
