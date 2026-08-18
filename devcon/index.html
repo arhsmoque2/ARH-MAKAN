@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARH-MAKAN · Developer Console (DevCon)</title>
+  <link rel="stylesheet" href="../shared/theme.css">
+  <link rel="stylesheet" href="./devcon.css">
+  <script src="../shared/flight-recorder.js"></script>
+</head>
+<body class="devcon-layout">
+
+  <!-- Sidebar -->
+  <aside class="devcon-sidebar">
+    <div style="margin-bottom: 14px;">
+      <a href="../index.html" class="btn btn-sm btn-secondary" style="width: 100%; text-decoration: none;">← Central Hub</a>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding: 0 4px;">
+      <div style="font-size: 1.6rem;">⚡</div>
+      <div>
+        <div style="font-family: var(--font-display); font-weight: bold; color: var(--gold-light); font-size: 1.15rem;">
+          ARH DevCon
+        </div>
+        <div class="text-xs text-muted">Operator & Telemetry HUD</div>
+      </div>
+    </div>
+
+    <!-- Active Mode Badge -->
+    <div id="devcon-sync-badge" class="devcon-badge">
+      <span class="pulse-dot"></span>
+      <span id="devcon-sync-mode">Local 3-Tier Hub</span>
+    </div>
+
+    <nav class="devcon-nav">
+      <button class="devcon-nav-btn active" data-target="pane-analytics">📈 Sales & Velocity</button>
+      <button class="devcon-nav-btn" data-target="pane-telemetry">🚨 Error Telemetry</button>
+      <button class="devcon-nav-btn" data-target="pane-state">🧠 Realtime State Engine</button>
+      <button class="devcon-nav-btn" data-target="pane-scenarios">🧪 Scenario Lab</button>
+      <button class="devcon-nav-btn" data-target="pane-toggles">⚙️ Feature Gates</button>
+    </nav>
+
+    <div class="devcon-sidebar-footer">
+      <div class="text-xs text-muted" style="margin-bottom: 6px;">Woodfire Kulim OS v2.3.0</div>
+      <button class="btn btn-sm btn-secondary" style="width: 100%; font-size: 0.75rem;" onclick="window.exportTelemetryJSONL()">
+        📥 Export Telemetry
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Viewport -->
+  <main class="devcon-main">
+
+    <!-- 1. Permanent Sales & Velocity Analytics Pane -->
+    <section class="devcon-pane" id="pane-analytics">
+      <div class="devcon-header-row">
+        <div>
+          <h1 class="devcon-title">In-App Sales & Velocity Analytics</h1>
+          <p class="text-muted">Permanent high-density metrics, revenue distribution, and growth velocity.</p>
+        </div>
+        <div class="admin-visibility-badge" id="admin-toggle-status-indicator">
+          Admin View: <span id="admin-view-text" style="font-weight: 700; color: var(--color-success);">ENABLED</span>
+        </div>
+      </div>
+
+      <!-- High Level KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Gross Shift Revenue</div>
+          <div class="kpi-value" id="analytics-gross-rev">RM 0.00</div>
+          <div class="kpi-sub" id="analytics-growth-badge">📈 +12.4% vs benchmark</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Total Shift Volume</div>
+          <div class="kpi-value" id="analytics-total-orders">0 Orders</div>
+          <div class="kpi-sub" id="analytics-paid-split">0 Paid · 0 Active</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Average Order Value (AOV)</div>
+          <div class="kpi-value" id="analytics-aov">RM 0.00</div>
+          <div class="kpi-sub">Formula: Revenue / Paid Orders</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">SST (6%) Tax Collected</div>
+          <div class="kpi-value" id="analytics-tax-total">RM 0.00</div>
+          <div class="kpi-sub">Malaysia Service Tax Audit</div>
+        </div>
+      </div>
+
+      <!-- Charts & Leaderboard Row -->
+      <div class="analytics-split-row">
+        <!-- Top 5 Best Selling Items -->
+        <div class="card-glass analytics-card">
+          <h3 class="card-title">🔥 Top Selling Products Leaderboard</h3>
+          <div class="leaderboard-list" id="analytics-leaderboard">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Hourly Dining Rush Heatmap -->
+        <div class="card-glass analytics-card">
+          <h3 class="card-title">⏰ Peak Dining Hourly Distribution</h3>
+          <div class="hourly-chart" id="analytics-hourly-chart">
+            <!-- 12 hourly bars rendered dynamically -->
+          </div>
+          <div class="hourly-labels">
+            <span>11:00</span>
+            <span>14:00 (Lunch)</span>
+            <span>18:00</span>
+            <span>20:00 (Dinner Peak)</span>
+            <span>23:00</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Error Telemetry & Exception Monitor (Beacon style) -->
+    <section class="devcon-pane" id="pane-telemetry" style="display: none;">
+      <div class="devcon-header-row">
+        <div>
+          <h1 class="devcon-title">Developer Console · Error Telemetry & Monitoring</h1>
+          <p class="text-muted">Self-hosted root-cause exception tracking (Beacon / Flight Recorder engine).</p>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-sm btn-secondary" onclick="window.simulateTestError()">⚡ Inject Test Error</button>
+          <button class="btn btn-sm btn-primary" onclick="window.clearTelemetryLogs()">🧹 Clear Logs</button>
+        </div>
+      </div>
+
+      <!-- Root Cause Grouping Stats -->
+      <div class="kpi-grid mb-4">
+        <div class="kpi-card">
+          <div class="kpi-label">Active Exceptions</div>
+          <div class="kpi-value" id="telemetry-error-count" style="color: var(--color-success);">0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Network / Edge Fetch</div>
+          <div class="kpi-value" id="telemetry-net-count">0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">State & Audio Sync</div>
+          <div class="kpi-value" id="telemetry-sync-count">0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">DOM & A11y Events</div>
+          <div class="kpi-value" id="telemetry-dom-count">0</div>
+        </div>
+      </div>
+
+      <!-- Error Log Feed -->
+      <div class="card-glass" style="padding: 16px;">
+        <h3 class="card-title">Live Telemetry & Action Trail</h3>
+        <div class="telemetry-log-table-container">
+          <table class="telemetry-table">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Type</th>
+                <th>Surface</th>
+                <th>Signature / Root Cause</th>
+                <th>Payload Trace</th>
+              </tr>
+            </thead>
+            <tbody id="telemetry-log-tbody">
+              <!-- Logs rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Realtime State Engine Inspector -->
+    <section class="devcon-pane" id="pane-state" style="display: none;">
+      <div class="devcon-header-row">
+        <div>
+          <h1 class="devcon-title">3-Tier Hybrid State Engine Inspector</h1>
+          <p class="text-muted">Inspect BroadcastChannel, localStorage buffers, and Cloud Tier connectivity.</p>
+        </div>
+        <button class="btn btn-sm btn-secondary" onclick="window.refreshStateInspector()">🔄 Refresh State</button>
+      </div>
+
+      <div class="kpi-grid mb-4">
+        <div class="kpi-card">
+          <div class="kpi-label">Tier 1: BroadcastChannel</div>
+          <div class="kpi-value" style="color: var(--color-success); font-size: 1.2rem;">Connected (&lt;5ms)</div>
+          <div class="kpi-sub">Channel: arh_makan_hub</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Tier 2: localStorage Queue</div>
+          <div class="kpi-value" id="state-storage-bytes">0 KB</div>
+          <div class="kpi-sub" id="state-order-count">0 Active Orders in Memory</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Tier 3: Cloud Realtime Engine</div>
+          <div class="kpi-value" id="state-cloud-status" style="font-size: 1.2rem; color: var(--gold-light);">Local Only</div>
+          <div class="kpi-sub" id="state-cloud-root">Root: woodfire_kulim</div>
+        </div>
+      </div>
+
+      <div class="card-glass" style="padding: 16px;">
+        <h3 class="card-title">Raw Store Snapshot</h3>
+        <pre class="json-dump" id="raw-state-dump">{ "loading": true }</pre>
+      </div>
+    </section>
+
+    <!-- 4. Scenario Lab -->
+    <section class="devcon-pane" id="pane-scenarios" style="display: none;">
+      <div class="devcon-header-row">
+        <div>
+          <h1 class="devcon-title">Scenario Lab & Stress Injector</h1>
+          <p class="text-muted">Inject 1-click synthetic stress patterns into live customer, KDS, and POS surfaces.</p>
+        </div>
+      </div>
+
+      <div class="scenario-grid">
+        <div class="scenario-card">
+          <div class="scenario-icon">🌊</div>
+          <div class="scenario-name">Rush Hour Wave (4 Orders)</div>
+          <div class="scenario-desc">Dispatches 4 concurrent multi-station orders (T01, T04, T08, T12) to test KDS station routing and audio chimes.</div>
+          <button class="btn btn-primary btn-sm" onclick="window.injectRushHour()">⚡ Trigger Rush Hour</button>
+        </div>
+
+        <div class="scenario-card">
+          <div class="scenario-icon">🛎️</div>
+          <div class="scenario-name">Waiter Call Bell Wave</div>
+          <div class="scenario-desc">Simulates guest assistance requests (Ice water on T03, Cutlery on T07, Bill on T05).</div>
+          <button class="btn btn-secondary btn-sm" onclick="window.injectWaiterCalls()">🛎️ Trigger Service Calls</button>
+        </div>
+
+        <div class="scenario-card">
+          <div class="scenario-icon">🥩</div>
+          <div class="scenario-name">Toggle 86 Out-of-Stock</div>
+          <div class="scenario-desc">Toggles Smoked Brisket and Gourmet Burger out of stock to verify immediate cross-surface lockdown.</div>
+          <button class="btn btn-secondary btn-sm" onclick="window.injectStockToggle()">📦 Toggle Stock 86</button>
+        </div>
+
+        <div class="scenario-card">
+          <div class="scenario-icon">🧹</div>
+          <div class="scenario-name">Reset Shift Data</div>
+          <div class="scenario-desc">Clears all active orders, resets table occupancy, and re-seeds canonical menu state.</div>
+          <button class="btn btn-secondary btn-sm" style="border-color: var(--color-danger); color: var(--color-danger);" onclick="window.resetAllData()">🗑️ Reset Everything</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Feature Gates & Admin Visibility Controls -->
+    <section class="devcon-pane" id="pane-toggles" style="display: none;">
+      <div class="devcon-header-row">
+        <div>
+          <h1 class="devcon-title">Feature Gates & System Configuration</h1>
+          <p class="text-muted">Master toggles for admin surfaces, cloud probing, and debug telemetry.</p>
+        </div>
+      </div>
+
+      <div class="card-glass" style="padding: 20px; max-width: 700px;">
+        <div class="gate-item">
+          <div>
+            <div style="font-weight: 700; color: var(--gold-light); font-size: 1.05rem;">
+              Admin In-App Sales & Velocity Analytics Pane
+            </div>
+            <div class="text-xs text-muted" style="margin-top: 4px;">
+              When enabled, managers can view sales revenue, AOV, best-seller leaderboards, and rush hour heatmaps directly in the Admin Hub (/admin/). When disabled, the Admin Hub hides this pane. (Permanently enabled in DevCon).
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="gate-admin-analytics-toggle" checked onchange="window.toggleAdminAnalyticsView(this.checked)">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="gate-item">
+          <div>
+            <div style="font-weight: 700; color: var(--gold-light); font-size: 1.05rem;">
+              Sound Engine & Web Audio Chimes
+            </div>
+            <div class="text-xs text-muted" style="margin-top: 4px;">
+              Enables Web Audio synthetic chimes for KDS ticket arrivals, station bumps, and waiter call alerts.
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="gate-audio-toggle" checked onchange="window.toggleAudioGate(this.checked)">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="gate-item">
+          <div>
+            <div style="font-weight: 700; color: var(--gold-light); font-size: 1.05rem;">
+              Table Attention Aging Timers (URY Protocol)
+            </div>
+            <div class="text-xs text-muted" style="margin-top: 4px;">
+              Enables visual SLA badges on Cashier POS when a dine-in table is occupied for &gt;30m without billing.
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="gate-table-sla-toggle" checked onchange="window.toggleTableSLAGate(this.checked)">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="./devcon.js"></script>
+</body>
+</html>

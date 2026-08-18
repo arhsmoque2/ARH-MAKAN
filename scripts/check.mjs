@@ -54,6 +54,7 @@ const surfaces = [
   'kds/index.html',
   'pos/index.html',
   'admin/index.html',
+  'devcon/index.html',
   'showroom/index.html'
 ];
 
@@ -79,6 +80,7 @@ const jsModules = [
   'kds/kds.js',
   'pos/pos.js',
   'admin/admin.js',
+  'devcon/devcon.js',
   'showroom/showroom.js'
 ];
 
