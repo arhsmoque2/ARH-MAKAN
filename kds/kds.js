@@ -109,8 +109,12 @@ function renderTickets(orders) {
   const grid = document.getElementById('kds-tickets-grid');
   if (!grid) return;
 
-  // Filter active (non-paid, non-cancelled) orders
-  const activeOrders = orders.filter(o => o.status === 'pending' || o.status === 'preparing' || o.status === 'ready');
+  // Filter active (non-paid, non-cancelled) orders, excluding unverified payments
+  const activeOrders = orders.filter(o => 
+    (o.status === 'pending' || o.status === 'preparing' || o.status === 'ready') && 
+    o.status !== 'awaiting_verification' && 
+    o.verification_status !== 'pending'
+  );
 
   // Check for new incoming order to trigger chime
   if (activeOrders.length > previousOrderCount) {

@@ -588,6 +588,110 @@ window.printShiftZReport = () => {
   alert('🖨️ Shift Z-Report sent to thermal printer!');
 };
 
+// DuitNow Payment Verification Queue Engine (shutterorder pattern)
+function checkPendingVerifications() {
+  const orders = hub.getOrders();
+  const pendingVerify = orders.filter(o => o.status === 'awaiting_verification' || (o.payment_method === 'duitnow_qr' && o.verification_status === 'pending'));
+
+  const btn = document.getElementById('pos-verify-queue-btn');
+  if (btn) {
+    if (pendingVerify.length > 0) {
+      btn.style.display = 'inline-flex';
+      btn.innerText = `🔔 ${pendingVerify.length} Verification${pendingVerify.length === 1 ? '' : 's'}`;
+    } else {
+      btn.style.display = 'none';
+    }
+  }
+
+  renderVerificationList(pendingVerify);
+}
+
+function renderVerificationList(pendingOrders) {
+  const listEl = document.getElementById('verification-orders-list');
+  if (!listEl) return;
+
+  if (pendingOrders.length === 0) {
+    listEl.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 30px;">✅ All DuitNow payments verified. No pending transfers.</div>';
+    return;
+  }
+
+  listEl.innerHTML = pendingOrders.map(o => `
+    <div style="background: var(--bg-surface-raised); border: 1px solid var(--border-card); border-radius: var(--radius-sm); padding: 12px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <span style="font-weight: 700; color: var(--gold-light); font-size: 1.05rem;">Table ${o.table_id} · #${o.order_id}</span>
+        <span class="mono text-gold" style="font-weight: 700; font-size: 1.15rem;">RM ${Number(o.total_amount || 0).toFixed(2)}</span>
+      </div>
+
+      <div style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 6px;">
+        Items: ${(o.items || []).map(it => `${it.qty}x ${it.name}`).join(', ')}
+      </div>
+
+      ${o.payment_ref ? `
+        <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px;">
+          Ref: <span class="mono">${o.payment_ref}</span> · ${new Date(o.created_at).toLocaleTimeString()}
+        </div>
+      ` : ''}
+
+      ${o.receipt_image_data ? `
+        <div style="margin: 8px 0; text-align: center; background: #000; padding: 6px; border-radius: 4px;">
+          <img src="${o.receipt_image_data}" style="max-height: 140px; max-width: 100%; border-radius: 4px; cursor: pointer;" onclick="window.open('${o.receipt_image_data}', '_blank')" title="Click to view full receipt">
+          <div style="font-size: 0.68rem; color: var(--text-muted); margin-top: 2px;">🔍 Tap receipt to enlarge</div>
+        </div>
+      ` : `
+        <div style="font-size: 0.75rem; color: var(--color-warning); font-style: italic; margin-bottom: 6px;">
+          ⚠️ Customer declared payment without receipt upload. Please verify bank notification.
+        </div>
+      `}
+
+      <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 10px;">
+        <button class="btn btn-sm btn-secondary" onclick="window.rejectDuitNowPayment('${o.order_id}')">❌ Reject</button>
+        <button class="btn btn-sm btn-primary" onclick="window.approveDuitNowPayment('${o.order_id}')">✅ Verify & Fire to KDS</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+window.openVerificationModal = () => {
+  const modal = document.getElementById('payment-verification-modal');
+  if (modal) modal.classList.add('active');
+};
+
+window.closeVerificationModal = () => {
+  const modal = document.getElementById('payment-verification-modal');
+  if (modal) modal.classList.remove('active');
+};
+
+window.approveDuitNowPayment = (orderId) => {
+  const order = hub.verifyDuitNowPayment(orderId, true);
+  sound.playNewOrderChime();
+  checkPendingVerifications();
+
+  // Print thermal receipt automatically
+  if (order) {
+    const receiptHtml = escPos.generateHtmlReceipt(order);
+    escPos.printHtml(receiptHtml);
+  }
+
+  alert(`✅ Payment verified for #${orderId}! Order dispatched to Kitchen KDS and customer notified.`);
+  const pendingRemaining = hub.getOrders().filter(o => o.status === 'awaiting_verification');
+  if (pendingRemaining.length === 0) {
+    window.closeVerificationModal();
+  }
+};
+
+window.rejectDuitNowPayment = (orderId) => {
+  const reason = prompt('Please enter the rejection reason (e.g. Mismatched amount, unreadable receipt):', 'Amount not received');
+  if (reason !== null) {
+    hub.verifyDuitNowPayment(orderId, false, reason);
+    sound.playGentlePing();
+    checkPendingVerifications();
+    alert(`❌ Order #${orderId} marked rejected. Customer notified.`);
+  }
+};
+
+// Subscriptions
+hub.subscribe('orders', () => checkPendingVerifications());
+
 // Search
 const searchInput = document.getElementById('pos-search-input');
 if (searchInput) {

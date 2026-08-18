@@ -1,5 +1,7 @@
 import { hub } from '../shared/realtime-adapter.js';
 import { sound } from '../shared/audio-engine.js';
+import { qr } from '../shared/qr-generator.js';
+import { compressImageFile } from '../shared/image-compressor.js';
 
 let menuData = null;
 let currentTable = 'T05';
@@ -10,6 +12,8 @@ let activePlacedOrder = null;
 let currentLang = localStorage.getItem('arh_lang') || 'en';
 let selectedRating = 5;
 let selectedReviewTags = [];
+let pendingReceiptBase64 = null;
+let currentDuitNowRef = '';
 
 const translations = {
   en: {
@@ -354,8 +358,8 @@ window.closeCartDrawer = () => {
   if (drawer) drawer.classList.remove('active');
 };
 
-// Send Order to Kitchen
-window.submitOrderToKitchen = () => {
+// Send Order to Kitchen (Counter Cash or Direct)
+window.submitOrderToKitchen = (paymentType = 'unpaid') => {
   if (cart.length === 0) {
     alert('Please add items to cart before submitting.');
     return;
@@ -374,7 +378,7 @@ window.submitOrderToKitchen = () => {
     tax,
     total_amount: total,
     notes: note,
-    payment_method: 'unpaid'
+    payment_method: paymentType
   });
 
   activePlacedOrder = order;
@@ -384,6 +388,133 @@ window.submitOrderToKitchen = () => {
   sound.playNewOrderChime();
 
   openTrackerModal(order);
+};
+
+// In-App DuitNow QR Flow (2-Way Proof & Handshake)
+window.openDuitNowModal = () => {
+  if (cart.length === 0) {
+    alert('Please add items to cart before paying.');
+    return;
+  }
+
+  const subtotal = cart.reduce((sum, it) => sum + it.total_price, 0);
+  const total = subtotal * 1.06;
+  currentDuitNowRef = `${currentTable}-ORD-${Math.floor(1000 + Math.random() * 9000)}`;
+
+  const amountEl = document.getElementById('duitnow-modal-amount');
+  const refEl = document.getElementById('duitnow-modal-ref');
+  const qrBox = document.getElementById('customer-duitnow-qr-box');
+  const storeAccEl = document.getElementById('duitnow-store-acc-name');
+  const storeBankEl = document.getElementById('duitnow-store-bank-info');
+
+  if (amountEl) amountEl.innerText = `RM ${total.toFixed(2)}`;
+  if (refEl) refEl.innerText = currentDuitNowRef;
+
+  const merchantCfg = hub.getMerchantPaymentConfig();
+  if (storeAccEl) storeAccEl.innerText = merchantCfg.account_name;
+  if (storeBankEl) storeBankEl.innerText = `${merchantCfg.bank_name} · ${merchantCfg.account_number}`;
+
+  // Generate QR Preview (either store custom image or standard ISO QR)
+  if (qrBox) {
+    if (merchantCfg.qr_image_url) {
+      qrBox.innerHTML = `<img src="${merchantCfg.qr_image_url}" style="max-height: 180px; max-width: 100%; border-radius: 6px;" alt="DuitNow QR">`;
+    } else {
+      const qrData = `DUITNOW|${merchantCfg.account_number}|${total.toFixed(2)}|${currentDuitNowRef}`;
+      const svg = qr.generateSvg(qrData, { size: 180, darkColor: '#000000', lightColor: '#FFFFFF' });
+      qrBox.innerHTML = svg;
+    }
+  }
+
+  // Reset file input & preview
+  pendingReceiptBase64 = null;
+  const fileInput = document.getElementById('customer-receipt-file-input');
+  if (fileInput) fileInput.value = '';
+  const previewBox = document.getElementById('receipt-preview-box');
+  if (previewBox) previewBox.style.display = 'none';
+
+  closeCartDrawer();
+  const modal = document.getElementById('duitnow-modal');
+  if (modal) modal.classList.add('active');
+};
+
+window.closeDuitNowModal = () => {
+  const modal = document.getElementById('duitnow-modal');
+  if (modal) modal.classList.remove('active');
+};
+
+window.copyDuitNowAmount = () => {
+  const subtotal = cart.reduce((sum, it) => sum + it.total_price, 0);
+  const total = (subtotal * 1.06).toFixed(2);
+  navigator.clipboard.writeText(total).then(() => {
+    sound.playGentlePing();
+    alert(`📋 Copied amount RM ${total} to clipboard.`);
+  }).catch(() => {});
+};
+
+window.copyDuitNowRef = () => {
+  navigator.clipboard.writeText(currentDuitNowRef).then(() => {
+    sound.playGentlePing();
+    alert(`📋 Copied reference ${currentDuitNowRef} to clipboard.`);
+  }).catch(() => {});
+};
+
+window.handleReceiptFileChosen = async (input) => {
+  if (input.files && input.files[0]) {
+    try {
+      pendingReceiptBase64 = await compressImageFile(input.files[0], 800, 0.75);
+      const previewBox = document.getElementById('receipt-preview-box');
+      const previewImg = document.getElementById('receipt-preview-img');
+      if (previewBox && previewImg && pendingReceiptBase64) {
+        previewImg.src = pendingReceiptBase64;
+        previewBox.style.display = 'block';
+        sound.playGentlePing();
+      }
+    } catch (e) {
+      console.warn('Could not compress receipt:', e);
+    }
+  }
+};
+
+window.openWhatsAppReceipt = () => {
+  const merchantCfg = hub.getMerchantPaymentConfig();
+  const phone = (merchantCfg.whatsapp_phone || '+60123456789').replace(/[^0-9]/g, '');
+  const subtotal = cart.reduce((sum, it) => sum + it.total_price, 0);
+  const total = (subtotal * 1.06).toFixed(2);
+  const text = encodeURIComponent(`Hi Woodfire Kulim, I have paid RM ${total} via DuitNow for Table ${currentTable} (Ref: ${currentDuitNowRef}). Here is my proof of transfer.`);
+  window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
+};
+
+window.confirmDuitNowPaymentMade = () => {
+  if (cart.length === 0) return;
+
+  const subtotal = cart.reduce((sum, it) => sum + it.total_price, 0);
+  const tax = subtotal * 0.06;
+  const total = subtotal + tax;
+  const note = document.getElementById('drawer-order-note')?.value || '';
+
+  const order = hub.createOrder({
+    table_id: currentTable,
+    type: 'dine_in',
+    items: cart,
+    subtotal,
+    tax,
+    total_amount: total,
+    notes: note,
+    payment_method: 'duitnow_qr',
+    status: 'awaiting_verification',
+    verification_status: 'pending',
+    receipt_image_data: pendingReceiptBase64,
+    payment_ref: currentDuitNowRef
+  });
+
+  activePlacedOrder = order;
+  cart = [];
+  updateCartUI();
+  closeDuitNowModal();
+  sound.playNewOrderChime();
+
+  openTrackerModal(order);
+  alert('✅ DuitNow payment submitted! Our counter cashier is verifying your transfer. Your order will be sent to the kitchen instantly upon confirmation.');
 };
 
 // 1-Tap Service Requests
@@ -427,12 +558,22 @@ function renderTrackerHUD(order) {
   const step4 = document.getElementById('step-served');
 
   const t = translations[currentLang] || translations.en;
+  
+  if (order.status === 'awaiting_verification') {
+    if (step1.querySelector('span')) step1.querySelector('span').innerText = 'Verifying ⏳';
+    step1.classList.add('active');
+    step2.classList.remove('active');
+    step3.classList.remove('active');
+    step4.classList.remove('active');
+    return;
+  }
+
   if (step1.querySelector('span')) step1.querySelector('span').innerText = t.step1;
   if (step2.querySelector('span')) step2.querySelector('span').innerText = t.step2;
   if (step3.querySelector('span')) step3.querySelector('span').innerText = t.step3;
   if (step4.querySelector('span')) step4.querySelector('span').innerText = t.step4;
 
-  const isCooking = order.status === 'preparing' || order.status === 'ready' || order.status === 'served' || (order.items && order.items.some(it => it.is_bumped));
+  const isCooking = order.status === 'pending' || order.status === 'preparing' || order.status === 'ready' || order.status === 'served' || (order.items && order.items.some(it => it.is_bumped));
   const isReady = order.status === 'ready' || order.status === 'served' || (order.items && order.items.every(it => it.is_bumped));
   const isServed = order.status === 'served' || order.status === 'paid';
 

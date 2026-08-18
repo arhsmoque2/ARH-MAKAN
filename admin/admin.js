@@ -1,7 +1,9 @@
 import { hub } from '../shared/realtime-adapter.js';
-import { QRCode } from '../shared/qr-generator.js';
+import { qr, QRCode } from '../shared/qr-generator.js';
+import { compressImageFile } from '../shared/image-compressor.js';
 
 let menuData = null;
+let customQrBase64 = null;
 
 async function init() {
   try {
@@ -13,6 +15,7 @@ async function init() {
     renderStockToggles();
     renderOrdersTable();
     renderQRGenerator();
+    renderPaymentSettings();
 
     hub.subscribe(() => {
       updateSyncHUD();
@@ -301,6 +304,63 @@ window.printAllTentCards = () => {
     iframe.contentWindow.focus();
     iframe.contentWindow.print();
   }, 250);
+};
+
+// Merchant Payment & DuitNow QR Configuration
+function renderPaymentSettings() {
+  const cfg = hub.getMerchantPaymentConfig();
+  const bankEl = document.getElementById('cfg-bank-name');
+  const accNameEl = document.getElementById('cfg-account-name');
+  const accNoEl = document.getElementById('cfg-account-number');
+  const phoneEl = document.getElementById('cfg-whatsapp-phone');
+  const qrBox = document.getElementById('cfg-qr-preview-box');
+
+  if (bankEl) bankEl.value = cfg.bank_name;
+  if (accNameEl) accNameEl.value = cfg.account_name;
+  if (accNoEl) accNoEl.value = cfg.account_number;
+  if (phoneEl) phoneEl.value = cfg.whatsapp_phone;
+
+  if (qrBox) {
+    if (cfg.qr_image_url) {
+      customQrBase64 = cfg.qr_image_url;
+      qrBox.innerHTML = `<img src="${cfg.qr_image_url}" style="max-height: 180px; max-width: 100%; border-radius: 6px;" alt="Store DuitNow QR">`;
+    } else {
+      const qrData = `DUITNOW|${cfg.account_number}|WOODFIRE_KULIM`;
+      const svg = qr.generateSvg(qrData, { size: 180, darkColor: '#000000', lightColor: '#FFFFFF' });
+      qrBox.innerHTML = svg;
+    }
+  }
+}
+
+window.handleMerchantQRChosen = async (input) => {
+  if (input.files && input.files[0]) {
+    try {
+      customQrBase64 = await compressImageFile(input.files[0], 800, 0.8);
+      const qrBox = document.getElementById('cfg-qr-preview-box');
+      if (qrBox && customQrBase64) {
+        qrBox.innerHTML = `<img src="${customQrBase64}" style="max-height: 180px; max-width: 100%; border-radius: 6px;" alt="Custom QR Preview">`;
+      }
+    } catch (e) {
+      console.warn('Could not compress merchant QR:', e);
+    }
+  }
+};
+
+window.savePaymentSettings = () => {
+  const bankName = document.getElementById('cfg-bank-name')?.value || 'Maybank Berhad';
+  const accountName = document.getElementById('cfg-account-name')?.value || 'WOODFIRE KULIM VENTURES';
+  const accountNumber = document.getElementById('cfg-account-number')?.value || '5521 8832 9910';
+  const whatsappPhone = document.getElementById('cfg-whatsapp-phone')?.value || '+60123456789';
+
+  hub.saveMerchantPaymentConfig({
+    bank_name: bankName,
+    account_name: accountName,
+    account_number: accountNumber,
+    whatsapp_phone: whatsappPhone,
+    qr_image_url: customQrBase64 || ''
+  });
+
+  alert('💾 Store DuitNow QR & Bank Account Settings saved successfully!');
 };
 
 // Navigation Tabs

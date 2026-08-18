@@ -28,6 +28,7 @@
         <input type="text" class="form-input" id="pos-search-input" placeholder="🔍 Search menu item or code...">
       </div>
       <div style="display: flex; gap: 8px; align-items: center;">
+        <button class="btn btn-sm btn-primary" id="pos-verify-queue-btn" style="display: none; font-weight: 700; background: var(--color-warning); color: #000; border-color: var(--color-warning);" onclick="window.openVerificationModal()">🔔 1 Verification</button>
         <button class="btn btn-sm btn-secondary" onclick="window.openCashFloatModal()">💵 Shift Float</button>
         <div class="badge badge-success">● Cashier Ready</div>
       </div>
@@ -198,6 +199,24 @@
         <button class="btn btn-secondary" onclick="window.closeCashFloatModal()">Close</button>
         <button class="btn btn-secondary" onclick="window.printShiftZReport()">🖨️ Print Z-Report</button>
         <button class="btn btn-primary" onclick="window.saveCashFloat()">💾 Save Shift Settlement</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cashier DuitNow Payment Verification Modal (2-Way Proof & Handshake) -->
+  <div class="modal-overlay" id="payment-verification-modal">
+    <div class="modal-dialog" style="max-width: 520px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <h2 style="color: var(--gold-light); margin: 0; font-size: 1.25rem;">📱 DuitNow Payments Queue</h2>
+        <button class="btn btn-sm btn-secondary" onclick="window.closeVerificationModal()">✕ Close</button>
+      </div>
+
+      <p style="color: var(--text-muted); font-size: 0.82rem; margin-bottom: 14px;">
+        Verify customer bank transfer proof. Approving automatically prints receipt and fires the order to Kitchen KDS.
+      </p>
+
+      <div id="verification-orders-list" style="max-height: 55vh; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;">
+        <!-- Rendered dynamically -->
       </div>
     </div>
   </div>

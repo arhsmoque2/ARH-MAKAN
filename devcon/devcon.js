@@ -367,5 +367,34 @@ window.resetAllData = () => {
   }
 };
 
+// Feature Gates Controllers
+window.toggleAdminAnalyticsView = (enabled) => {
+  localStorage.setItem('gate_show_admin_analytics', enabled ? 'true' : 'false');
+  if (hub.bc) {
+    hub.bc.postMessage({ type: 'CONFIG_TOGGLE', payload: { key: 'show_admin_analytics', value: enabled } });
+  }
+};
+
+window.toggleAudioGate = (enabled) => {
+  localStorage.setItem('gate_enable_audio', enabled ? 'true' : 'false');
+  if (hub.bc) {
+    hub.bc.postMessage({ type: 'CONFIG_TOGGLE', payload: { key: 'enable_audio', value: enabled } });
+  }
+};
+
+window.toggleTableSLAGate = (enabled) => {
+  localStorage.setItem('gate_enable_table_sla', enabled ? 'true' : 'false');
+  if (hub.bc) {
+    hub.bc.postMessage({ type: 'CONFIG_TOGGLE', payload: { key: 'enable_table_sla', value: enabled } });
+  }
+};
+
+window.toggleDuitNowGate = (enabled) => {
+  localStorage.setItem('gate_enable_duitnow', enabled ? 'true' : 'false');
+  if (hub.bc) {
+    hub.bc.postMessage({ type: 'CONFIG_TOGGLE', payload: { key: 'enable_duitnow', value: enabled } });
+  }
+};
+
 // Start
 init();
