@@ -2,6 +2,15 @@
 
 All notable changes to the ARH-MAKAN repository are documented in this file.
 
+## [2.4.0] - 2026-08-18
+### Added
+- **Developer Console (DevCon) Surface (`/devcon/`)**: Dedicated operator & telemetry HUD with permanent In-App Sales & Velocity Analytics, Beacon-style Error Telemetry, 3-Tier State Engine Inspector, and synthetic Scenario Lab.
+- **In-App Sales Analytics & Admin Toggle Gate**: High-density revenue, Average Order Value (AOV), best-seller leaderboard, and peak dining heatmaps, with master visibility toggle for `/admin/` controlled from DevCon.
+- **Table SLA Attention Aging Timers (`pos/`)**: Dynamic visual badges on table floor map indicating order aging (>30m attention, >60m overdue) absorbed from URY protocol.
+- **Table Transfer Protocol (`pos/`)**: 1-click modal to relocate open table orders to another physical table without loss of state.
+- **Daily Shift Cash Float Reconciliation (`pos/`)**: Opening float tracking and closing cash drawer settlement calculator with Over/Short balance reporting.
+- **Operator Plane Desktop DevCon Scaffold (`operator-plane/desktop-devcon/`)**: Cross-platform desktop shell scaffold powered by Tauri v2.
+
 ## [2.3.0] - 2026-08-18
 ### Added
 - **Full Woodfire Canonical Menu Integration (`data/menu.json`)**: Merged all 33 canonical items across 6 categories (Burgers, Smoked Platters, Fries, Chicken, Shakes, Upgrades) and 16 Woodfire Addons.

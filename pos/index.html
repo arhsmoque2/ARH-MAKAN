@@ -27,7 +27,10 @@
       <div class="pos-search">
         <input type="text" class="form-input" id="pos-search-input" placeholder="🔍 Search menu item or code...">
       </div>
-      <div class="badge badge-success">● Cashier Ready</div>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button class="btn btn-sm btn-secondary" onclick="window.openCashFloatModal()">💵 Shift Float</button>
+        <div class="badge badge-success">● Cashier Ready</div>
+      </div>
     </div>
 
     <!-- Product Grid or Tables Map -->
@@ -39,10 +42,13 @@
   <!-- Right Cart & Tender Column -->
   <aside class="pos-cart-col">
     <div class="cart-header">
-      <div style="font-weight: 700;">Current Ticket</div>
-      <select class="cart-table-select" id="cart-table-select">
-        <!-- Tables options -->
-      </select>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <div style="font-weight: 700;">Ticket:</div>
+        <select class="cart-table-select" id="cart-table-select">
+          <!-- Tables options -->
+        </select>
+      </div>
+      <button class="btn btn-sm btn-secondary" style="font-size: 0.72rem; padding: 4px 8px;" onclick="window.openTableTransferModal()">↔ Transfer</button>
     </div>
 
     <div class="cart-lines" id="pos-cart-lines">
@@ -127,6 +133,69 @@
       <div style="display: flex; gap: 10px; justify-content: flex-end;">
         <button class="btn btn-secondary" onclick="window.closePaymentModal()">Close</button>
         <button class="btn btn-primary" onclick="window.completePayment('cash')">✅ Complete & Print Receipt</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table Transfer Modal (URY Protocol) -->
+  <div class="modal-overlay" id="transfer-modal">
+    <div class="modal-dialog">
+      <h2 style="color: var(--gold-light); margin-bottom: 4px;">Transfer Active Order</h2>
+      <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 16px;">
+        Relocate open ticket and table items to a different dining table.
+      </p>
+
+      <div style="background: var(--bg-surface-raised); padding: 14px; border-radius: var(--radius-sm); margin-bottom: 16px;">
+        <div style="font-size: 0.85rem; color: var(--text-secondary);">Source Table:</div>
+        <div class="mono text-gold" id="transfer-source-display" style="font-size: 1.25rem; font-weight: bold;">TABLE T01</div>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <label style="font-size: 0.85rem; color: var(--text-secondary); font-weight: 600;">Destination Table:</label>
+        <select class="form-input" id="transfer-target-select" style="margin-top: 6px; font-size: 1.05rem;">
+          <!-- Populated dynamically -->
+        </select>
+      </div>
+
+      <div style="display: flex; gap: 10px; justify-content: flex-end;">
+        <button class="btn btn-secondary" onclick="window.closeTableTransferModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="window.confirmTableTransfer()">↔ Confirm Table Transfer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Daily Cash Float & Settlement Modal (URY Protocol) -->
+  <div class="modal-overlay" id="cash-float-modal">
+    <div class="modal-dialog">
+      <h2 style="color: var(--gold-light); margin-bottom: 4px;">Cash Drawer & Shift Float</h2>
+      <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 16px;">
+        Record opening float and reconcile cash count against registered sales.
+      </p>
+
+      <div style="background: var(--bg-surface-raised); padding: 14px; border-radius: var(--radius-sm); margin-bottom: 14px;">
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 6px;">
+          <span style="color: var(--text-secondary);">Opening Float:</span>
+          <span class="mono" id="float-opening-display">RM 300.00</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 6px;">
+          <span style="color: var(--text-secondary);">Expected Cash Sales:</span>
+          <span class="mono text-gold" id="float-expected-sales">RM 0.00</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1rem; border-top: 1px solid var(--border-subtle); padding-top: 8px;">
+          <span>Expected Total in Drawer:</span>
+          <span class="mono text-gold" id="float-expected-total">RM 300.00</span>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <label style="font-size: 0.85rem; color: var(--text-secondary);">Actual Cash Counted (RM):</label>
+        <input type="number" class="form-input" id="float-actual-count" placeholder="300.00" style="margin-top: 4px; font-size: 1.15rem; font-weight: bold;" oninput="window.recalcFloatDiff()">
+        <div id="float-diff-display" style="font-size: 0.82rem; margin-top: 6px; font-weight: 600;"></div>
+      </div>
+
+      <div style="display: flex; gap: 10px; justify-content: flex-end;">
+        <button class="btn btn-secondary" onclick="window.closeCashFloatModal()">Close</button>
+        <button class="btn btn-primary" onclick="window.saveCashFloat()">💾 Save Shift Settlement</button>
       </div>
     </div>
   </div>

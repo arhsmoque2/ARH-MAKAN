@@ -9,9 +9,26 @@ async function init() {
     menuData = await res.json();
     updateSyncHUD();
     renderKPIs();
+    renderAdminAnalytics();
     renderStockToggles();
     renderOrdersTable();
     renderQRGenerator();
+
+    hub.subscribe(() => {
+      updateSyncHUD();
+      renderKPIs();
+      renderAdminAnalytics();
+      renderOrdersTable();
+    });
+
+    // Listen for DevCon feature gate broadcasts
+    if (hub.bc) {
+      hub.bc.addEventListener('message', (e) => {
+        if (e.data?.type === 'CONFIG_TOGGLE' && e.data?.payload?.key === 'show_admin_analytics') {
+          renderAdminAnalytics();
+        }
+      });
+    }
   } catch (e) {
     console.error('Failed to init admin:', e);
   }
@@ -31,16 +48,93 @@ function renderKPIs() {
   const activeOrders = orders.filter(o => o.status !== 'paid' && o.status !== 'cancelled');
 
   const totalRev = paidOrders.reduce((sum, o) => sum + (o.total_amount || 0), 0);
+  const aov = paidOrders.length > 0 ? (totalRev / paidOrders.length) : 0;
 
   const kpiRev = document.getElementById('kpi-rev');
   const kpiTotal = document.getElementById('kpi-total-orders');
+  const kpiAov = document.getElementById('kpi-aov');
   const kpiActive = document.getElementById('kpi-active');
-  const kpiAvg = document.getElementById('kpi-avg-prep');
+  const ordersSub = document.getElementById('admin-orders-sub');
 
   if (kpiRev) kpiRev.innerText = `RM ${totalRev.toFixed(2)}`;
   if (kpiTotal) kpiTotal.innerText = orders.length;
+  if (kpiAov) kpiAov.innerText = `RM ${aov.toFixed(2)}`;
   if (kpiActive) kpiActive.innerText = activeOrders.length;
-  if (kpiAvg) kpiAvg.innerText = '14m';
+  if (ordersSub) ordersSub.innerText = `${paidOrders.length} Paid · ${activeOrders.length} Active`;
+}
+
+// In-App Sales & Velocity Section (Gated by DevCon Toggle)
+function renderAdminAnalytics() {
+  const section = document.getElementById('admin-analytics-section');
+  if (!section) return;
+
+  const isEnabled = localStorage.getItem('arh_admin_show_analytics') !== 'false';
+  section.style.display = isEnabled ? 'block' : 'none';
+
+  if (!isEnabled) return;
+
+  const orders = hub.getOrders();
+
+  // 1. Top Selling Products
+  const itemMap = new Map();
+  orders.forEach(o => {
+    (o.items || []).forEach(it => {
+      const current = itemMap.get(it.name) || { count: 0, revenue: 0, category: it.station || 'grill' };
+      current.count += (it.qty || 1);
+      current.revenue += (it.total_price || (it.unit_price || 0) * (it.qty || 1));
+      itemMap.set(it.name, current);
+    });
+  });
+
+  const sortedItems = Array.from(itemMap.entries())
+    .map(([name, data]) => ({ name, ...data }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 4);
+
+  const topListEl = document.getElementById('admin-top-products-list');
+  if (topListEl) {
+    if (sortedItems.length === 0) {
+      topListEl.innerHTML = '<div style="font-size: 0.8rem; color: var(--text-muted); text-align: center; padding: 12px;">No shift sales recorded yet.</div>';
+    } else {
+      topListEl.innerHTML = sortedItems.map((item, idx) => `
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: var(--bg-surface-raised); border-radius: var(--radius-sm); font-size: 0.85rem;">
+          <div>
+            <span style="color: var(--gold-light); font-weight: bold; margin-right: 6px;">#${idx + 1}</span>
+            <span style="font-weight: 500;">${item.name}</span>
+            <span class="mono text-muted" style="font-size: 0.72rem; margin-left: 6px;">(${item.count} sold)</span>
+          </div>
+          <div class="mono text-gold" style="font-weight: bold;">RM ${item.revenue.toFixed(2)}</div>
+        </div>
+      `).join('');
+    }
+  }
+
+  // 2. Hourly Heatmap
+  const chartEl = document.getElementById('admin-hourly-heatmap');
+  if (chartEl) {
+    const hours = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22];
+    const hourCounts = new Array(12).fill(0);
+
+    orders.forEach(o => {
+      const d = new Date(o.created_at || Date.now());
+      const h = d.getHours();
+      const idx = hours.indexOf(h);
+      if (idx !== -1) hourCounts[idx]++;
+      else hourCounts[1]++;
+    });
+
+    const maxVal = Math.max(...hourCounts, 1);
+
+    chartEl.innerHTML = hourCounts.map((val, idx) => {
+      const pct = Math.max((val / maxVal) * 100, 8);
+      return `
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end;" title="${hours[idx]}:00 — ${val} orders">
+          <div class="mono text-muted" style="font-size: 0.65rem; margin-bottom: 2px;">${val}</div>
+          <div style="width: 100%; height: ${pct}%; background: linear-gradient(180deg, var(--gold-light) 0%, var(--gold-dark) 100%); border-radius: 3px 3px 0 0; min-height: 4px;"></div>
+        </div>
+      `;
+    }).join('');
+  }
 }
 
 // 86 / Sold Out Inventory Toggles

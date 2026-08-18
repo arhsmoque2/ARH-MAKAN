@@ -92,23 +92,41 @@ function renderTableFloorView() {
   if (!grid) return;
 
   const tables = hub.getTableStatusMatrix();
+  const now = Date.now();
 
   grid.innerHTML = `
     <div class="table-floor-grid" style="grid-column: 1 / -1;">
-      ${tables.map(tbl => `
-        <div class="table-node ${tbl.status}" onclick="window.selectTable('${tbl.id}')">
-          <div style="font-size: 1.5rem; margin-bottom: 4px;">🪑</div>
-          <div style="font-weight: 700; font-size: 1.1rem; color: var(--gold-light);">${tbl.id}</div>
-          <div style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; margin-top: 4px;">
-            ${tbl.status}
-          </div>
-          ${tbl.active_order ? `
-            <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--gold-primary); margin-top: 6px;">
-              RM ${tbl.active_order.total_amount.toFixed(2)}
+      ${tables.map(tbl => {
+        let agingMinutes = 0;
+        let isAttention = false;
+        let isOverdue = false;
+
+        if (tbl.active_order && tbl.active_order.created_at) {
+          agingMinutes = Math.floor((now - tbl.active_order.created_at) / 60000);
+          if (agingMinutes >= 60) isOverdue = true;
+          else if (agingMinutes >= 30) isAttention = true;
+        }
+
+        return `
+          <div class="table-node ${tbl.status} ${isOverdue ? 'overdue' : isAttention ? 'attention' : ''}" onclick="window.selectTable('${tbl.id}')">
+            <div style="font-size: 1.5rem; margin-bottom: 4px;">🪑</div>
+            <div style="font-weight: 700; font-size: 1.1rem; color: var(--gold-light);">${tbl.id}</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; margin-top: 4px;">
+              ${tbl.status}
             </div>
-          ` : ''}
-        </div>
-      `).join('')}
+            ${tbl.active_order ? `
+              <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--gold-primary); margin-top: 4px;">
+                RM ${tbl.active_order.total_amount.toFixed(2)}
+              </div>
+              <div style="margin-top: 6px;">
+                <span class="badge ${isOverdue ? 'badge-danger' : isAttention ? 'badge-warning' : 'badge-gold'}" style="font-size: 0.68rem; padding: 2px 6px;">
+                  ⏱️ ${agingMinutes}m
+                </span>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('')}
     </div>
   `;
 }
@@ -131,6 +149,125 @@ window.selectTable = (tableId) => {
   }
   updateCartUI();
   sound.playGentlePing();
+};
+
+// Table Transfer Logic (URY Protocol)
+window.openTableTransferModal = () => {
+  const modal = document.getElementById('transfer-modal');
+  const sourceDisplay = document.getElementById('transfer-source-display');
+  const targetSelect = document.getElementById('transfer-target-select');
+  if (!modal || !targetSelect) return;
+
+  sourceDisplay.innerText = `TABLE ${currentTable}`;
+
+  const allTables = ['T01', 'T02', 'T03', 'T04', 'T05', 'T06', 'T07', 'T08'];
+  const targets = allTables.filter(t => t !== currentTable);
+
+  targetSelect.innerHTML = targets.map(t => `<option value="${t}">TABLE ${t}</option>`).join('');
+  modal.classList.add('active');
+};
+
+window.closeTableTransferModal = () => {
+  const modal = document.getElementById('transfer-modal');
+  if (modal) modal.classList.remove('active');
+};
+
+window.confirmTableTransfer = () => {
+  const targetSelect = document.getElementById('transfer-target-select');
+  const targetTable = targetSelect ? targetSelect.value : null;
+
+  if (!targetTable || targetTable === currentTable) {
+    alert('Please select a valid destination table.');
+    return;
+  }
+
+  const orders = hub.getOrders();
+  const activeOrder = orders.find(o => o.table_id === currentTable && o.status !== 'paid' && o.status !== 'cancelled');
+
+  if (!activeOrder && cart.length === 0) {
+    alert(`No active items on Table ${currentTable} to transfer.`);
+    closeTableTransferModal();
+    return;
+  }
+
+  if (activeOrder) {
+    activeOrder.table_id = targetTable;
+    hub._saveOrders(orders);
+  }
+
+  currentTable = targetTable;
+  const select = document.getElementById('cart-table-select');
+  if (select) select.value = targetTable;
+
+  closeTableTransferModal();
+  updateCartUI();
+  renderTableFloorView();
+  sound.playGentlePing();
+  alert(`✅ Order successfully transferred from Table ${sourceDisplay.innerText} to Table ${targetTable}`);
+};
+
+// Daily Cash Float Logic (URY Protocol)
+window.openCashFloatModal = () => {
+  const modal = document.getElementById('cash-float-modal');
+  if (!modal) return;
+
+  const openingFloat = parseFloat(localStorage.getItem('arh_opening_float')) || 300.00;
+  const orders = hub.getOrders();
+  const paidCashOrders = orders.filter(o => o.status === 'paid' && (o.payment_method === 'cash' || !o.payment_method));
+  const cashSales = paidCashOrders.reduce((sum, o) => sum + (o.total_amount || 0), 0);
+  const expectedTotal = openingFloat + cashSales;
+
+  document.getElementById('float-opening-display').innerText = `RM ${openingFloat.toFixed(2)}`;
+  document.getElementById('float-expected-sales').innerText = `RM ${cashSales.toFixed(2)}`;
+  document.getElementById('float-expected-total').innerText = `RM ${expectedTotal.toFixed(2)}`;
+
+  window.recalcFloatDiff();
+  modal.classList.add('active');
+};
+
+window.closeCashFloatModal = () => {
+  const modal = document.getElementById('cash-float-modal');
+  if (modal) modal.classList.remove('active');
+};
+
+window.recalcFloatDiff = () => {
+  const actualInput = document.getElementById('float-actual-count');
+  const diffDisplay = document.getElementById('float-diff-display');
+  if (!actualInput || !diffDisplay) return;
+
+  const openingFloat = parseFloat(localStorage.getItem('arh_opening_float')) || 300.00;
+  const orders = hub.getOrders();
+  const paidCashOrders = orders.filter(o => o.status === 'paid' && (o.payment_method === 'cash' || !o.payment_method));
+  const cashSales = paidCashOrders.reduce((sum, o) => sum + (o.total_amount || 0), 0);
+  const expectedTotal = openingFloat + cashSales;
+
+  const actual = parseFloat(actualInput.value);
+  if (isNaN(actual)) {
+    diffDisplay.innerText = '';
+    return;
+  }
+
+  const diff = actual - expectedTotal;
+  if (Math.abs(diff) < 0.01) {
+    diffDisplay.innerText = '✅ Balanced (RM 0.00 discrepancy)';
+    diffDisplay.style.color = 'var(--color-success)';
+  } else if (diff > 0) {
+    diffDisplay.innerText = `⚠️ Over by +RM ${diff.toFixed(2)}`;
+    diffDisplay.style.color = 'var(--color-warning)';
+  } else {
+    diffDisplay.innerText = `❌ Short by -RM ${Math.abs(diff).toFixed(2)}`;
+    diffDisplay.style.color = 'var(--color-danger)';
+  }
+};
+
+window.saveCashFloat = () => {
+  const actualInput = document.getElementById('float-actual-count');
+  const actual = parseFloat(actualInput?.value);
+  if (!isNaN(actual)) {
+    localStorage.setItem('arh_last_settled_float', actual.toString());
+  }
+  closeCashFloatModal();
+  alert('💾 Shift cash drawer float saved successfully.');
 };
 
 function renderTableSelector() {
