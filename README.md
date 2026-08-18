@@ -71,15 +71,17 @@ arh-makan/
 
 ## 🩺 Verification & Quality Gates
 
-Run the comprehensive 7-gate CI Doctor suite:
+Run the comprehensive 9-gate CI Doctor suite:
 ```bash
 node scripts/arh-ci-doctor.mjs
 ```
 
 1. **Static Integrity & Schema Validation** (`scripts/check.mjs`)
-2. **ESM JavaScript Syntax & Linter Gate** (`scripts/lint.mjs`)
-3. **HTML5 & A11y Accessibility Verification** (`scripts/verify-a11y-html.mjs`)
-4. **Performance Budget & Asset Profiler** (`scripts/profile-assets.mjs`)
-5. **Showroom Bridge & Station-Routing Suite** (`scripts/test-showroom-bridge.mjs` — 19 tests)
-6. **QR Code Matrix Scannability & Density Gate** (`scripts/test-qr-verify.mjs` — 3 matrix tests)
-7. **Cloud Infrastructure & Config Preflight** (`scripts/verify-infra-preflight.mjs`)
+2. **Menu Config DriftGuard & Station Invariants** (`scripts/check-menu-schema.mjs`)
+3. **ESM JavaScript Syntax & Linter Gate** (`scripts/lint.mjs`)
+4. **HTML5 & A11y Accessibility Verification** (`scripts/verify-a11y-html.mjs`)
+5. **Performance Budget & Asset Profiler** (`scripts/profile-assets.mjs`)
+6. **Showroom Bridge & Station-Routing Suite** (`scripts/test-showroom-bridge.mjs` — 19 tests)
+7. **QR Code Matrix Scannability & Density Gate** (`scripts/test-qr-verify.mjs` — 3 matrix tests)
+8. **Cloud Infrastructure & Config Preflight** (`scripts/verify-infra-preflight.mjs`)
+9. **Cloudflare Worker Runtime & Edge Fetch Suite** (`scripts/test-worker-runtime.mjs`)

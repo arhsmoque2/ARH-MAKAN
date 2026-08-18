@@ -22,13 +22,14 @@ function run(cmd, desc) {
 }
 
 run('node scripts/check.mjs', '1. Static Integrity & Schema Validation');
-run('node scripts/lint.mjs', '2. ESM JavaScript Syntax & Linter Gate');
-run('node scripts/verify-a11y-html.mjs', '3. HTML5 & A11y Accessibility Verification');
-run('node scripts/profile-assets.mjs', '4. Performance Budget & Asset Profiler');
-run('node scripts/test-showroom-bridge.mjs', '5. Showroom Bridge & Station-Routing Suite');
-run('node scripts/test-qr-verify.mjs', '6. QR Code Matrix Scannability & Density Gate');
-run('node scripts/verify-infra-preflight.mjs', '7. Cloud Infrastructure & Config Preflight');
-run('node scripts/test-worker-runtime.mjs', '8. Cloudflare Worker Runtime & Edge Fetch Suite');
+run('node scripts/check-menu-schema.mjs', '2. Menu Config DriftGuard & Station Invariants');
+run('node scripts/lint.mjs', '3. ESM JavaScript Syntax & Linter Gate');
+run('node scripts/verify-a11y-html.mjs', '4. HTML5 & A11y Accessibility Verification');
+run('node scripts/profile-assets.mjs', '5. Performance Budget & Asset Profiler');
+run('node scripts/test-showroom-bridge.mjs', '6. Showroom Bridge & Station-Routing Suite');
+run('node scripts/test-qr-verify.mjs', '7. QR Code Matrix Scannability & Density Gate');
+run('node scripts/verify-infra-preflight.mjs', '8. Cloud Infrastructure & Config Preflight');
+run('node scripts/test-worker-runtime.mjs', '9. Cloudflare Worker Runtime & Edge Fetch Suite');
 
-console.log('\n🎉 🩺 CI Doctor completed all 8 validation gates successfully!');
+console.log('\n🎉 🩺 CI Doctor completed all 9 validation gates successfully!');
 
