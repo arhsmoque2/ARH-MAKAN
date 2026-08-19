@@ -6,10 +6,18 @@ on:
     types: [ opened, synchronize, reopened ]
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
   agent-review:
     name: Autonomous Agent Quality & Architecture Sign-Off
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v4
@@ -27,18 +35,19 @@ jobs:
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
-      - name: Run 14-Gate Full Verification Suite
+      - name: Run Master Quality Gate Suite
         env:
           FIREBASE_DATABASE_URL: ${{ secrets.FIREBASE_DATABASE_URL }}
-        run: node scripts/arh-ci-doctor.mjs
+        run: node scripts/arh-quality-gate.mjs
 
       - name: Generate PR Architectural Verdict
         run: |
           echo "### 🤖 ARH-MAKAN Autonomous Agent Quality Sign-Off" >> $GITHUB_STEP_SUMMARY
-          echo "✅ All 14 CI Doctor & Devkit Quality Gates passed." >> $GITHUB_STEP_SUMMARY
+          echo "✅ All 18 CI Doctor & Devkit Quality Gates passed." >> $GITHUB_STEP_SUMMARY
           echo "- **Design Tokens & A11y**: 100% compliant with zero forbidden tropes." >> $GITHUB_STEP_SUMMARY
           echo "- **Multi-Viewport UI Integrity**: Verified Mobile (390px), Tablet (768px), and Desktop (1280px)." >> $GITHUB_STEP_SUMMARY
           echo "- **E2E Interactive Smoke**: 0 unhandled exceptions across all 5 surfaces." >> $GITHUB_STEP_SUMMARY
           echo "- **Living Knowledge Triad**: CHANGELOG, ADRs, and README are synchronized." >> $GITHUB_STEP_SUMMARY
+          echo "- **Actions Budget & Runtime**: Concurrency cancellation & timeout limits enforced." >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Verdict: APPROVED FOR MERGE TO MAIN 🚀**" >> $GITHUB_STEP_SUMMARY

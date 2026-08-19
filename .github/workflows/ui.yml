@@ -1,0 +1,43 @@
+name: UI & Visual Regression Gate
+
+on:
+  workflow_dispatch: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  ui-verification:
+    name: Playwright Multi-Surface Visual & Layout Matrix
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci || npm install
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Multi-Viewport UI Integrity & Layout Overflow Gate
+        run: node scripts/check-ui-integrity.mjs
+
+      - name: Visual Regression Baseline Snapshot Gate
+        run: node scripts/test-visual-regression.mjs
+
+      - name: E2E Interactive Multi-Surface Smoke Gate
+        run: node scripts/test-e2e-smoke.mjs
+
+      - name: Browser Loading Speed & Web Vitals Profiler
+        run: node scripts/profile-loading-speed.mjs

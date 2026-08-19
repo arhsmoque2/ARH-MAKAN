@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "rehearsal_version": "1.0.0",
+  "timestamp": "2026-08-19T17:21:28.659Z",
+  "duration_ms": 40,
+  "suite": "ARH-MAKAN Woodfire Full-Stack Operating Suite",
+  "restaurant": "Woodfire Kulim",
+  "all_passed": true,
+  "steps": [
+    {
+      "step": 1,
+      "name": "Menu & Restaurant Catalog Loaded",
+      "itemsCount": 68,
+      "status": "PASS"
+    },
+    {
+      "step": 2,
+      "name": "Customer Cart & Modifiers Configured",
+      "subtotal": 54.699999999999996,
+      "sst": 3.28,
+      "grandTotal": 57.98,
+      "status": "PASS"
+    },
+    {
+      "step": 3,
+      "name": "DuitNow QR Payload Generated",
+      "paymentRef": "T05-ORD-4260",
+      "payload": "DUITNOW|552188329910|57.98|T05-ORD-4260",
+      "status": "PASS"
+    },
+    {
+      "step": 4,
+      "name": "KDS Station Routing Verified",
+      "grill": 1,
+      "fry": 1,
+      "bar": 1,
+      "status": "PASS"
+    },
+    {
+      "step": 5,
+      "name": "ESC/POS Thermal Receipt Rendered",
+      "lineCount": 17,
+      "status": "PASS"
+    },
+    {
+      "step": 6,
+      "name": "Customer Review & Rating Logged",
+      "rating": 5,
+      "status": "PASS"
+    }
+  ],
+  "sample_order": {
+    "order_id": "WF-8622",
+    "table_id": "T05",
+    "type": "dine_in",
+    "items": [
+      {
+        "item_id": "gourmet-burger",
+        "name": "Gourmet Burger",
+        "qty": 1,
+        "unit_price": 30.9,
+        "total_price": 30.9,
+        "station": "grill",
+        "selected_modifiers": [
+          {
+            "group_name": "Bun Selection",
+            "option_name": "Toasted Brioche Bun",
+            "price": 0
+          },
+          {
+            "group_name": "Addons",
+            "option_name": "Cheese",
+            "price": 2
+          },
+          {
+            "group_name": "Addons",
+            "option_name": "Beef Patty",
+            "price": 8
+          }
+        ],
+        "is_bumped": false
+      },
+      {
+        "item_id": "curly-fries",
+        "name": "Curly Fries",
+        "qty": 1,
+        "unit_price": 6.9,
+        "total_price": 6.9,
+        "station": "fry",
+        "selected_modifiers": [],
+        "is_bumped": false
+      },
+      {
+        "item_id": "vanilla-shake",
+        "name": "Vanilla Shake",
+        "qty": 1,
+        "unit_price": 16.9,
+        "total_price": 16.9,
+        "station": "bar",
+        "selected_modifiers": [],
+        "is_bumped": false
+      }
+    ],
+    "status": "pending",
+    "total_amount": 57.98,
+    "payment_method": "duitnow_qr",
+    "payment_ref": "T05-ORD-4260",
+    "created_at": "2026-08-19T17:21:28.622Z"
+  },
+  "sample_receipt": [
+    "================================",
+    "        WOODFIRE KULIM          ",
+    "    Oak-Smoked Meats & Burgers  ",
+    "================================",
+    "Order: WF-8622   Table: T05",
+    "Date:  20/08/2026",
+    "--------------------------------",
+    "1x Gourmet Burger     RM 30.90",
+    "1x Curly Fries        RM 6.90",
+    "1x Vanilla Shake      RM 16.90",
+    "--------------------------------",
+    "Subtotal:             RM 54.70",
+    "SST (6%):             RM 3.28",
+    "TOTAL PAYABLE:        RM 57.98",
+    "Payment:              DUITNOW QR (T05-ORD-4260)",
+    "================================",
+    "   THANK YOU FOR DINING WITH US "
+  ]
+}

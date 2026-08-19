@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * ARH-MAKAN Docs Freshness & Living Knowledge Triad Linter (Gate 14)
+ * ARH-MAKAN Docs Freshness & Living Knowledge Triad Linter
  * Verifies that CHANGELOG.md, README.md, and ADRs remain synchronized with code modifications.
  */
 
@@ -12,7 +12,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '..');
 
-console.log('\n📚 Running Docs Freshness & Living Knowledge Triad Linter (Gate 14)...');
+console.log('\n📚 Running Docs Freshness & Living Knowledge Triad Linter...');
 
 const errors = [];
 
@@ -38,7 +38,7 @@ triadFiles.forEach(f => {
 // 3. Verify ADR Catalog
 const adrDir = path.join(ROOT_DIR, 'docs', 'decisions');
 if (fs.existsSync(adrDir)) {
-  const adrFiles = fs.readdirSync(adrDir).filter(f => f.endsWith('.md'));
+  const adrFiles = fs.readdirSync(adrDir).filter(f => f.match(/^\d{4}-.*\.md$/));
   if (adrFiles.length === 0) {
     errors.push('No Architecture Decision Records found in docs/decisions/.');
   } else {
