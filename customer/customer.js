@@ -17,6 +17,7 @@ let pendingReceiptBase64 = null;
 let currentDuitNowRef = '';
 let countdownInterval = null;
 let countdownSecondsRemaining = 900; // 15 mins
+let isDemoModeEnabled = false; // gates the "Instant Test Pay (Demo)" button — never on for real customers
 
 const translations = {
   en: {
@@ -49,6 +50,25 @@ const translations = {
   }
 };
 
+// Single source of truth for tax/total rounding so the amount shown on the
+// DuitNow QR/modal always matches the amount actually recorded on the order.
+function computeCartTotals(cartItems) {
+  const subtotal = cartItems.reduce((sum, it) => sum + it.total_price, 0);
+  const tax = Number((subtotal * 0.06).toFixed(2));
+  const total = Number((subtotal + tax).toFixed(2));
+  return { subtotal, tax, total };
+}
+
+// Takeaway orders share the literal table_id 'TAKEAWAY', so remembering the
+// exact order_id this session placed is the only way to find *this*
+// customer's order again on reload — matching by table_id alone would show
+// whichever takeaway order happens to be pending first, including a
+// stranger's on a shared/kiosk device.
+function rememberOwnOrder(order) {
+  activePlacedOrder = order;
+  if (order?.order_id) sessionStorage.setItem('arh_own_order_id', order.order_id);
+}
+
 window.toggleLanguage = () => {
   currentLang = currentLang === 'en' ? 'bm' : 'en';
   localStorage.setItem('arh_lang', currentLang);
@@ -79,6 +99,13 @@ function initTableSession() {
   } else {
     setOrderMode('dine_in');
   }
+
+  // Demo/instant-pay mode is opt-in per visit via ?demo=1 — it is never
+  // persisted, so a real-money staging URL handed to a customer or tester
+  // without that param never shows the auto-approve button.
+  isDemoModeEnabled = params.get('demo') === '1';
+  const demoBtn = document.getElementById('instant-demo-pay-btn');
+  if (demoBtn) demoBtn.style.display = isDemoModeEnabled ? 'block' : 'none';
 
   updateTableBadge();
   const langBtn = document.getElementById('lang-toggle-btn');
@@ -465,7 +492,7 @@ window.submitOrderToKitchen = (paymentType = 'unpaid') => {
     payment_method: paymentType
   });
 
-  activePlacedOrder = order;
+  rememberOwnOrder(order);
   cart = [];
   updateCartUI();
   closeCartDrawer();
@@ -481,8 +508,8 @@ window.openDuitNowModal = () => {
     return;
   }
 
-  const subtotal = cart.reduce((sum, it) => sum + it.total_price, 0);
-  const total = (subtotal * 1.06).toFixed(2);
+  const { total } = computeCartTotals(cart);
+  const totalStr = total.toFixed(2);
   const prefix = orderMode === 'dine_in' ? currentTable : 'WF-WEB';
   currentDuitNowRef = `${prefix}-ORD-${Math.floor(1000 + Math.random() * 9000)}`;
 
@@ -492,18 +519,26 @@ window.openDuitNowModal = () => {
   const storeAccEl = document.getElementById('duitnow-store-acc-name');
   const storeBankEl = document.getElementById('duitnow-store-bank-info');
 
-  if (amountEl) amountEl.innerText = `RM ${total}`;
+  if (amountEl) amountEl.innerText = `RM ${totalStr}`;
   if (refEl) refEl.innerText = currentDuitNowRef;
 
   const merchantCfg = hub.getMerchantPaymentConfig();
   if (storeAccEl) storeAccEl.innerText = merchantCfg.account_name;
   if (storeBankEl) storeBankEl.innerText = `${merchantCfg.bank_name} · ${merchantCfg.account_number}`;
 
-  // Generate ISO/IEC Matrix QR with Dynamic Payload
+  // Prefer the merchant's real, bank-issued DuitNow QR image (configured in
+  // admin.js) — it's the only one a real banking app can actually scan and
+  // pay against. The client-generated matrix code below is a placeholder
+  // preview payload only, not a standards-compliant DuitNow QR, and should
+  // never be presented as the thing to pay against for a real transaction.
   if (qrBox) {
-    const qrData = `DUITNOW|${merchantCfg.account_number}|${total}|${currentDuitNowRef}`;
-    const svg = qr.generateSvg(qrData, { size: 180, darkColor: '#000000', lightColor: '#FFFFFF' });
-    qrBox.innerHTML = svg;
+    if (merchantCfg.qr_image_url) {
+      qrBox.innerHTML = `<img src="${merchantCfg.qr_image_url}" style="max-height: 180px; max-width: 100%; border-radius: 6px;" alt="DuitNow QR">`;
+    } else {
+      const qrData = `DUITNOW|${merchantCfg.account_number}|${totalStr}|${currentDuitNowRef}`;
+      const svg = qr.generateSvg(qrData, { size: 180, darkColor: '#000000', lightColor: '#FFFFFF' });
+      qrBox.innerHTML = svg;
+    }
   }
 
   // Reset file input & preview
@@ -548,8 +583,8 @@ window.closeDuitNowModal = () => {
 };
 
 window.copyDuitNowAmount = () => {
-  const subtotal = cart.reduce((sum, it) => sum + it.total_price, 0);
-  const total = (subtotal * 1.06).toFixed(2);
+  const { total: totalNum } = computeCartTotals(cart);
+  const total = totalNum.toFixed(2);
   navigator.clipboard.writeText(total).then(() => {
     sound.playGentlePing();
     alert(`📋 Copied amount RM ${total} to clipboard.`);
@@ -583,8 +618,8 @@ window.handleReceiptFileChosen = async (input) => {
 window.openWhatsAppReceipt = () => {
   const merchantCfg = hub.getMerchantPaymentConfig();
   const phone = (merchantCfg.whatsapp_phone || '+60169799778').replace(/[^0-9]/g, '');
-  const subtotal = cart.reduce((sum, it) => sum + it.total_price, 0);
-  const total = (subtotal * 1.06).toFixed(2);
+  const { total: totalNum } = computeCartTotals(cart);
+  const total = totalNum.toFixed(2);
   const targetName = orderMode === 'dine_in' ? `Table ${currentTable}` : 'Takeaway';
   const text = encodeURIComponent(`Hi Woodfire Kulim, I have paid RM ${total} via DuitNow for ${targetName} (Ref: ${currentDuitNowRef}). Here is my proof of transfer.`);
   window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
@@ -622,7 +657,7 @@ window.confirmDuitNowPaymentMade = () => {
     payment_ref: currentDuitNowRef
   });
 
-  activePlacedOrder = order;
+  rememberOwnOrder(order);
   cart = [];
   updateCartUI();
   closeDuitNowModal();
@@ -632,8 +667,15 @@ window.confirmDuitNowPaymentMade = () => {
   alert('✅ DuitNow payment submitted! Our counter cashier is verifying your transfer. Your order will be sent to the kitchen instantly upon confirmation.');
 };
 
-// Instant Test Simulation (Instant Mock Auto-Approve)
+// Instant Test Simulation (Instant Mock Auto-Approve) — gated behind ?demo=1,
+// see initTableSession. Refuse to run even if the hidden button is somehow
+// triggered directly, so a real customer's order can never be auto-approved
+// without an actual payment.
 window.simulateInstantPayment = () => {
+  if (!isDemoModeEnabled) {
+    alert('Demo pay is disabled on this order link.');
+    return;
+  }
   if (cart.length === 0) return;
 
   const subtotal = cart.reduce((sum, it) => sum + it.total_price, 0);
@@ -660,7 +702,7 @@ window.simulateInstantPayment = () => {
     payment_ref: currentDuitNowRef
   });
 
-  activePlacedOrder = order;
+  rememberOwnOrder(order);
   cart = [];
   updateCartUI();
   closeDuitNowModal();
@@ -691,7 +733,18 @@ window.sendServiceRequest = (type, label) => {
 // Order Tracker HUD
 function checkActiveTableOrder() {
   const orders = hub.getOrders();
-  const active = orders.find(o => (o.table_id === currentTable || (orderMode === 'takeaway' && o.table_id === 'TAKEAWAY')) && o.status !== 'paid' && o.status !== 'cancelled');
+  let active;
+  if (orderMode === 'takeaway') {
+    // All takeaway orders share the literal table_id 'TAKEAWAY', so match
+    // this session's own order_id — never "any pending takeaway order" — or
+    // a shared/kiosk device could surface a different customer's order.
+    const ownOrderId = sessionStorage.getItem('arh_own_order_id');
+    active = ownOrderId
+      ? orders.find(o => o.order_id === ownOrderId && o.status !== 'paid' && o.status !== 'cancelled')
+      : undefined;
+  } else {
+    active = orders.find(o => o.table_id === currentTable && o.status !== 'paid' && o.status !== 'cancelled');
+  }
   if (active) {
     activePlacedOrder = active;
     renderTrackerHUD(active);
@@ -803,7 +856,7 @@ window.openSplitBillModal = () => {
   const modal = document.getElementById('split-bill-modal');
   const orders = hub.getOrders();
   const active = orders.find(o => o.table_id === currentTable && o.status !== 'paid');
-  const total = active ? active.total_amount : cart.reduce((sum, it) => sum + it.total_price * 1.06, 0);
+  const total = active ? active.total_amount : computeCartTotals(cart).total;
 
   document.getElementById('split-total-amount').innerText = `RM ${total.toFixed(2)}`;
   calculateSplit(total, 2);
