@@ -1,0 +1,28 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": [
+    "scripts/*.mjs",
+    "worker.mjs",
+    "customer/customer.js",
+    "kds/kds.js",
+    "pos/pos.js",
+    "admin/admin.js",
+    "devcon/devcon.js",
+    "showroom/showroom.js"
+  ],
+  "project": [
+    "scripts/**/*.mjs",
+    "shared/**/*.js",
+    "customer/**/*.js",
+    "kds/**/*.js",
+    "pos/**/*.js",
+    "admin/**/*.js",
+    "devcon/**/*.js",
+    "showroom/**/*.js",
+    "worker.mjs"
+  ],
+  "ignore": [
+    "evidence/**",
+    "operator-plane/**"
+  ]
+}

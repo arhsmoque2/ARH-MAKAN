@@ -2,6 +2,20 @@
 
 All notable changes to the ARH-MAKAN repository are documented in this file.
 
+## [3.0.0] - 2026-08-20
+### Added
+- **Enterprise Multi-Dimensional Quality Gate & Scorecard Synthesis (`scripts/arh-quality-gate.mjs`)**: Adopted and tailored ARH-URUS 0-100 pts scorecard with letter grades (`A+` >= 95), step execution timers, and error logs across 20 verified dimensions.
+- **Brand & Core Design System Baseline Lock (`scripts/check-brand-integrity.mjs`, `.brand-baseline.json`)**: SHA-256 content hashing of all 12 critical Woodfire brand assets, tokens, schemas, and primitives governed under ADR-0015.
+- **Production Deployment Safety Preflight Doctor (`scripts/ci-prod-safety-doctor.mjs`)**: Automated inspection verifying zero leaked secrets/credentials across codebase, Cloudflare Worker security headers (nosniff, sameorigin, referrer-policy), and asset size budgets.
+- **Full-Cycle Store Journey Rehearsal Gate (`scripts/rehearse.mjs`, `scripts/check-rehearsal-gate.mjs`, `.rehearsal-manifest.json`)**: Full-cycle simulation of customer ordering, custom modifiers, dynamic DuitNow QR, KDS station routing, POS cashier settlement, ESC/POS printing, and 5-star review logging.
+- **Mandatory 10-File ARH Standard Documentation Suite (`ci-asbuilt-doctor.mjs`)**: Complete Living Knowledge Triad (`README.md`, `ARCHITECTURE.md`, `CHANGELOG.md`, `CURRENT_STATE.md`, `GOTCHAS.md`, `RECIPES.md`, `HANDOFF.md`, `AGENTS.md`, `asbuilt.md`, `gaps-to-revisit.md`) plus ADR index validation.
+- **Woodfire Standalone Full-Stack Storefront & Web Ordering (`customer/`)**:
+  - Dual Order Mode: **🍽️ Dine-In (Table QR auto-binding)** & **🛍️ Takeaway / Pickup Web Ordering** with customer contact details and pickup scheduling.
+  - In-App DuitNow QR with dynamic generation, animated 15:00 countdown timer, 1-tap copy for amount/reference, receipt attachment with compression, WhatsApp link, and 1-click Instant Demo test pay.
+  - 4-step live kitchen tracking HUD and post-dining 5-star feedback collection.
+- **Cloudflare Multi-Module Edge Deployment Engine (`scripts/deploy-cloudflare.mjs`)**: Independent `wrangler.jsonc` configs and workers for Customer (`woodfire-customer`), POS (`woodfire-pos`), KDS (`woodfire-kds`), Admin (`woodfire-admin`), and Suite (`arh-makan-suite`) enabling separate live site staging and testing.
+- **ADR-0014 & ADR-0015**: Authored architecture decision records for URUS quality gates adoption and Woodfire standalone full-stack architecture.
+
 ## [2.8.0] - 2026-08-19
 ### Added
 - **Cloud Agent Independence & Zero-Touch Session Bootstrap (`scripts/bootstrap-agent-session.mjs`, `.claude/hooks/`, `.agents/hooks/`)**: Automated script warming dependencies, detecting pre-baked Chromium paths across environments, checking cloud infrastructure readiness, and running baseline health sanity in <10s.
@@ -44,36 +58,3 @@ All notable changes to the ARH-MAKAN repository are documented in this file.
 ### Fixed
 - Replaced untracked `font-family: monospace;` with `var(--font-mono)` in `pos/pos.css`.
 - Fixed mobile and tablet horizontal page overflow in `kds/kds.css` and `pos/pos.css`.
-
-## [2.4.0] - 2026-08-18
-### Added
-- **Developer Console (DevCon) Surface (`/devcon/`)**: Dedicated operator & telemetry HUD with permanent In-App Sales & Velocity Analytics, Beacon-style Error Telemetry, 3-Tier State Engine Inspector, and synthetic Scenario Lab.
-- **In-App Sales Analytics & Admin Toggle Gate**: High-density revenue, Average Order Value (AOV), best-seller leaderboard, and peak dining heatmaps, with master visibility toggle for `/admin/` controlled from DevCon.
-- **Table SLA Attention Aging Timers (`pos/`)**: Dynamic visual badges on table floor map indicating order aging (>30m attention, >60m overdue) absorbed from URY protocol.
-- **Table Transfer Protocol (`pos/`)**: 1-click modal to relocate open table orders to another physical table without loss of state.
-- **Daily Shift Cash Float Reconciliation (`pos/`)**: Opening float tracking and closing cash drawer settlement calculator with Over/Short balance reporting.
-- **Operator Plane Desktop DevCon Scaffold (`operator-plane/desktop-devcon/`)**: Cross-platform desktop shell scaffold powered by Tauri v2.
-
-## [2.3.0] - 2026-08-18
-### Added
-- **Full Woodfire Canonical Menu Integration (`data/menu.json`)**: Merged all 33 canonical items across 6 categories (Burgers, Smoked Platters, Fries, Chicken, Shakes, Upgrades) and 16 Woodfire Addons.
-- **Dynamic Radio & Single/Multiple Modifier Engine**: Real-time price delta calculation (`Add to Order — RM XX.XX`) supporting meat choices (Beef, Chicken, Mix), spice levels, doneness, and bun selections.
-- **Menu Config DriftGuard (`scripts/check-menu-schema.mjs`)**: Automated CI validation checking category mapping, price validity, modifier schema integrity, and KDS station invariants.
-- **Enhanced 9-Gate CI Doctor Suite**: Integrated Menu DriftGuard & Cloudflare Edge Worker runtime verification into the unified test harness.
-- **Live Menu Card Emoji & Photography**: Dynamic emoji and image fallbacks across all customer ordering cards.
-
-## [2.2.0] - 2026-08-17
-### Added
-- **Zero-Dependency Dynamic QR Engine (`shared/qr-generator.js`)**: Pure client-side ISO/IEC 18004 compliant QR matrix encoder (<12KB ESM) supporting dynamic table URL encoding, 1-click PNG export, and A4 printable Table Tent Card batch layout.
-- **Expediter (Expo) Summary View (`kds/`)**: Aggregates all active un-bumped items across the floor with per-table counts.
-- **ESC/POS Thermal Formatter (`shared/escpos-formatter.js`)**: 58mm/80mm formatted thermal receipt and kitchen prep ticket generator.
-- **Fast Cash Denomination Pad (`pos/`)**: Instant change calculation pad (`Exact`, `RM 20`, `RM 50`, `RM 100`).
-- **Showroom Bridge Station-Routing Engine (`shared/showroom-bridge.js`)**: Automatic category mapping and regex keyword fallback preventing station fallthrough.
-- **Client-Side Flight Recorder (`shared/flight-recorder.js`)**: 2KB zero-dependency telemetry engine capturing user click trajectories, network payloads, and unhandled JS exceptions into JSONL.
-- **Living Multi-Surface Test Sandbox (`test-sandbox.html`)**: Quad-split interactive dashboard with 1-click scenario injectors (Rush Hour, 86 Sold Out, Waiter calls).
-- **Portable 7-Gate CI Doctor (`scripts/arh-ci-doctor.mjs`)**: Self-contained multi-gate quality and preflight suite.
-
-### Fixed
-- Station routing fallthrough for Woodfire menu categories (`fries`, `sides`, `upgrades`, `starters` -> `fry`).
-- Double table prefix formatting in KDS Expo view (`TT05` -> `T05`).
-- Honest sync status HUD gating preventing false-positive cloud badges when offline.

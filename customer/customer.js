@@ -5,6 +5,7 @@ import { compressImageFile } from '../shared/image-compressor.js';
 
 let menuData = null;
 let currentTable = 'T05';
+let orderMode = 'dine_in'; // 'dine_in' | 'takeaway'
 let activeDietary = 'all';
 let cart = [];
 let pendingModifierItem = null;
@@ -14,6 +15,9 @@ let selectedRating = 5;
 let selectedReviewTags = [];
 let pendingReceiptBase64 = null;
 let currentDuitNowRef = '';
+let countdownInterval = null;
+let countdownSecondsRemaining = 900; // 15 mins
+let isDemoModeEnabled = false; // gates the "Instant Test Pay (Demo)" button — never on for real customers
 
 const translations = {
   en: {
@@ -26,6 +30,7 @@ const translations = {
     step2: 'Cooking',
     step3: 'Ready',
     step4: 'Served',
+    step4Takeaway: 'Ready for Pickup',
     emptyCart: 'Your cart is empty.',
     sendOrder: '🔥 Send Order to Kitchen'
   },
@@ -39,10 +44,30 @@ const translations = {
     step2: 'Dimasak',
     step3: 'Sedia',
     step4: 'Dihidang',
+    step4Takeaway: 'Sedia Diambil',
     emptyCart: 'Troli anda kosong.',
     sendOrder: '🔥 Hantar Pesanan ke Dapur'
   }
 };
+
+// Single source of truth for tax/total rounding so the amount shown on the
+// DuitNow QR/modal always matches the amount actually recorded on the order.
+function computeCartTotals(cartItems) {
+  const subtotal = cartItems.reduce((sum, it) => sum + it.total_price, 0);
+  const tax = Number((subtotal * 0.06).toFixed(2));
+  const total = Number((subtotal + tax).toFixed(2));
+  return { subtotal, tax, total };
+}
+
+// Takeaway orders share the literal table_id 'TAKEAWAY', so remembering the
+// exact order_id this session placed is the only way to find *this*
+// customer's order again on reload — matching by table_id alone would show
+// whichever takeaway order happens to be pending first, including a
+// stranger's on a shared/kiosk device.
+function rememberOwnOrder(order) {
+  activePlacedOrder = order;
+  if (order?.order_id) sessionStorage.setItem('arh_own_order_id', order.order_id);
+}
 
 window.toggleLanguage = () => {
   currentLang = currentLang === 'en' ? 'bm' : 'en';
@@ -56,10 +81,12 @@ window.toggleLanguage = () => {
   if (activePlacedOrder) renderTrackerHUD(activePlacedOrder);
 };
 
-// Initialize Table Session from URL or Storage
+// Initialize Table & Order Mode Session from URL or Storage
 function initTableSession() {
   const params = new URLSearchParams(window.location.search);
   const tableParam = params.get('table');
+  const modeParam = params.get('mode');
+
   if (tableParam) {
     currentTable = tableParam.toUpperCase();
     sessionStorage.setItem('arh_table_id', currentTable);
@@ -67,12 +94,85 @@ function initTableSession() {
     currentTable = sessionStorage.getItem('arh_table_id') || 'T05';
   }
 
-  const badge = document.getElementById('table-indicator');
-  if (badge) badge.innerText = `TABLE ${currentTable} · DINE-IN`;
+  if (modeParam === 'takeaway') {
+    setOrderMode('takeaway');
+  } else {
+    setOrderMode('dine_in');
+  }
 
+  // Demo/instant-pay mode is opt-in per visit via ?demo=1 — it is never
+  // persisted, so a real-money staging URL handed to a customer or tester
+  // without that param never shows the auto-approve button.
+  isDemoModeEnabled = params.get('demo') === '1';
+  const demoBtn = document.getElementById('instant-demo-pay-btn');
+  if (demoBtn) demoBtn.style.display = isDemoModeEnabled ? 'block' : 'none';
+
+  updateTableBadge();
   const langBtn = document.getElementById('lang-toggle-btn');
   if (langBtn) langBtn.innerText = translations[currentLang].toggleBtn;
 }
+
+function updateTableBadge() {
+  const badge = document.getElementById('table-indicator');
+  if (!badge) return;
+  if (orderMode === 'dine_in') {
+    badge.innerText = `TABLE ${currentTable} · DINE-IN ▾`;
+    badge.style.display = 'inline-flex';
+  } else {
+    badge.innerText = `🛍️ TAKEAWAY / PICKUP ▾`;
+    badge.style.display = 'inline-flex';
+  }
+}
+
+// Order Mode Switcher (Dine-In vs Takeaway)
+window.setOrderMode = (mode) => {
+  orderMode = mode;
+  const dineBtn = document.getElementById('mode-dine-in-btn');
+  const takeBtn = document.getElementById('mode-takeaway-btn');
+  const takeawayBox = document.getElementById('takeaway-details-box');
+  const serviceBtn = document.getElementById('btn-service-call');
+  const drawerTitle = document.getElementById('drawer-title');
+
+  if (mode === 'dine_in') {
+    if (dineBtn) dineBtn.classList.add('active');
+    if (takeBtn) takeBtn.classList.remove('active');
+    if (takeawayBox) takeawayBox.classList.remove('active');
+    if (serviceBtn) serviceBtn.style.display = 'flex';
+    if (drawerTitle) drawerTitle.innerText = `Table ${currentTable} Order`;
+  } else {
+    if (dineBtn) dineBtn.classList.remove('active');
+    if (takeBtn) takeBtn.classList.add('active');
+    if (takeawayBox) takeawayBox.classList.add('active');
+    if (serviceBtn) serviceBtn.style.display = 'none';
+    if (drawerTitle) drawerTitle.innerText = `Takeaway Web Order`;
+  }
+
+  updateTableBadge();
+  sound.playGentlePing();
+};
+
+// Table Switcher
+window.openTableSelectModal = () => {
+  if (orderMode === 'takeaway') {
+    setOrderMode('dine_in');
+  }
+  const modal = document.getElementById('table-select-modal');
+  if (modal) modal.classList.add('active');
+};
+
+window.closeTableSelectModal = () => {
+  const modal = document.getElementById('table-select-modal');
+  if (modal) modal.classList.remove('active');
+};
+
+window.selectTable = (tbl) => {
+  currentTable = tbl;
+  sessionStorage.setItem('arh_table_id', currentTable);
+  updateTableBadge();
+  closeTableSelectModal();
+  checkActiveTableOrder();
+  sound.playGentlePing();
+};
 
 // Load Menu
 async function init() {
@@ -165,7 +265,7 @@ function renderMenu() {
                   </div>
                   <div class="menu-card-desc">${item.description}</div>
                   <div class="menu-card-footer">
-                    <div class="mono text-gold" style="font-size: 1.1rem; font-weight: 700;">
+                    <div class="mono text-gold" style="font-size: 1.05rem; font-weight: 700;">
                       RM ${item.price.toFixed(2)}
                     </div>
                     ${isSoldOut ? `
@@ -300,17 +400,19 @@ function updateCartUI() {
   const totalEl = document.getElementById('float-cart-total');
   const drawerList = document.getElementById('drawer-cart-items');
   const drawerSubtotal = document.getElementById('drawer-subtotal');
+  const drawerTax = document.getElementById('drawer-tax');
   const drawerTotal = document.getElementById('drawer-total');
 
   const totalQty = cart.reduce((sum, it) => sum + it.qty, 0);
   const subtotal = cart.reduce((sum, it) => sum + it.total_price, 0);
-  const tax = subtotal * 0.06;
-  const total = subtotal + tax;
+  const tax = Number((subtotal * 0.06).toFixed(2));
+  const total = Number((subtotal + tax).toFixed(2));
 
   if (countEl) countEl.innerText = `${totalQty} Item${totalQty === 1 ? '' : 's'}`;
   if (totalEl) totalEl.innerText = `RM ${total.toFixed(2)}`;
 
   if (drawerSubtotal) drawerSubtotal.innerText = `RM ${subtotal.toFixed(2)}`;
+  if (drawerTax) drawerTax.innerText = `RM ${tax.toFixed(2)}`;
   if (drawerTotal) drawerTotal.innerText = `RM ${total.toFixed(2)}`;
 
   if (drawerList) {
@@ -358,7 +460,7 @@ window.closeCartDrawer = () => {
   if (drawer) drawer.classList.remove('active');
 };
 
-// Send Order to Kitchen (Counter Cash or Direct)
+// Send Order to Kitchen (Counter Cash / Direct)
 window.submitOrderToKitchen = (paymentType = 'unpaid') => {
   if (cart.length === 0) {
     alert('Please add items to cart before submitting.');
@@ -366,13 +468,22 @@ window.submitOrderToKitchen = (paymentType = 'unpaid') => {
   }
 
   const subtotal = cart.reduce((sum, it) => sum + it.total_price, 0);
-  const tax = subtotal * 0.06;
-  const total = subtotal + tax;
+  const tax = Number((subtotal * 0.06).toFixed(2));
+  const total = Number((subtotal + tax).toFixed(2));
   const note = document.getElementById('drawer-order-note')?.value || '';
 
+  const custName = document.getElementById('takeaway-cust-name')?.value || '';
+  const custPhone = document.getElementById('takeaway-cust-phone')?.value || '';
+  const pickupTime = document.getElementById('takeaway-pickup-time')?.value || 'asap';
+  const carPlate = document.getElementById('takeaway-car-plate')?.value || '';
+
   const order = hub.createOrder({
-    table_id: currentTable,
-    type: 'dine_in',
+    table_id: orderMode === 'dine_in' ? currentTable : 'TAKEAWAY',
+    type: orderMode,
+    customer_name: custName,
+    customer_phone: custPhone,
+    pickup_time: pickupTime,
+    car_plate: carPlate,
     items: cart,
     subtotal,
     tax,
@@ -381,7 +492,7 @@ window.submitOrderToKitchen = (paymentType = 'unpaid') => {
     payment_method: paymentType
   });
 
-  activePlacedOrder = order;
+  rememberOwnOrder(order);
   cart = [];
   updateCartUI();
   closeCartDrawer();
@@ -390,16 +501,17 @@ window.submitOrderToKitchen = (paymentType = 'unpaid') => {
   openTrackerModal(order);
 };
 
-// In-App DuitNow QR Flow (2-Way Proof & Handshake)
+// In-App DuitNow QR Flow (Dynamic Generation & Countdown)
 window.openDuitNowModal = () => {
   if (cart.length === 0) {
     alert('Please add items to cart before paying.');
     return;
   }
 
-  const subtotal = cart.reduce((sum, it) => sum + it.total_price, 0);
-  const total = subtotal * 1.06;
-  currentDuitNowRef = `${currentTable}-ORD-${Math.floor(1000 + Math.random() * 9000)}`;
+  const { total } = computeCartTotals(cart);
+  const totalStr = total.toFixed(2);
+  const prefix = orderMode === 'dine_in' ? currentTable : 'WF-WEB';
+  currentDuitNowRef = `${prefix}-ORD-${Math.floor(1000 + Math.random() * 9000)}`;
 
   const amountEl = document.getElementById('duitnow-modal-amount');
   const refEl = document.getElementById('duitnow-modal-ref');
@@ -407,19 +519,23 @@ window.openDuitNowModal = () => {
   const storeAccEl = document.getElementById('duitnow-store-acc-name');
   const storeBankEl = document.getElementById('duitnow-store-bank-info');
 
-  if (amountEl) amountEl.innerText = `RM ${total.toFixed(2)}`;
+  if (amountEl) amountEl.innerText = `RM ${totalStr}`;
   if (refEl) refEl.innerText = currentDuitNowRef;
 
   const merchantCfg = hub.getMerchantPaymentConfig();
   if (storeAccEl) storeAccEl.innerText = merchantCfg.account_name;
   if (storeBankEl) storeBankEl.innerText = `${merchantCfg.bank_name} · ${merchantCfg.account_number}`;
 
-  // Generate QR Preview (either store custom image or standard ISO QR)
+  // Prefer the merchant's real, bank-issued DuitNow QR image (configured in
+  // admin.js) — it's the only one a real banking app can actually scan and
+  // pay against. The client-generated matrix code below is a placeholder
+  // preview payload only, not a standards-compliant DuitNow QR, and should
+  // never be presented as the thing to pay against for a real transaction.
   if (qrBox) {
     if (merchantCfg.qr_image_url) {
       qrBox.innerHTML = `<img src="${merchantCfg.qr_image_url}" style="max-height: 180px; max-width: 100%; border-radius: 6px;" alt="DuitNow QR">`;
     } else {
-      const qrData = `DUITNOW|${merchantCfg.account_number}|${total.toFixed(2)}|${currentDuitNowRef}`;
+      const qrData = `DUITNOW|${merchantCfg.account_number}|${totalStr}|${currentDuitNowRef}`;
       const svg = qr.generateSvg(qrData, { size: 180, darkColor: '#000000', lightColor: '#FFFFFF' });
       qrBox.innerHTML = svg;
     }
@@ -432,19 +548,43 @@ window.openDuitNowModal = () => {
   const previewBox = document.getElementById('receipt-preview-box');
   if (previewBox) previewBox.style.display = 'none';
 
+  // Start 15m countdown
+  startDuitNowCountdown();
+
   closeCartDrawer();
   const modal = document.getElementById('duitnow-modal');
   if (modal) modal.classList.add('active');
 };
 
+function startDuitNowCountdown() {
+  if (countdownInterval) clearInterval(countdownInterval);
+  countdownSecondsRemaining = 900; // 15 mins
+
+  const countdownEl = document.getElementById('duitnow-countdown');
+  const updateDisplay = () => {
+    const mins = Math.floor(countdownSecondsRemaining / 60).toString().padStart(2, '0');
+    const secs = (countdownSecondsRemaining % 60).toString().padStart(2, '0');
+    if (countdownEl) countdownEl.innerText = `${mins}:${secs}`;
+    if (countdownSecondsRemaining <= 0) {
+      clearInterval(countdownInterval);
+      if (countdownEl) countdownEl.innerText = 'EXPIRED';
+    }
+    countdownSecondsRemaining--;
+  };
+
+  updateDisplay();
+  countdownInterval = setInterval(updateDisplay, 1000);
+}
+
 window.closeDuitNowModal = () => {
+  if (countdownInterval) clearInterval(countdownInterval);
   const modal = document.getElementById('duitnow-modal');
   if (modal) modal.classList.remove('active');
 };
 
 window.copyDuitNowAmount = () => {
-  const subtotal = cart.reduce((sum, it) => sum + it.total_price, 0);
-  const total = (subtotal * 1.06).toFixed(2);
+  const { total: totalNum } = computeCartTotals(cart);
+  const total = totalNum.toFixed(2);
   navigator.clipboard.writeText(total).then(() => {
     sound.playGentlePing();
     alert(`📋 Copied amount RM ${total} to clipboard.`);
@@ -477,10 +617,11 @@ window.handleReceiptFileChosen = async (input) => {
 
 window.openWhatsAppReceipt = () => {
   const merchantCfg = hub.getMerchantPaymentConfig();
-  const phone = (merchantCfg.whatsapp_phone || '+60123456789').replace(/[^0-9]/g, '');
-  const subtotal = cart.reduce((sum, it) => sum + it.total_price, 0);
-  const total = (subtotal * 1.06).toFixed(2);
-  const text = encodeURIComponent(`Hi Woodfire Kulim, I have paid RM ${total} via DuitNow for Table ${currentTable} (Ref: ${currentDuitNowRef}). Here is my proof of transfer.`);
+  const phone = (merchantCfg.whatsapp_phone || '+60169799778').replace(/[^0-9]/g, '');
+  const { total: totalNum } = computeCartTotals(cart);
+  const total = totalNum.toFixed(2);
+  const targetName = orderMode === 'dine_in' ? `Table ${currentTable}` : 'Takeaway';
+  const text = encodeURIComponent(`Hi Woodfire Kulim, I have paid RM ${total} via DuitNow for ${targetName} (Ref: ${currentDuitNowRef}). Here is my proof of transfer.`);
   window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
 };
 
@@ -488,13 +629,22 @@ window.confirmDuitNowPaymentMade = () => {
   if (cart.length === 0) return;
 
   const subtotal = cart.reduce((sum, it) => sum + it.total_price, 0);
-  const tax = subtotal * 0.06;
-  const total = subtotal + tax;
+  const tax = Number((subtotal * 0.06).toFixed(2));
+  const total = Number((subtotal + tax).toFixed(2));
   const note = document.getElementById('drawer-order-note')?.value || '';
 
+  const custName = document.getElementById('takeaway-cust-name')?.value || '';
+  const custPhone = document.getElementById('takeaway-cust-phone')?.value || '';
+  const pickupTime = document.getElementById('takeaway-pickup-time')?.value || 'asap';
+  const carPlate = document.getElementById('takeaway-car-plate')?.value || '';
+
   const order = hub.createOrder({
-    table_id: currentTable,
-    type: 'dine_in',
+    table_id: orderMode === 'dine_in' ? currentTable : 'TAKEAWAY',
+    type: orderMode,
+    customer_name: custName,
+    customer_phone: custPhone,
+    pickup_time: pickupTime,
+    car_plate: carPlate,
     items: cart,
     subtotal,
     tax,
@@ -507,7 +657,7 @@ window.confirmDuitNowPaymentMade = () => {
     payment_ref: currentDuitNowRef
   });
 
-  activePlacedOrder = order;
+  rememberOwnOrder(order);
   cart = [];
   updateCartUI();
   closeDuitNowModal();
@@ -515,6 +665,51 @@ window.confirmDuitNowPaymentMade = () => {
 
   openTrackerModal(order);
   alert('✅ DuitNow payment submitted! Our counter cashier is verifying your transfer. Your order will be sent to the kitchen instantly upon confirmation.');
+};
+
+// Instant Test Simulation (Instant Mock Auto-Approve) — gated behind ?demo=1,
+// see initTableSession. Refuse to run even if the hidden button is somehow
+// triggered directly, so a real customer's order can never be auto-approved
+// without an actual payment.
+window.simulateInstantPayment = () => {
+  if (!isDemoModeEnabled) {
+    alert('Demo pay is disabled on this order link.');
+    return;
+  }
+  if (cart.length === 0) return;
+
+  const subtotal = cart.reduce((sum, it) => sum + it.total_price, 0);
+  const tax = Number((subtotal * 0.06).toFixed(2));
+  const total = Number((subtotal + tax).toFixed(2));
+  const note = document.getElementById('drawer-order-note')?.value || '';
+
+  const custName = document.getElementById('takeaway-cust-name')?.value || 'Demo Customer';
+  const custPhone = document.getElementById('takeaway-cust-phone')?.value || '016-9799778';
+
+  const order = hub.createOrder({
+    table_id: orderMode === 'dine_in' ? currentTable : 'TAKEAWAY',
+    type: orderMode,
+    customer_name: custName,
+    customer_phone: custPhone,
+    items: cart,
+    subtotal,
+    tax,
+    total_amount: total,
+    notes: note,
+    payment_method: 'duitnow_qr',
+    status: 'pending',
+    verification_status: 'approved',
+    payment_ref: currentDuitNowRef
+  });
+
+  rememberOwnOrder(order);
+  cart = [];
+  updateCartUI();
+  closeDuitNowModal();
+  sound.playNewOrderChime();
+
+  openTrackerModal(order);
+  alert('⚡ Instant Demo Payment Approved! Kitchen KDS is now preparing your order.');
 };
 
 // 1-Tap Service Requests
@@ -538,7 +733,18 @@ window.sendServiceRequest = (type, label) => {
 // Order Tracker HUD
 function checkActiveTableOrder() {
   const orders = hub.getOrders();
-  const active = orders.find(o => o.table_id === currentTable && o.status !== 'paid' && o.status !== 'cancelled');
+  let active;
+  if (orderMode === 'takeaway') {
+    // All takeaway orders share the literal table_id 'TAKEAWAY', so match
+    // this session's own order_id — never "any pending takeaway order" — or
+    // a shared/kiosk device could surface a different customer's order.
+    const ownOrderId = sessionStorage.getItem('arh_own_order_id');
+    active = ownOrderId
+      ? orders.find(o => o.order_id === ownOrderId && o.status !== 'paid' && o.status !== 'cancelled')
+      : undefined;
+  } else {
+    active = orders.find(o => o.table_id === currentTable && o.status !== 'paid' && o.status !== 'cancelled');
+  }
   if (active) {
     activePlacedOrder = active;
     renderTrackerHUD(active);
@@ -571,7 +777,7 @@ function renderTrackerHUD(order) {
   if (step1.querySelector('span')) step1.querySelector('span').innerText = t.step1;
   if (step2.querySelector('span')) step2.querySelector('span').innerText = t.step2;
   if (step3.querySelector('span')) step3.querySelector('span').innerText = t.step3;
-  if (step4.querySelector('span')) step4.querySelector('span').innerText = t.step4;
+  if (step4.querySelector('span')) step4.querySelector('span').innerText = order.type === 'takeaway' ? t.step4Takeaway : t.step4;
 
   const isCooking = order.status === 'pending' || order.status === 'preparing' || order.status === 'ready' || order.status === 'served' || (order.items && order.items.some(it => it.is_bumped));
   const isReady = order.status === 'ready' || order.status === 'served' || (order.items && order.items.every(it => it.is_bumped));
@@ -601,7 +807,7 @@ function openTrackerModal(order) {
   renderTrackerHUD(order);
 }
 
-// 5-Star Customer Feedback & Rating Logic (QR-Menu pattern)
+// 5-Star Customer Feedback & Rating Logic
 window.openReviewModal = () => {
   const modal = document.getElementById('review-modal');
   if (modal) modal.classList.add('active');
@@ -650,7 +856,7 @@ window.openSplitBillModal = () => {
   const modal = document.getElementById('split-bill-modal');
   const orders = hub.getOrders();
   const active = orders.find(o => o.table_id === currentTable && o.status !== 'paid');
-  const total = active ? active.total_amount : cart.reduce((sum, it) => sum + it.total_price * 1.06, 0);
+  const total = active ? active.total_amount : computeCartTotals(cart).total;
 
   document.getElementById('split-total-amount').innerText = `RM ${total.toFixed(2)}`;
   calculateSplit(total, 2);

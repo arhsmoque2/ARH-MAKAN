@@ -6,10 +6,14 @@ on:
     - cron: '0 0 * * 1'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   standing-audit:
     name: System Integrity & Environmental Drift Sentinel
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -25,14 +29,14 @@ jobs:
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
-      - name: Run Full 14-Gate Sentinel Suite
+      - name: Run Full Master Sentinel Suite
         env:
           FIREBASE_DATABASE_URL: ${{ secrets.FIREBASE_DATABASE_URL }}
-        run: node scripts/arh-ci-doctor.mjs
+        run: node scripts/arh-quality-gate.mjs
 
       - name: Publish Health Audit Telemetry
         run: |
           echo "## 🛡️ Weekly ARH-MAKAN System Sentinel Report" >> $GITHUB_STEP_SUMMARY
           echo "Timestamp: $(date -u)" >> $GITHUB_STEP_SUMMARY
-          echo "Status: 🟢 HEALTHY (14/14 Gates Passing)" >> $GITHUB_STEP_SUMMARY
+          echo "Status: 🟢 HEALTHY (18/18 Gates Passing)" >> $GITHUB_STEP_SUMMARY
           echo "Verified: Zero environmental drift across Cloudflare, Firebase, and UI runtimes." >> $GITHUB_STEP_SUMMARY

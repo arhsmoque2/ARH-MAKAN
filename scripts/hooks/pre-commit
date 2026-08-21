@@ -1,0 +1,42 @@
+#!/bin/bash
+# ARH-MAKAN Git Pre-Commit Quality & Security Gate
+# (Imported & adapted from ARH-URUS & arh-terminal canonical hook standards)
+#
+# Enforces:
+# 1. Staged ESM/JS syntax & balanced braces check
+# 2. Design token & theme invariant compliance
+# 3. Fast secret leak detection (API keys, service tokens, private credentials)
+# 4. Living Knowledge Triad & ADR synchronization
+#
+# Install: npm run setup:hooks (or git config core.hooksPath scripts/hooks)
+
+set -euo pipefail
+
+echo "🛡️  Running ARH-MAKAN Pre-Commit Quality Gate..."
+
+# 1. Check for staged secrets or leaked private tokens
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=d || true)
+
+if [ -n "$STAGED_FILES" ]; then
+  for file in $STAGED_FILES; do
+    if [ -f "$file" ]; then
+      # Scan for raw API key leaks
+      if grep -n -E "AIzaSy[0-9A-Za-z_-]{33}|ghp_[0-9A-Za-z]{36}|xox[baprs]-[0-9A-Za-z]{10,48}" "$file" 2>/dev/null; then
+        echo "❌ [SECURITY LEAK] Detected potential raw API secret in staged file: $file"
+        echo "Commit blocked. Remove the credential or move to environment variables."
+        exit 1
+      fi
+    fi
+  done
+fi
+
+# 2. Run Fast Syntax, Linter & Token Gates
+if command -v node &>/dev/null; then
+  node scripts/lint.mjs
+  node scripts/check-design-tokens.mjs
+  node scripts/check-unguarded-inline-handlers.mjs
+  node scripts/ci-asbuilt-doctor.mjs
+fi
+
+echo "✅ Pre-commit quality & security checks passed cleanly!"
+exit 0

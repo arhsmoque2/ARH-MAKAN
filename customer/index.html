@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Woodfire Kulim · Digital Dine-In Menu</title>
+  <title>Woodfire Kulim · Gourmet Burgers, Smoked Meats & Shakes</title>
   <link rel="stylesheet" href="../shared/theme.css">
   <link rel="stylesheet" href="./customer.css">
   <script src="../shared/flight-recorder.js"></script>
@@ -17,14 +17,54 @@
         <a href="../index.html" class="btn btn-sm btn-secondary" style="padding: 4px 10px; text-decoration: none;">← Hub</a>
         <div style="font-size: 1.3rem;">🔥</div>
         <div style="font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: var(--gold-light);">
-          Woodfire
+          Woodfire Kulim
         </div>
       </div>
       <div style="display: flex; align-items: center; gap: 8px;">
         <button class="btn btn-sm btn-secondary" id="lang-toggle-btn" onclick="window.toggleLanguage()" style="font-size: 0.72rem; padding: 4px 8px;">🇬🇧 EN</button>
-        <div class="table-badge" id="table-indicator">TABLE T05 · DINE-IN</div>
+        <div class="table-badge" id="table-indicator" onclick="window.openTableSelectModal()">TABLE T05 · DINE-IN ▾</div>
       </div>
     </header>
+
+    <!-- Order Mode Switcher (Dine-In vs Takeaway / Web Ordering) -->
+    <div class="order-mode-bar">
+      <button class="mode-btn active" id="mode-dine-in-btn" onclick="window.setOrderMode('dine_in')">
+        <span>🍽️</span> <span>Dine-In</span>
+      </button>
+      <button class="mode-btn" id="mode-takeaway-btn" onclick="window.setOrderMode('takeaway')">
+        <span>🛍️</span> <span>Takeaway / Web Order</span>
+      </button>
+    </div>
+
+    <!-- Takeaway Details Box (Visible when Takeaway mode is active) -->
+    <div class="takeaway-details-box" id="takeaway-details-box">
+      <div style="font-weight: 700; color: var(--gold-light); margin-bottom: 8px; font-size: 0.9rem;">🛍️ Takeaway / Pickup Information</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px;">
+        <div>
+          <label style="font-size: 0.75rem; color: var(--text-muted);">Your Name:</label>
+          <input type="text" id="takeaway-cust-name" class="form-input" placeholder="e.g. Alex" style="font-size: 0.82rem; padding: 6px 10px;">
+        </div>
+        <div>
+          <label style="font-size: 0.75rem; color: var(--text-muted);">WhatsApp Phone:</label>
+          <input type="tel" id="takeaway-cust-phone" class="form-input" placeholder="012-3456789" style="font-size: 0.82rem; padding: 6px 10px;">
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div>
+          <label style="font-size: 0.75rem; color: var(--text-muted);">Pickup Time:</label>
+          <select id="takeaway-pickup-time" class="form-input" style="font-size: 0.82rem; padding: 6px 10px;">
+            <option value="asap">⚡ ASAP (~15-20 mins)</option>
+            <option value="30m">⏱️ In 30 mins</option>
+            <option value="45m">⏱️ In 45 mins</option>
+            <option value="60m">⏱️ In 1 hour</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size: 0.75rem; color: var(--text-muted);">Car Plate (Curbside):</label>
+          <input type="text" id="takeaway-car-plate" class="form-input" placeholder="e.g. PKG 8888 (Optional)" style="font-size: 0.82rem; padding: 6px 10px;">
+        </div>
+      </div>
+    </div>
 
     <!-- Active Order Tracker Banner -->
     <div id="order-tracker-banner" style="display: none; background: var(--bg-surface-raised); border-bottom: 1px solid var(--border-card); padding: 14px 20px;">
@@ -71,14 +111,39 @@
 
     <!-- Floating Table Action Bar -->
     <div class="floating-bar">
-      <button class="btn-service" onclick="window.openServiceModal()">
+      <button class="btn-service" id="btn-service-call" onclick="window.openServiceModal()">
         🛎️ <span>Service</span>
       </button>
       <button class="btn-cart-float" onclick="window.openCartDrawer()">
         <span id="float-cart-count">0 Items</span>
-        <span>View Table Order</span>
+        <span>View Order</span>
         <span class="mono" id="float-cart-total">RM 0.00</span>
       </button>
+    </div>
+  </div>
+
+  <!-- Table Switcher Modal -->
+  <div class="modal-overlay" id="table-select-modal">
+    <div class="modal-dialog" style="max-width: 360px;">
+      <h2 style="color: var(--gold-light); margin-bottom: 6px; font-size: 1.2rem;">Select Dine-In Table</h2>
+      <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 14px;">Select the physical table number you are seated at:</p>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px;">
+        <button class="btn btn-secondary table-pick-btn" onclick="window.selectTable('T01')">T01</button>
+        <button class="btn btn-secondary table-pick-btn" onclick="window.selectTable('T02')">T02</button>
+        <button class="btn btn-secondary table-pick-btn" onclick="window.selectTable('T03')">T03</button>
+        <button class="btn btn-secondary table-pick-btn" onclick="window.selectTable('T04')">T04</button>
+        <button class="btn btn-secondary table-pick-btn" onclick="window.selectTable('T05')">T05</button>
+        <button class="btn btn-secondary table-pick-btn" onclick="window.selectTable('T06')">T06</button>
+        <button class="btn btn-secondary table-pick-btn" onclick="window.selectTable('T07')">T07</button>
+        <button class="btn btn-secondary table-pick-btn" onclick="window.selectTable('T08')">T08</button>
+        <button class="btn btn-secondary table-pick-btn" onclick="window.selectTable('T09')">T09</button>
+        <button class="btn btn-secondary table-pick-btn" onclick="window.selectTable('T10')">T10</button>
+        <button class="btn btn-secondary table-pick-btn" onclick="window.selectTable('T11')">T11</button>
+        <button class="btn btn-secondary table-pick-btn" onclick="window.selectTable('T12')">T12</button>
+      </div>
+      <div style="display: flex; justify-content: flex-end;">
+        <button class="btn btn-secondary" onclick="window.closeTableSelectModal()">Cancel</button>
+      </div>
     </div>
   </div>
 
@@ -162,7 +227,7 @@
   <div class="cart-drawer" id="cart-drawer">
     <div class="drawer-content">
       <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-        <h2 style="color: var(--gold-light);">Table Order</h2>
+        <h2 style="color: var(--gold-light);" id="drawer-title">Table Order</h2>
         <button class="btn btn-sm btn-secondary" onclick="window.closeCartDrawer()">✕ Close</button>
       </div>
 
@@ -171,13 +236,17 @@
       </div>
 
       <div style="margin: 14px 0;">
-        <textarea id="drawer-order-note" class="form-input" placeholder="Add special instructions for the kitchen..." rows="2"></textarea>
+        <textarea id="drawer-order-note" class="form-input" placeholder="Add special instructions for the kitchen (e.g. less ice, sauce on side)..." rows="2"></textarea>
       </div>
 
       <div style="background: var(--bg-surface-raised); padding: 14px; border-radius: var(--radius-sm); margin-bottom: 16px;">
         <div style="display: flex; justify-content: space-between; font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 4px;">
           <span>Subtotal:</span>
           <span class="mono" id="drawer-subtotal">RM 0.00</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 4px;">
+          <span>SST (6%):</span>
+          <span class="mono" id="drawer-tax">RM 0.00</span>
         </div>
         <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.2rem; color: var(--gold-light);">
           <span>Total Payable:</span>
@@ -187,7 +256,7 @@
 
       <div style="display: flex; gap: 10px;">
         <button class="btn btn-primary" style="flex: 1; padding: 12px; font-size: 0.95rem;" onclick="window.openDuitNowModal()">
-          📱 DuitNow QR
+          📱 DuitNow QR Pay
         </button>
         <button class="btn btn-secondary" style="flex: 1; padding: 12px; font-size: 0.95rem;" onclick="window.submitOrderToKitchen('counter_cash')">
           💵 Pay Counter
@@ -199,16 +268,24 @@
   <!-- In-App DuitNow QR Payment Modal (2-Way Proof & Handshake) -->
   <div class="modal-overlay" id="duitnow-modal">
     <div class="modal-dialog" style="max-width: 440px;">
-      <div style="text-align: center; margin-bottom: 14px;">
-        <div style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; background: rgba(212, 160, 23, 0.15); border: 1px solid var(--gold-primary); border-radius: var(--radius-full); color: var(--gold-light); font-weight: 700; font-size: 0.8rem; margin-bottom: 8px;">
+      <div style="text-align: center; margin-bottom: 12px;">
+        <div style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; background: rgba(212, 160, 23, 0.15); border: 1px solid var(--gold-primary); border-radius: var(--radius-full); color: var(--gold-light); font-weight: 700; font-size: 0.8rem; margin-bottom: 6px;">
           <span>📱</span> MALAYSIAN DUITNOW QR
         </div>
         <h2 style="color: var(--gold-light); margin-bottom: 2px; font-size: 1.3rem;">Scan & Pay with Any Bank App</h2>
-        <p style="color: var(--text-muted); font-size: 0.8rem;">MAE, Touch 'n Go, CIMB, GrabPay, Boost, Public Bank</p>
+        <p style="color: var(--text-muted); font-size: 0.78rem;">MAE, Touch 'n Go, CIMB, GrabPay, Boost, Public Bank</p>
+      </div>
+
+      <!-- Live QR Countdown Badge -->
+      <div style="text-align: center;">
+        <div class="qr-countdown-box">
+          <span>⏱️ QR Expires In:</span>
+          <span id="duitnow-countdown">14:59</span>
+        </div>
       </div>
 
       <!-- Store DuitNow QR Card -->
-      <div style="background: #fff; border-radius: var(--radius-md); padding: 14px; text-align: center; margin-bottom: 14px; box-shadow: var(--shadow-md);">
+      <div style="background: #fff; border-radius: var(--radius-md); padding: 14px; text-align: center; margin-bottom: 12px; box-shadow: var(--shadow-md);">
         <div id="customer-duitnow-qr-box" style="display: flex; justify-content: center; align-items: center; min-height: 180px;">
           <!-- Rendered dynamically -->
         </div>
@@ -228,14 +305,14 @@
         <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-subtle); padding-top: 8px;">
           <div>
             <div style="font-size: 0.75rem; color: var(--text-secondary);">Payment Reference:</div>
-            <div class="mono" id="duitnow-modal-ref" style="font-size: 0.88rem; font-weight: 600; color: var(--text-primary);">T05-ORD-XXXX</div>
+            <div class="mono" id="duitnow-modal-ref" style="font-size: 0.88rem; font-weight: 600; color: var(--text-primary);">WF-KLM-XXXX</div>
           </div>
           <button class="btn btn-sm btn-secondary" onclick="window.copyDuitNowRef()" style="font-size: 0.72rem; padding: 4px 8px;">📋 Copy</button>
         </div>
       </div>
 
       <!-- Receipt Proof Upload & WhatsApp Fallback -->
-      <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 14px;">
+      <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 12px;">
         <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); display: block; margin-bottom: 6px;">
           📸 Attach Bank Transfer Receipt (Optional):
         </label>
@@ -253,16 +330,25 @@
         </div>
       </div>
 
-      <div style="display: flex; gap: 8px; justify-content: flex-end;">
-        <button class="btn btn-secondary" onclick="window.closeDuitNowModal()">Cancel</button>
-        <button class="btn btn-primary" style="font-weight: 700;" onclick="window.confirmDuitNowPaymentMade()">
+      <!-- Instant Test Simulation / Live Submit -->
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <button class="btn btn-primary" style="font-weight: 700; width: 100%; padding: 12px;" onclick="window.confirmDuitNowPaymentMade()">
           ✅ Payment Done — Send Order
         </button>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-secondary" style="flex: 1; font-size: 0.75rem; padding: 6px;" onclick="window.closeDuitNowModal()">Cancel</button>
+          <!-- Hidden by default: real customers must never see a button that
+               skips payment verification. Only shown when the page is loaded
+               with ?demo=1, toggled in customer.js. -->
+          <button id="instant-demo-pay-btn" class="btn btn-secondary" style="display: none; flex: 2; font-size: 0.75rem; padding: 6px; color: var(--gold-light); border-color: rgba(212, 160, 23, 0.4);" onclick="window.simulateInstantPayment()">
+            ⚡ Instant Test Pay (Demo)
+          </button>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Post-Dining 5-Star Rating & Review Modal (QR-Menu pattern) -->
+  <!-- Post-Dining 5-Star Rating & Review Modal -->
   <div class="modal-overlay" id="review-modal">
     <div class="modal-dialog">
       <div style="text-align: center; margin-bottom: 16px;">

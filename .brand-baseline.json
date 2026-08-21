@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "governed_by": "ADR-0015",
+  "updated_at": "2026-08-19T17:16:35.554Z",
+  "hashes": {
+    "shared/theme.css": "335d9a4d4de181548cb1d3200b413e787f97de32c0bc1bab5621aa7edfc726fd",
+    "shared/qr-generator.js": "181c22097a2c38ee7a2c7b93da0abdb560656f0b1363c9751c1cee1fe9e8b6bd",
+    "shared/realtime-adapter.js": "0d6ac5891a18dab1a91e89d4cc1bd72ecba6b7bef6a39b6ba116682d1d9fd6b0",
+    "shared/audio-engine.js": "5ccfd30ba993dd8c984ebcaf57f83983a18408905305cf981a998723e71c69df",
+    "shared/escpos-formatter.js": "4c69ef0f18c3ae77786ec3121922270371d6fa096803a36d0a079da9f6822e57",
+    "shared/schema.json": "dad62837d12c8ba1f32df13d63a700cbb83de8b9c1f2bbe64633df5b9e23151d",
+    "shared/mock-data/menu.json": "4d53a6cc0111991aee29c48ca0a007bacf8e39b97a7c868e76bffe3bfe374121",
+    "data/menu.json": "1bb81a8a1b1faf9bb03ffaf57e81cacfe2f300058a93d1f15efde4b47d78cba1",
+    "customer/customer.css": "2fdd673201a66cdaf1ab0b58434fb1e8356f22677776eca30179e027af23f758",
+    "pos/pos.css": "3eed05df9948bc3436197370716085a7dbd0c57a7641c5c41f66dc97c488faac",
+    "kds/kds.css": "02b8e7b53c8052b386ed00a0940032dcbee92be06f4c9965e80e999a96c96a60",
+    "admin/admin.css": "d08b011acfb434c0fc1c946322533aec2845abf0972ad26519eeb7993808fd5f"
+  }
+}
