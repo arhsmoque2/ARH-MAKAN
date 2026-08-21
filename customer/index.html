@@ -337,7 +337,10 @@
         </button>
         <div style="display: flex; gap: 8px;">
           <button class="btn btn-secondary" style="flex: 1; font-size: 0.75rem; padding: 6px;" onclick="window.closeDuitNowModal()">Cancel</button>
-          <button class="btn btn-secondary" style="flex: 2; font-size: 0.75rem; padding: 6px; color: var(--gold-light); border-color: rgba(212, 160, 23, 0.4);" onclick="window.simulateInstantPayment()">
+          <!-- Hidden by default: real customers must never see a button that
+               skips payment verification. Only shown when the page is loaded
+               with ?demo=1, toggled in customer.js. -->
+          <button id="instant-demo-pay-btn" class="btn btn-secondary" style="display: none; flex: 2; font-size: 0.75rem; padding: 6px; color: var(--gold-light); border-color: rgba(212, 160, 23, 0.4);" onclick="window.simulateInstantPayment()">
             ⚡ Instant Test Pay (Demo)
           </button>
         </div>
